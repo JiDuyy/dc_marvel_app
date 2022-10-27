@@ -98,12 +98,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const SizedBox(
                 height: 50,
               ),
-              const ElvatedButtonCustom(
+              ElvatedButtonCustom(
                 caption: 'SUBMIT',
                 colorBorder: Colors.white,
                 colorBackground: Colors.black,
                 colorTitle: Colors.white,
                 opacity: 1.0,
+                routePage: MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

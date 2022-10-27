@@ -1,5 +1,7 @@
 import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
+import 'package:dc_marvel_app/page/login.dart';
+import 'package:dc_marvel_app/page/signup.dart';
 import 'package:flutter/material.dart';
 
 class SelectLogin extends StatefulWidget {
@@ -47,22 +49,28 @@ class _SelectLoginState extends State<SelectLogin> {
             const SizedBox(
               height: 100,
             ),
-            const ElvatedButtonCustom(
+            ElvatedButtonCustom(
               caption: 'LOGIN',
               colorBorder: Colors.white,
               colorBackground: Colors.black,
               colorTitle: Colors.white,
               opacity: 1.0,
+              routePage: MaterialPageRoute(
+                builder: (context) => const Login(),
+              ),
             ),
             const SizedBox(
               height: 30,
             ),
-            const ElvatedButtonCustom(
+            ElvatedButtonCustom(
               caption: 'SIGN UP',
               colorBorder: Colors.white,
               colorBackground: Colors.black,
               colorTitle: Colors.white,
               opacity: 0.0,
+              routePage: MaterialPageRoute(
+                builder: (context) => const SignUp(),
+              ),
             ),
           ],
         ),

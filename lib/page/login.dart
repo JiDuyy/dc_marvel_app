@@ -3,6 +3,7 @@ import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:dc_marvel_app/components/TextFieldCustom.dart';
 import 'package:dc_marvel_app/page/forgot_password.dart';
+import 'package:dc_marvel_app/page/page_main.dart';
 import 'package:dc_marvel_app/page/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -91,12 +92,15 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 100,
                 ),
-                const ElvatedButtonCustom(
+                ElvatedButtonCustom(
                   caption: 'LOGIN',
                   colorBorder: Colors.white,
                   colorBackground: Colors.black,
                   colorTitle: Colors.white,
                   opacity: 1.0,
+                  routePage: MaterialPageRoute(
+                    builder: (context) => const PageMain(),
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

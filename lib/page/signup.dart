@@ -85,12 +85,15 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 50,
               ),
-              const ElvatedButtonCustom(
+              ElvatedButtonCustom(
                 caption: 'REGISTER',
                 colorBorder: Colors.white,
                 colorBackground: Colors.black,
                 colorTitle: Colors.white,
                 opacity: 1.0,
+                routePage: MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

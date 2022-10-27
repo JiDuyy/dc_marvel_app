@@ -9,12 +9,14 @@ class ElvatedButtonCustom extends StatefulWidget {
       required this.colorBorder,
       required this.colorBackground,
       required this.colorTitle,
-      required this.opacity});
+      required this.opacity,
+      required this.routePage});
   final String caption;
   final Color colorBorder;
   final Color colorBackground;
   final Color colorTitle;
   final double opacity;
+  final MaterialPageRoute routePage;
 
   @override
   State<ElvatedButtonCustom> createState() => _ElvatedButtonCustomState();
@@ -27,9 +29,7 @@ class _ElvatedButtonCustomState extends State<ElvatedButtonCustom> {
       onPressed: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const Login(),
-          ),
+          widget.routePage
         ),
       },
       style: ButtonStyle(

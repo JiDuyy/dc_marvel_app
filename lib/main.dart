@@ -1,4 +1,3 @@
-import 'package:dc_marvel_app/page/login.dart';
 import 'package:dc_marvel_app/page/select_login.dart';
 import 'package:flutter/material.dart';
 

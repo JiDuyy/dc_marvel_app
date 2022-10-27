@@ -65,10 +65,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/Edit_Background.jpg
     - assets/images/BackgroundLogoText.jpg
     - assets/images/BackgroundLogo.jpg
     - assets/images/BackgroundLogoTextLogin.jpg
     - assets/images/1.png
+    - assets/images/LogoJiDuy.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

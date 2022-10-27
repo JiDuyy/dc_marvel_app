@@ -1,10 +1,8 @@
 import 'package:dc_marvel_app/components/AdvancedSwitch.dart';
 import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
-import 'package:dc_marvel_app/components/TextButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:dc_marvel_app/components/TextFieldCustom.dart';
 import 'package:dc_marvel_app/page/forgot_password.dart';
-import 'package:dc_marvel_app/page/select_login.dart';
 import 'package:dc_marvel_app/page/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -28,15 +26,27 @@ class _LoginState extends State<Login> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/BackgroundLogoTextLogin.jpg"),
+            image: AssetImage("assets/images/Edit_Background.jpg"),
             fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
           child: Container(
-            margin: const EdgeInsets.only(top: 250),
+            margin: const EdgeInsets.only(top: 20),
             child: Column(
               children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  width: 300,
+                  height: 300,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          "https://scontent.fsgn2-8.fna.fbcdn.net/v/t1.15752-9/311318560_1562539884178477_1893922937251951808_n.png?_nc_cat=102&ccb=1-7&_nc_sid=ae9488&_nc_ohc=vQTQL5AkDDUAX9m33tQ&_nc_ht=scontent.fsgn2-8.fna&oh=03_AdSJANSdstLeianJJlKGR9vGOpI6QVl2Bd5prxu9BzQ79g&oe=637ED391"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
                 TextCustom(
                   title: "Login to your account",
                 ),
@@ -79,7 +89,7 @@ class _LoginState extends State<Login> {
                   ],
                 ),
                 const SizedBox(
-                  height: 90,
+                  height: 100,
                 ),
                 const ElvatedButtonCustom(
                   caption: 'LOGIN',

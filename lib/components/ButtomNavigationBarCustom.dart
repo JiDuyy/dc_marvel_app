@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigationBarCustom extends StatefulWidget {
-  const BottomNavigationBarCustom({super.key});
+  const BottomNavigationBarCustom({super.key, required this.pageController});
+  final PageController pageController;
 
   @override
   State<BottomNavigationBarCustom> createState() =>
       _BottomNavigationBarCustomState();
 }
 
-BottomNavigationBarItem _createBottomNavigationBarItem(String urlImg) {
+BottomNavigationBarItem _createBottomNavigationBarItem(
+    String urlImg, String label) {
   return BottomNavigationBarItem(
     icon: SizedBox(
       width: 40,
@@ -18,14 +20,20 @@ BottomNavigationBarItem _createBottomNavigationBarItem(String urlImg) {
         fit: BoxFit.cover,
       ),
     ),
-    label: 'null',
+    label: label,
   );
 }
 
 class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
+  void onItemTap(selectItems) {
+    widget.pageController.jumpToPage(selectItems);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      currentIndex: 2,
+      onTap: onItemTap,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.blueAccent[400],
       selectedFontSize: 10,
@@ -35,11 +43,26 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       items: [
-        _createBottomNavigationBarItem('assets/images/icon_crown.png'),
-        _createBottomNavigationBarItem('assets/images/icon_shop.png'),
-        _createBottomNavigationBarItem('assets/images/icon_battle.png'),
-        _createBottomNavigationBarItem('assets/images/icon_tickets.png'),
-        _createBottomNavigationBarItem('assets/images/icon_setting.png'),
+        _createBottomNavigationBarItem(
+          'assets/images/icon_crown.png',
+          'Rank',
+        ),
+        _createBottomNavigationBarItem(
+          'assets/images/icon_shop.png',
+          'Store',
+        ),
+        _createBottomNavigationBarItem(
+          'assets/images/icon_battle.png',
+          'PlayGame',
+        ),
+        _createBottomNavigationBarItem(
+          'assets/images/icon_tickets.png',
+          'Even',
+        ),
+        _createBottomNavigationBarItem(
+          'assets/images/icon_setting.png',
+          'Setting',
+        ),
       ],
     );
   }

@@ -29,7 +29,7 @@ class _ElvatedButtonCustomState extends State<ElvatedButtonCustom> {
       onPressed: () => {
         Navigator.push(
           context,
-          widget.routePage
+          widget.routePage,
         ),
       },
       style: ButtonStyle(

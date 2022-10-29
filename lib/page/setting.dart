@@ -13,7 +13,8 @@ class _SettingState extends State<Setting> {
     return Container(
       width: 200,
       height: 200,
-      color: Colors.black,
+      color: Colors.purple,
+      child: const Text('Setting'),
     );
   }
 }

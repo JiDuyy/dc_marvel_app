@@ -14,6 +14,7 @@ class _EvenState extends State<Even> {
       width: 200,
       height: 200,
       color: Colors.red,
+      child: const Text('Even'),
     );
   }
 }

@@ -14,6 +14,7 @@ class _StoreState extends State<Store> {
       width: 200,
       height: 200,
       color: Colors.amber,
+      child: const Text('Store'),
     );
   }
 }

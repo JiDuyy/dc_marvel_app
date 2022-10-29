@@ -14,6 +14,7 @@ class _RankState extends State<Rank> {
       width: 200,
       height: 200,
       color: Colors.blue,
+      child: const Text('Rank'),
     );
   }
 }

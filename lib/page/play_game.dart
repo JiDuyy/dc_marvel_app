@@ -14,20 +14,22 @@ class _PlayGameState extends State<PlayGame> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // padding: const EdgeInsets.all(20),
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/Edit_Background.jpg"),
-            fit: BoxFit.cover,
-          ),
+      // padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/Edit_Background.jpg"),
+          fit: BoxFit.cover,
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50.0),
-          child: Column(
-            children: [
-              Row(
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 50.0),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
@@ -108,7 +110,10 @@ class _PlayGameState extends State<PlayGame> {
                   ),
                 ],
               ),
-              Container(
+            ),
+            Expanded(
+              flex: 7,
+              child: Container(
                 margin: const EdgeInsets.only(top: 150),
                 width: 300,
                 height: 300,
@@ -120,7 +125,10 @@ class _PlayGameState extends State<PlayGame> {
                   ),
                 ),
               ),
-              Container(
+            ),
+            Expanded(
+              flex: 3,
+              child: Container(
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.only(top: 80),
                 child: Row(
@@ -155,10 +163,11 @@ class _PlayGameState extends State<PlayGame> {
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
-      );
+      ),
+    );
   }
 }

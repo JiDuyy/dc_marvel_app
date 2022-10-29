@@ -44,7 +44,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
       showUnselectedLabels: false,
       items: [
         _createBottomNavigationBarItem(
-          'assets/images/icon_crown.png',
+          'assets/images/IconRank.png',
           'Rank',
         ),
         _createBottomNavigationBarItem(

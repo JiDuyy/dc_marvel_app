@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/components/AppBarCustom.dart';
 import 'package:dc_marvel_app/page/even.dart';
 import 'package:dc_marvel_app/page/play_game.dart';
 import 'package:dc_marvel_app/page/rank.dart';
@@ -32,14 +33,21 @@ class _PageMainState extends State<PageMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: pageController,
-        children: pages,
-        onPageChanged: onPageChanged,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBarCustom(),
+        ),
+        body: PageView(
+          controller: pageController,
+          children: pages,
+          onPageChanged: onPageChanged,
+        ),
+        bottomNavigationBar:
+            BottomNavigationBarCustom(pageController: pageController),
       ),
-      bottomNavigationBar:
-          BottomNavigationBarCustom(pageController: pageController),
     );
   }
 }

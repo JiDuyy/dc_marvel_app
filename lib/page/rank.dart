@@ -13,7 +13,7 @@ class _RankState extends State<Rank> {
     return Container(
       width: 200,
       height: 200,
-      color: Colors.blue,
+      color: Colors.red,
     );
   }
 }

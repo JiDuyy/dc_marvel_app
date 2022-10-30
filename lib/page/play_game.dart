@@ -49,7 +49,7 @@ class _PlayGameState extends State<PlayGame> {
                 Expanded(
                   flex: 4,
                   child: Container(
-                    margin: const EdgeInsets.only(top: 30),
+                    margin: const EdgeInsets.only(top: 80),
                     width: 350,
                     height: 350,
                     decoration: const BoxDecoration(

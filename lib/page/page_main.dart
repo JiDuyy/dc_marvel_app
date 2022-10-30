@@ -37,7 +37,7 @@ class _PageMainState extends State<PageMain> {
       length: 3,
       child: Scaffold(
         appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: Size.fromHeight(45),
           child: AppBarCustom(),
         ),
         body: PageView(

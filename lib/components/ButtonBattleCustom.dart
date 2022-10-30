@@ -41,9 +41,11 @@ class _ButtonBattleCustomState extends State<ButtonBattleCustom> {
             child: Text(
               widget.title,
               style: TextStyle(
-                  fontSize: widget.fontSize,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black),
+                fontSize: widget.fontSize,
+                fontWeight: FontWeight.w900,
+                color: Colors.black,
+                fontFamily: 'Horizon',
+              ),
             ),
           ),
         ),

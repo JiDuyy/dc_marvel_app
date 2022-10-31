@@ -22,16 +22,17 @@ class _StoreState extends State<Store> {
       ),
       child: Column(
         children: [
-          Expanded(
+          const Expanded(
             flex: 2,
             child: Align(
               alignment: Alignment.center,
               child: Text(
                 'Cửa hàng',
                 style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

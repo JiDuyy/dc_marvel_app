@@ -31,15 +31,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
-                width: 300,
-                height: 300,
+                width: 350,
+                height: 220,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                        "https://scontent.fsgn2-8.fna.fbcdn.net/v/t1.15752-9/311318560_1562539884178477_1893922937251951808_n.png?_nc_cat=102&ccb=1-7&_nc_sid=ae9488&_nc_ohc=vQTQL5AkDDUAX9m33tQ&_nc_ht=scontent.fsgn2-8.fna&oh=03_AdSJANSdstLeianJJlKGR9vGOpI6QVl2Bd5prxu9BzQ79g&oe=637ED391"),
+                        "https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.15752-9/307136166_5711498448930000_8801265812646520856_n.png?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=8yD_JmhO9AoAX-Tc9_G&tn=2WdwbRTrk16c5GyD&_nc_ht=scontent.fsgn2-1.fna&oh=03_AdRkGX_zf4Lw-czPPBND-0HdM_t6dAuQcJaOVEfQINuxLw&oe=63859F95"),
                     fit: BoxFit.cover,
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 30,
               ),
               TextCustom(
                 title: "Forgot Password",

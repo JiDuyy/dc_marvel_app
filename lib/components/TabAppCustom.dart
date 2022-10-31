@@ -6,11 +6,13 @@ class TabAppBarCustom extends StatefulWidget {
       required this.title,
       required this.urlOne,
       required this.urlTwo,
-      required this.color});
+      required this.color,
+      required this.pageRoute});
   final String title;
   final String urlOne;
   final String urlTwo;
   final Color color;
+  final MaterialPageRoute pageRoute;
 
   @override
   State<TabAppBarCustom> createState() => _TabAppBarCustomState();
@@ -70,6 +72,15 @@ class _TabAppBarCustomState extends State<TabAppBarCustom> {
                 image: AssetImage(widget.urlTwo),
                 fit: BoxFit.cover,
               ),
+            ),
+            child: TextButton(
+              child: const Text(""),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  widget.pageRoute,
+                );
+              },
             ),
           ),
         ),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class showDialogPlayBattleRoom extends StatefulWidget {
-  const showDialogPlayBattleRoom({
+class showDialogPlayBattle extends StatefulWidget {
+  const showDialogPlayBattle({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<showDialogPlayBattleRoom> createState() => _showDialogPlayBattleRoomState();
+  State<showDialogPlayBattle> createState() => _showDialogPlayBattleState();
 }
 
-class _showDialogPlayBattleRoomState extends State<showDialogPlayBattleRoom> {
+class _showDialogPlayBattleState extends State<showDialogPlayBattle> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -18,7 +18,7 @@ class _showDialogPlayBattleRoomState extends State<showDialogPlayBattleRoom> {
       content: Container(
         width: 400,
         height: 500,
-        color: Colors.green,
+        color: Colors.purple,
       ),
     );
   }

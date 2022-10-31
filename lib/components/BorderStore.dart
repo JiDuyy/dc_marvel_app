@@ -6,11 +6,12 @@ class BorderShop extends StatefulWidget {
       required this.quantity,
       required this.path,
       required this.price,
-      required this.text});
+      required this.text, required this.pathPrice});
   final String quantity;
   final String path;
   final String price;
   final String text;
+  final String pathPrice;
   @override
   State<BorderShop> createState() => _BorderShopState();
 }
@@ -24,7 +25,7 @@ class _BorderShopState extends State<BorderShop> {
         // width: 180,
         // height: 237,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.6),
+          color: Colors.black.withOpacity(0.6),
           // border: Border.all(width: 2, color: Colors.white54),
         ),
         child: Column(
@@ -37,7 +38,7 @@ class _BorderShopState extends State<BorderShop> {
                 child: Text(
                   widget.quantity,
                   style: const TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 15),
                 ),
@@ -49,7 +50,7 @@ class _BorderShopState extends State<BorderShop> {
             ),
             Text(
               widget.text,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
             Center(
               child: Container(
@@ -58,9 +59,12 @@ class _BorderShopState extends State<BorderShop> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/IconDiamond.png',
-                      width: 30,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Image.asset(
+                        widget.pathPrice,
+                        width: 30,
+                      ),
                     ),
                     Text(
                       widget.price,

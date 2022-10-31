@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:flutter/material.dart';
 
 class ButtonBattleCustom extends StatefulWidget {
@@ -32,10 +33,7 @@ class _ButtonBattleCustomState extends State<ButtonBattleCustom> {
         ),
         child: TextButton(
           onPressed: () => {
-            Navigator.push(
-              context,
-              widget.pageRoute,
-            ),
+            PlayBattleRoom(context),
           },
           child: Center(
             child: Text(

@@ -1,7 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:dc_marvel_app/components/TabAppCustom.dart';
 import 'package:flutter/material.dart';
-
-import '../page/login.dart';
 
 class AppBarCustom extends StatefulWidget {
   const AppBarCustom({super.key, required this.pageController});
@@ -57,8 +57,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
                         SizedBox(
                           width: 28,
                           height: 28,
-                          child: Image.network(
-                              'https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/290530994_1474685339654007_6340689977015220634_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=8yVwH3Ni9D4AX-OSBWA&_nc_ht=scontent.fsgn2-1.fna&oh=00_AfCXGE8Gix35SecG943SVnadDD-7hykVMf78sJEgfhSTNA&oe=635FDB90'),
+                          child: Image.asset('assets/images/IconLevel.png'),
                         ),
                         Container(
                           width: 40,

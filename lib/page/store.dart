@@ -86,7 +86,7 @@ class _StoreState extends State<Store> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           )
         ],

@@ -26,21 +26,23 @@ class _PageMainState extends State<PageMain> {
     const DiamondRecharge(),
   ];
 
-  int selectIndex = 0;
-  void onPageChanged(int index) {
-    setState(() {
-      selectIndex = index;
-    });
-  }
+  // int selectIndex = 0;
+  // void onPageChanged(int index) {
+  //   setState(() {
+  //     selectIndex = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar:  PreferredSize(
+        appBar: PreferredSize(
           preferredSize: const Size.fromHeight(45),
-          child: AppBarCustom(pageController: pageController,),
+          child: AppBarCustom(
+            pageController: pageController,
+          ),
         ),
         body: PageView(
           controller: pageController,

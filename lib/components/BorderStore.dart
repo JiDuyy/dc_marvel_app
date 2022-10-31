@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class BorderShop extends StatefulWidget {
@@ -6,7 +8,8 @@ class BorderShop extends StatefulWidget {
       required this.quantity,
       required this.path,
       required this.price,
-      required this.text, required this.pathPrice});
+      required this.text,
+      required this.pathPrice});
   final String quantity;
   final String path;
   final String price;
@@ -46,7 +49,6 @@ class _BorderShopState extends State<BorderShop> {
             ),
             Image.asset(
               widget.path,
-              height: 100,
             ),
             Text(
               widget.text,

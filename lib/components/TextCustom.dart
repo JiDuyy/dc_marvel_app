@@ -8,8 +8,12 @@ class TextCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
+      textAlign: TextAlign.center,
       style: const TextStyle(
-          color: Colors.white, letterSpacing: 1, fontWeight: FontWeight.w500),
+        color: Colors.white,
+        letterSpacing: 1,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 }

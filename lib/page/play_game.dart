@@ -53,7 +53,6 @@ class _PlayGameState extends State<PlayGame> {
                     width: 350,
                     height: 350,
                     decoration: const BoxDecoration(
-                      // color: Colors.red,
                       image: DecorationImage(
                         image: NetworkImage(
                             "https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.15752-9/312198057_534032641922777_1109094207653280685_n.png?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_ohc=eXn2VO_ieIEAX8SbhvL&_nc_oc=AQmISBYpLepxnQV_U0DFgbS_inUrISjIGYzk1w8DljzCEQ2I7wpwOExbmxX6xTOT-M4KrlidlR23bmoQsGN5pEG9&tn=2WdwbRTrk16c5GyD&_nc_ht=scontent.fsgn2-4.fna&oh=03_AdQDPCa0amiKBQI12GztiazJ84HXgrYdd23hzrovhfbUqw&oe=637E49D5"),

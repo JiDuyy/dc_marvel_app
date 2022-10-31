@@ -1,6 +1,8 @@
 import 'package:dc_marvel_app/components/TabAppCustom.dart';
 import 'package:flutter/material.dart';
 
+import '../page/login.dart';
+
 class AppBarCustom extends StatefulWidget {
   const AppBarCustom({super.key});
 
@@ -73,17 +75,23 @@ class _AppBarCustomState extends State<AppBarCustom> {
                   ),
                 ],
               ),
-              const TabAppBarCustom(
-                title: '20/20',
+              TabAppBarCustom(
+                title: '8/20',
                 urlOne: "assets/images/IconSet.png",
                 urlTwo: 'assets/images/IconAdd.png',
                 color: Colors.green,
+                pageRoute: MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
               ),
-              const TabAppBarCustom(
+              TabAppBarCustom(
                 title: '2022',
                 urlOne: "assets/images/IconDiamond.png",
                 urlTwo: 'assets/images/IconAdd.png',
                 color: Colors.white,
+                pageRoute: MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
               ),
             ],
           ),

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:dc_marvel_app/components/BorderStore.dart';
+import 'package:flutter/widgets.dart';
 
-class Store extends StatefulWidget {
-  const Store({super.key});
+import '../components/BorderStore.dart';
+
+class DiamondRecharge extends StatefulWidget {
+  const DiamondRecharge({super.key});
 
   @override
-  State<Store> createState() => _StoreState();
+  State<DiamondRecharge> createState() => _DiamondRechargeState();
 }
 
-class _StoreState extends State<Store> {
+class _DiamondRechargeState extends State<DiamondRecharge> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +29,7 @@ class _StoreState extends State<Store> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                'Cửa hàng',
+                'BUY DIAMOND',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -43,21 +45,19 @@ class _StoreState extends State<Store> {
               children: const [
                 Expanded(
                   child: BorderShop(
-                    quantity: 'Đang có: 2',
-                    path: 'assets/images/icons_thor.png',
-                    price: '50',
-                    text: 'Búa Thor'
-                    ,pathPrice: 'assets/images/IconDiamond.png'
-                  ),
+                      quantity: '',
+                      path: 'assets/images/IconDiamond.png',
+                      price: '1',
+                      text: '15 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
                 Expanded(
                   child: BorderShop(
-                    quantity: 'Đang có: 2',
-                    path: 'assets/images/icon_nhen.png',
-                    price: '100',
-                    text: 'Nhện bắn tơ'
-                    ,pathPrice: 'assets/images/IconDiamond.png'
-                  ),
+                      quantity: '',
+                      path: 'assets/images/IconDiamond.png',
+                      price: '10',
+                      text: '150 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
               ],
             ),
@@ -69,19 +69,19 @@ class _StoreState extends State<Store> {
               children: const [
                 Expanded(
                   child: BorderShop(
-                      quantity: 'Đang có: 0',
-                      path: 'assets/images/icons_doi.png',
-                      price: '150',
-                      text: 'Dơi bóng đêm',
-                      pathPrice: 'assets/images/IconDiamond.png'),
+                      quantity: '',
+                      path: 'assets/images/IconDiamond.png',
+                      price: '100',
+                      text: '1500 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
                 Expanded(
                   child: BorderShop(
-                      quantity: 'Đang có: 1',
-                      path: 'assets/images/icons_khien.png',
-                      price: '100',
-                      text: 'Lá chắn',
-                      pathPrice: 'assets/images/IconDiamond.png'),
+                      quantity: '',
+                      path: 'assets/images/IconDiamond.png',
+                      price: '1000',
+                      text: '15000 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
               ],
             ),

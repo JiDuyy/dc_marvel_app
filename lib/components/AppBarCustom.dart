@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../page/login.dart';
 
 class AppBarCustom extends StatefulWidget {
-  const AppBarCustom({super.key});
+  const AppBarCustom({super.key, required this.pageController});
+  final PageController pageController;
 
   @override
   State<AppBarCustom> createState() => _AppBarCustomState();
@@ -80,18 +81,14 @@ class _AppBarCustomState extends State<AppBarCustom> {
                 urlOne: "assets/images/IconSet.png",
                 urlTwo: 'assets/images/IconAdd.png',
                 color: Colors.green,
-                pageRoute: MaterialPageRoute(
-                  builder: (context) => const Login(),
-                ),
+                pageController: widget.pageController,
               ),
               TabAppBarCustom(
                 title: '2022',
                 urlOne: "assets/images/IconDiamond.png",
                 urlTwo: 'assets/images/IconAdd.png',
                 color: Colors.white,
-                pageRoute: MaterialPageRoute(
-                  builder: (context) => const Login(),
-                ),
+                pageController: widget.pageController,
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/page/diamond_recharge.dart';
 import 'package:flutter/material.dart';
 
 class TabAppBarCustom extends StatefulWidget {
@@ -7,12 +8,12 @@ class TabAppBarCustom extends StatefulWidget {
       required this.urlOne,
       required this.urlTwo,
       required this.color,
-      required this.pageRoute});
+      required this.pageController});
   final String title;
   final String urlOne;
   final String urlTwo;
   final Color color;
-  final MaterialPageRoute pageRoute;
+  final PageController pageController;
 
   @override
   State<TabAppBarCustom> createState() => _TabAppBarCustomState();
@@ -73,13 +74,9 @@ class _TabAppBarCustomState extends State<TabAppBarCustom> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: TextButton(
-              child: const Text(""),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  widget.pageRoute,
-                );
+            child: InkWell(
+              onTap: () {
+                widget.pageController.jumpToPage(5);
               },
             ),
           ),

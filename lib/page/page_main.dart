@@ -1,4 +1,5 @@
 import 'package:dc_marvel_app/components/AppBarCustom.dart';
+import 'package:dc_marvel_app/page/diamond_recharge.dart';
 import 'package:dc_marvel_app/page/even.dart';
 import 'package:dc_marvel_app/page/play_game.dart';
 import 'package:dc_marvel_app/page/rank.dart';
@@ -22,6 +23,7 @@ class _PageMainState extends State<PageMain> {
     const PlayGame(),
     const Even(),
     const Setting(),
+    const DiamondRecharge(),
   ];
 
   int selectIndex = 0;
@@ -36,14 +38,14 @@ class _PageMainState extends State<PageMain> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(45),
-          child: AppBarCustom(),
+        appBar:  PreferredSize(
+          preferredSize: const Size.fromHeight(45),
+          child: AppBarCustom(pageController: pageController,),
         ),
         body: PageView(
           controller: pageController,
           children: pages,
-          onPageChanged: onPageChanged,
+          // onPageChanged: onPageChanged,
         ),
         bottomNavigationBar:
             BottomNavigationBarCustom(pageController: pageController),

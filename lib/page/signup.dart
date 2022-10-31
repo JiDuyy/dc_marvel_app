@@ -35,8 +35,7 @@ class _SignUpState extends State<SignUp> {
                 height: 220,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(
-                        "https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.15752-9/307136166_5711498448930000_8801265812646520856_n.png?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=8yD_JmhO9AoAX-Tc9_G&tn=2WdwbRTrk16c5GyD&_nc_ht=scontent.fsgn2-1.fna&oh=03_AdRkGX_zf4Lw-czPPBND-0HdM_t6dAuQcJaOVEfQINuxLw&oe=63859F95"),
+                    image: AssetImage("assets/images/LogoTextDCMarvel.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -44,7 +43,7 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 30,
               ),
-              TextCustom(
+              const TextCustom(
                 title: "Create your account",
               ),
               const SizedBox(
@@ -99,7 +98,7 @@ class _SignUpState extends State<SignUp> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextCustom(title: 'Already have an account?'),
+                  const TextCustom(title: 'Already have an account?'),
                   TextButton(
                     onPressed: () => {
                       Navigator.push(

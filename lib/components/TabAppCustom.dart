@@ -1,4 +1,5 @@
-import 'package:dc_marvel_app/page/diamond_recharge.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class TabAppBarCustom extends StatefulWidget {

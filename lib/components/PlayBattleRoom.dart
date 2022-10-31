@@ -1,3 +1,6 @@
+// ignore_for_file: file_names, camel_case_types
+
+import 'package:dc_marvel_app/components/CartDifficulty.dart';
 import 'package:flutter/material.dart';
 
 class showDialogPlayBattleRoom extends StatefulWidget {
@@ -6,7 +9,8 @@ class showDialogPlayBattleRoom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<showDialogPlayBattleRoom> createState() => _showDialogPlayBattleRoomState();
+  State<showDialogPlayBattleRoom> createState() =>
+      _showDialogPlayBattleRoomState();
 }
 
 class _showDialogPlayBattleRoomState extends State<showDialogPlayBattleRoom> {
@@ -19,6 +23,33 @@ class _showDialogPlayBattleRoomState extends State<showDialogPlayBattleRoom> {
         width: 400,
         height: 500,
         color: Colors.green,
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                CartDifficulty(
+                  text: "JiDuy",
+                ),
+                CartDifficulty(
+                  text: "JiDuyy",
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                CartDifficulty(
+                  text: "JiDuyyy",
+                ),
+                CartDifficulty(
+                  text: "JiDuyyyy",
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

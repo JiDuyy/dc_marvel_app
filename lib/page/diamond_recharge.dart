@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../components/BorderStore.dart';
 
@@ -46,7 +45,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconDiamond.png',
+                      path: 'assets/images/IconDiamondOne.png',
                       price: '1',
                       text: '15 Diamonds',
                       pathPrice: 'assets/images/IconDollar.png'),
@@ -54,7 +53,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconDiamond.png',
+                      path: 'assets/images/IconDiamondTwo.png',
                       price: '10',
                       text: '150 Diamonds',
                       pathPrice: 'assets/images/IconDollar.png'),
@@ -70,7 +69,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconDiamond.png',
+                      path: 'assets/images/IconDiamondThree.png',
                       price: '100',
                       text: '1500 Diamonds',
                       pathPrice: 'assets/images/IconDollar.png'),
@@ -78,7 +77,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconDiamond.png',
+                      path: 'assets/images/IconDiamondFour.png',
                       price: '1000',
                       text: '15000 Diamonds',
                       pathPrice: 'assets/images/IconDollar.png'),
@@ -86,7 +85,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           )
         ],

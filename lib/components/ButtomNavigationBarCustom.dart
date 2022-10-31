@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class BottomNavigationBarCustom extends StatefulWidget {
@@ -35,7 +37,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
       currentIndex: 2,
       onTap: onItemTap,
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.blueAccent[400],
+      backgroundColor: Colors.green,
       selectedFontSize: 10,
       unselectedFontSize: 10,
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),

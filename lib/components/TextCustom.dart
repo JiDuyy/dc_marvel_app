@@ -1,8 +1,10 @@
+// ignore_for_file: file_names, must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class TextCustom extends StatelessWidget {
-  TextCustom({super.key, required this.title});
-  var title;
+  const TextCustom({super.key, required this.title});
+  final String title;
 
   @override
   Widget build(BuildContext context) {

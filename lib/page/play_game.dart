@@ -2,6 +2,8 @@ import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:flutter/material.dart';
 
 import '../components/ButtonBattleCustom.dart';
+import '../components/PlayBattle.dart';
+import '../components/PlayBattlePlayNow.dart';
 import 'login.dart';
 
 class PlayGame extends StatefulWidget {
@@ -78,14 +80,14 @@ class _PlayGameState extends State<PlayGame> {
                     url: "assets/images/ButtonPlayBattle.png",
                     flex: 1,
                     fontSize: 18,
-                    showDialog: showDialogPlayBattleRoom(),
+                    showDialog: showDialogPlayBattle(),
                   ),
                   ButtonBattleCustom(
                     title: 'PLAY NOW',
                     url: "assets/images/ButtonPlaynow.png",
                     flex: 2,
                     fontSize: 25,
-                    showDialog: showDialogPlayBattleRoom(),
+                    showDialog: showDialogPlayBattleNow(),
                   ),
                   ButtonBattleCustom(
                     title: 'ROOM',

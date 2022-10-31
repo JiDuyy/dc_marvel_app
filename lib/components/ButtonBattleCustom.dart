@@ -8,12 +8,12 @@ class ButtonBattleCustom extends StatefulWidget {
       required this.url,
       required this.flex,
       required this.fontSize,
-      required this.pageRoute});
+      required this.showDialog});
   final String title;
   final String url;
   final int flex;
   final double fontSize;
-  final MaterialPageRoute pageRoute;
+  final Widget showDialog;
   @override
   State<ButtonBattleCustom> createState() => _ButtonBattleCustomState();
 }
@@ -33,7 +33,12 @@ class _ButtonBattleCustomState extends State<ButtonBattleCustom> {
         ),
         child: TextButton(
           onPressed: () => {
-            PlayBattleRoom(context),
+            showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return widget.showDialog;
+              },
+            )
           },
           child: Center(
             child: Text(

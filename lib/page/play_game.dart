@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:flutter/material.dart';
 
 import '../components/ButtonBattleCustom.dart';
@@ -71,33 +72,27 @@ class _PlayGameState extends State<PlayGame> {
               margin: const EdgeInsets.only(top: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   ButtonBattleCustom(
                     title: 'BATTLE',
                     url: "assets/images/ButtonPlayBattle.png",
                     flex: 1,
                     fontSize: 18,
-                    pageRoute: MaterialPageRoute(
-                      builder: (context) => const Login(),
-                    ),
+                    showDialog: showDialogPlayBattleRoom(),
                   ),
                   ButtonBattleCustom(
                     title: 'PLAY NOW',
                     url: "assets/images/ButtonPlaynow.png",
                     flex: 2,
                     fontSize: 25,
-                    pageRoute: MaterialPageRoute(
-                      builder: (context) => const Login(),
-                    ),
+                    showDialog: showDialogPlayBattleRoom(),
                   ),
                   ButtonBattleCustom(
                     title: 'ROOM',
                     url: "assets/images/ButtonPlayRoom.png",
                     flex: 1,
                     fontSize: 18,
-                    pageRoute: MaterialPageRoute(
-                      builder: (context) => const Login(),
-                    ),
+                    showDialog: showDialogPlayBattleRoom(),
                   ),
                 ],
               ),

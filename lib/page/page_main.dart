@@ -1,4 +1,5 @@
 import 'package:dc_marvel_app/components/AppBarCustom.dart';
+import 'package:dc_marvel_app/page/buyEnergy.dart';
 import 'package:dc_marvel_app/page/diamond_recharge.dart';
 import 'package:dc_marvel_app/page/even.dart';
 import 'package:dc_marvel_app/page/play_game.dart';
@@ -24,6 +25,7 @@ class _PageMainState extends State<PageMain> {
     const Even(),
     const Setting(),
     const DiamondRecharge(),
+    const BuyEnergy(),
   ];
 
   // int selectIndex = 0;

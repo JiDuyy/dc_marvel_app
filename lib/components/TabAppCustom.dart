@@ -9,12 +9,14 @@ class TabAppBarCustom extends StatefulWidget {
       required this.urlOne,
       required this.urlTwo,
       required this.color,
-      required this.pageController});
+      required this.pageController,
+      required this.jumpToPage});
   final String title;
   final String urlOne;
   final String urlTwo;
   final Color color;
   final PageController pageController;
+  final int jumpToPage;
 
   @override
   State<TabAppBarCustom> createState() => _TabAppBarCustomState();
@@ -77,7 +79,7 @@ class _TabAppBarCustomState extends State<TabAppBarCustom> {
             ),
             child: InkWell(
               onTap: () {
-                widget.pageController.jumpToPage(5);
+                widget.pageController.jumpToPage(widget.jumpToPage);
               },
             ),
           ),

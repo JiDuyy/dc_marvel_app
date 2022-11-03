@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../components/BorderStore.dart';
+import '../../components/BorderStore.dart';
 
-class BuyEnergy extends StatefulWidget {
-  const BuyEnergy({super.key});
+
+class DiamondRecharge extends StatefulWidget {
+  const DiamondRecharge({super.key});
 
   @override
-  State<BuyEnergy> createState() => _BuyEnergyState();
+  State<DiamondRecharge> createState() => _DiamondRechargeState();
 }
 
-class _BuyEnergyState extends State<BuyEnergy> {
+class _DiamondRechargeState extends State<DiamondRecharge> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      height: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/Edit_Background.jpg"),
@@ -26,7 +29,7 @@ class _BuyEnergyState extends State<BuyEnergy> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                'BUY ENERGY',
+                'BUY DIAMOND',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -43,18 +46,18 @@ class _BuyEnergyState extends State<BuyEnergy> {
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconSet.png',
-                      price: '50',
-                      text: '5 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
+                      path: 'assets/images/IconDiamondOne.png',
+                      price: '1',
+                      text: '15 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconEnergyOne.png',
-                      price: '100',
-                      text: '10 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
+                      path: 'assets/images/IconDiamondTwo.png',
+                      price: '10',
+                      text: '150 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
               ],
             ),
@@ -67,18 +70,18 @@ class _BuyEnergyState extends State<BuyEnergy> {
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconEnergyTwo.png',
-                      price: '150',
-                      text: '15 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
+                      path: 'assets/images/IconDiamondThree.png',
+                      price: '100',
+                      text: '1500 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
                 Expanded(
                   child: BorderShop(
                       quantity: '',
-                      path: 'assets/images/IconEnergyThree.png',
-                      price: '200',
-                      text: '20 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
+                      path: 'assets/images/IconDiamondFour.png',
+                      price: '1000',
+                      text: '15000 Diamonds',
+                      pathPrice: 'assets/images/IconDollar.png'),
                 ),
               ],
             ),

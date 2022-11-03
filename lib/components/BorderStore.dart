@@ -25,39 +25,45 @@ class _BorderShopState extends State<BorderShop> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        // width: 180,
-        // height: 237,
         decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.6),
-          // border: Border.all(width: 2, color: Colors.white54),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  widget.quantity,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    widget.quantity,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
                 ),
               ),
             ),
-            Image.asset(
-              widget.path,
+            Expanded(
+              flex: 8,
+              child: Image.asset(
+                widget.path,
+              ),
             ),
-            Text(
-              widget.text,
-              style: const TextStyle(fontSize: 20, color: Colors.white),
+            Expanded(
+              flex: 2,
+              child: Text(
+                widget.text,
+                style: const TextStyle(fontSize: 20, color: Colors.white),
+              ),
             ),
-            Center(
+            Expanded(
+              flex: 3,
               child: Container(
                 color: Colors.green,
-                height: 50,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -71,9 +77,10 @@ class _BorderShopState extends State<BorderShop> {
                     Text(
                       widget.price,
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),

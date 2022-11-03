@@ -1,6 +1,7 @@
-import 'package:dc_marvel_app/page/select_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'page/Account/select_login.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

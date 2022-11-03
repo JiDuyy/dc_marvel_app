@@ -34,14 +34,14 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: 2,
+      // currentIndex: 2,
       onTap: onItemTap,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.green,
       selectedFontSize: 10,
       unselectedFontSize: 10,
-      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+      // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+      // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       showSelectedLabels: false,
       showUnselectedLabels: false,
       items: [

@@ -1,13 +1,13 @@
 import 'package:dc_marvel_app/components/AppBarCustom.dart';
-import 'package:dc_marvel_app/page/buyEnergy.dart';
-import 'package:dc_marvel_app/page/diamond_recharge.dart';
 import 'package:dc_marvel_app/page/even.dart';
-import 'package:dc_marvel_app/page/play_game.dart';
 import 'package:dc_marvel_app/page/rank.dart';
 import 'package:dc_marvel_app/page/setting.dart';
-import 'package:dc_marvel_app/page/store.dart';
 import 'package:flutter/material.dart';
 import '../components/ButtomNavigationBarCustom.dart';
+import 'play/play_game.dart';
+import 'shop/buyEnergy.dart';
+import 'shop/diamond_recharge.dart';
+import 'shop/store.dart';
 
 class PageMain extends StatefulWidget {
   const PageMain({super.key});
@@ -17,7 +17,7 @@ class PageMain extends StatefulWidget {
 }
 
 class _PageMainState extends State<PageMain> {
-  PageController pageController = PageController();
+  PageController pageController = PageController(initialPage: 2);
   List<Widget> pages = [
     const Rank(),
     const Store(),
@@ -38,6 +38,7 @@ class _PageMainState extends State<PageMain> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      // initialIndex: 2,
       length: 3,
       child: Scaffold(
         appBar: PreferredSize(

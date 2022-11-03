@@ -43,21 +43,19 @@ class _StoreState extends State<Store> {
               children: const [
                 Expanded(
                   child: BorderShop(
-                    quantity: 'Đang có: 2',
-                    path: 'assets/images/icons_thor.png',
-                    price: '50',
-                    text: 'Búa Thor'
-                    ,pathPrice: 'assets/images/IconDiamond.png'
-                  ),
+                      quantity: 'Đang có: 2',
+                      path: 'assets/images/icons_thor.png',
+                      price: '50',
+                      text: 'Búa Thor',
+                      pathPrice: 'assets/images/IconDiamond.png'),
                 ),
                 Expanded(
                   child: BorderShop(
-                    quantity: 'Đang có: 2',
-                    path: 'assets/images/icon_nhen.png',
-                    price: '100',
-                    text: 'Nhện bắn tơ'
-                    ,pathPrice: 'assets/images/IconDiamond.png'
-                  ),
+                      quantity: 'Đang có: 2',
+                      path: 'assets/images/icon_nhen.png',
+                      price: '100',
+                      text: 'Nhện bắn tơ',
+                      pathPrice: 'assets/images/IconDiamond.png'),
                 ),
               ],
             ),

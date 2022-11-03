@@ -3,7 +3,7 @@
 import 'package:dc_marvel_app/components/TabAppCustom.dart';
 import 'package:flutter/material.dart';
 
-import '../page/select_login.dart';
+import '../page/Account/select_login.dart';
 
 class AppBarCustom extends StatefulWidget {
   const AppBarCustom({super.key, required this.pageController});
@@ -34,7 +34,8 @@ class _AppBarCustomState extends State<AppBarCustom> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Container(
-                          width: 72,
+                          // width: 72,
+                          width: MediaQuery.of(context).size.width / 6,
                           height: 15,
                           color: Colors.white,
                           child: Stack(

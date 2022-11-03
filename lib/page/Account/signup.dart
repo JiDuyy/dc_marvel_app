@@ -1,8 +1,9 @@
 import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:dc_marvel_app/components/TextFieldCustom.dart';
-import 'package:dc_marvel_app/page/login.dart';
 import 'package:flutter/material.dart';
+
+import 'login.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -30,13 +31,12 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(20),
-                width: 350,
-                height: 220,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width - 150,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/LogoTextDCMarvel.png"),
-                    fit: BoxFit.cover,
+                    image: AssetImage("assets/images/Logo_Text_DCMarvel.png"),
+                    // fit: BoxFit.cover,
                   ),
                 ),
               ),

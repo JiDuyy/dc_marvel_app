@@ -26,11 +26,9 @@ class _ElvatedButtonCustomState extends State<ElvatedButtonCustom> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => {
-        Navigator.push(
-          context,
-          widget.routePage,
-        ),
+      onPressed: () {
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.push(context, widget.routePage);
       },
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll<Color>(
@@ -39,9 +37,7 @@ class _ElvatedButtonCustomState extends State<ElvatedButtonCustom> {
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             side: BorderSide(color: widget.colorBorder, width: 2.0),
-            borderRadius: BorderRadius.circular(
-              (10.0),
-            ),
+            borderRadius: BorderRadius.circular(10.0),
           ),
         ),
       ),

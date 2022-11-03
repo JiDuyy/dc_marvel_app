@@ -1,9 +1,9 @@
 import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:flutter/material.dart';
 
-import '../components/ButtonBattleCustom.dart';
-import '../components/PlayBattle.dart';
-import '../components/PlayBattlePlayNow.dart';
+import '../../components/ButtonBattleCustom.dart';
+import '../../components/PlayBattle.dart';
+import '../../components/PlayBattlePlayNow.dart';
 
 class PlayGame extends StatefulWidget {
   const PlayGame({super.key});
@@ -32,28 +32,12 @@ class _PlayGameState extends State<PlayGame> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Expanded(
-                //   flex: 1,
-                //   child: Container(
-                //     width: 60,
-                //     height: 60,
-                //     margin: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                //     decoration: const BoxDecoration(
-                //       image: DecorationImage(
-                //         image: AssetImage(
-                //           "assets/images/icon_setting.png",
-                //         ),
-                //         fit: BoxFit.cover,
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 Expanded(
                   flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: Image.asset(
-                      "assets/images/DCMarvelSmall.png",
+                      "assets/images/Logo_Text_DCMarvel.png",
                     ),
                   ),
                 ),

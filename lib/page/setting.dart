@@ -1,9 +1,6 @@
-import 'package:dc_marvel_app/components/AdvancedSwitch.dart';
-import 'package:dc_marvel_app/page/select_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
-
-import '../components/FrameRank.dart';
+import 'Account/select_login.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});

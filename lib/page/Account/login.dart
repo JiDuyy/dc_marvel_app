@@ -1,17 +1,23 @@
+import 'package:dc_marvel_app/components/AdvancedSwitch.dart';
 import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:dc_marvel_app/components/TextFieldCustom.dart';
-import 'package:dc_marvel_app/page/login.dart';
+import 'package:dc_marvel_app/page/Account/forgot_password.dart';
+import 'package:dc_marvel_app/page/page_main.dart';
 import 'package:flutter/material.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+import 'signup.dart';
+
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<Login> createState() => _LoginState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _LoginState extends State<Login> {
+  // final _controller = ValueNotifier<bool>(false);
+
   bool status = false;
   @override
   Widget build(BuildContext context) {
@@ -30,13 +36,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(20),
-                width: 350,
-                height: 220,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width - 150,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/LogoTextDCMarvel.png"),
-                    fit: BoxFit.cover,
+                    image: AssetImage("assets/images/Logo_Text_DCMarvel.png"),
+                    // fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -44,87 +49,37 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 height: 30,
               ),
               const TextCustom(
-                title: "Change Password",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.person,
-                    size: 50,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'JiDuy',
-                    style: TextStyle(
-                      fontSize: 26,
-                      color: Colors.white,
-                      letterSpacing: 3.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-                ],
-              ),
-              const TextFieldCustom(
-                label: 'Email Address',
-                icon: Icons.email,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const TextFieldCustom(
-                label: 'New Password',
-                icon: Icons.key,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const TextFieldCustom(
-                label: 'Confirm password',
-                icon: Icons.key,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Change your password, will help your account be more secure and limit the risk.',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                title: "Login to your account",
               ),
               const SizedBox(
                 height: 50,
               ),
-              ElvatedButtonCustom(
-                caption: 'SUBMIT',
-                colorBorder: Colors.white,
-                colorBackground: Colors.black,
-                colorTitle: Colors.white,
-                opacity: 1.0,
-                routePage: MaterialPageRoute(
-                  builder: (context) => const Login(),
-                ),
+              const TextFieldCustom(
+                label: 'Username',
+                icon: Icons.person,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const TextFieldCustom(
+                label: 'Username',
+                icon: Icons.key,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const TextCustom(title: 'Already have an account?'),
+                  const AdvancedSwitchCustom(),
                   TextButton(
                     onPressed: () => {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Login(),
+                          builder: (context) => const ForgotPassword(),
                         ),
                       ),
                     },
                     child: const Text(
-                      'Login',
+                      'Forgot Password?',
                       style: TextStyle(
                         color: Colors.white,
                         decoration: TextDecoration.underline,
@@ -133,7 +88,44 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+              ElvatedButtonCustom(
+                caption: 'LOGIN',
+                colorBorder: Colors.white,
+                colorBackground: Colors.black,
+                colorTitle: Colors.white,
+                opacity: 1.0,
+                routePage: MaterialPageRoute(
+                  builder: (context) => const PageMain(),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const TextCustom(title: 'Don\'t have an account? '),
+                  TextButton(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUp(),
+                        ),
+                      ),
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

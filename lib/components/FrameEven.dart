@@ -24,7 +24,7 @@ class _FrameEvenState extends State<FrameEven> {
     return Container(
       width: MediaQuery.of(context).size.width - 50,
       height: MediaQuery.of(context).size.width + 50,
-      margin: const EdgeInsets.only(bottom: 30),
+      margin: const EdgeInsets.only(top: 15, bottom: 15),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(widget.pathFrame),

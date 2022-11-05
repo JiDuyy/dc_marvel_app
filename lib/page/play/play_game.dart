@@ -1,6 +1,6 @@
 import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:flutter/material.dart';
-
+import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
 import '../../components/PlayBattle.dart';
 import '../../components/PlayBattlePlayNow.dart';
@@ -27,17 +27,21 @@ class _PlayGameState extends State<PlayGame> {
       ),
       child: Column(
         children: [
+          const Expanded(
+            flex: 1,
+            child: AppBarProfile(),
+          ),
           Expanded(
-            flex: 7,
+            flex: 5,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   flex: 4,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 40),
+                    padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
                     child: Image.asset(
-                      "assets/images/Logo_Text_DCMarvel.png",
+                      "assets/images/LogoText3D.png",
                     ),
                   ),
                 ),

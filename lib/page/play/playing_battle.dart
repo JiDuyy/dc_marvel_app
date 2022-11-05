@@ -87,7 +87,7 @@ class _Playing_battleState extends State<Playing_battle> {
                           Icon_helper(
                               url: 'assets/images/icon_bat.png', items: 5),
                           Icon_helper(
-                              url: 'assets/images/icon_khien.png', items: 5),
+                              url: 'assets/images/icons_khien.png', items: 5),
                         ])))
           ])),
     );

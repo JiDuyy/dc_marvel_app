@@ -45,21 +45,18 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
               const TextCustom(
                 title: "Login to your account",
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 20,
               ),
               const TextFieldCustom(
                 label: 'Username',
                 icon: Icons.person,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 60,
               ),
               const TextFieldCustom(
                 label: 'Username',
@@ -89,8 +86,8 @@ class _LoginState extends State<Login> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 100,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 10,
               ),
               ElvatedButtonCustom(
                 caption: 'LOGIN',

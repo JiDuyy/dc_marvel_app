@@ -38,17 +38,14 @@ class _SelectLoginState extends State<SelectLogin> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 30,
-            ),
             const TextCustom(
               title: 'I want to find a talent with superior understanding?',
             ),
             const TextCustom(
               title: 'Let us help you change that.',
             ),
-            const SizedBox(
-              height: 100,
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 5,
             ),
             ElvatedButtonCustom(
               caption: 'LOGIN',
@@ -60,8 +57,8 @@ class _SelectLoginState extends State<SelectLogin> {
                 builder: (context) => const Login(),
               ),
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 60,
             ),
             ElvatedButtonCustom(
               caption: 'SIGN UP',

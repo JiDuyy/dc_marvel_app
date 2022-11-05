@@ -40,50 +40,47 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
               const TextCustom(
                 title: "Create your account",
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 40,
               ),
               const TextFieldCustom(
                 label: 'Username',
                 icon: Icons.person,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const TextFieldCustom(
                 label: 'Email Address',
                 icon: Icons.email,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const TextFieldCustom(
                 label: 'Password',
                 icon: Icons.key,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const TextFieldCustom(
                 label: 'Confirm password',
                 icon: Icons.key,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const Text(
                 'By registering, you are agreeing to our Terms of use and Privacy Policy.',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 20,
               ),
               ElvatedButtonCustom(
                 caption: 'REGISTER',

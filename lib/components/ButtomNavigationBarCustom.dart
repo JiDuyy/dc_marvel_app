@@ -37,7 +37,7 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
       // currentIndex: 2,
       onTap: onItemTap,
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.green,
+      backgroundColor: const Color.fromARGB(255, 91, 54, 255),
       selectedFontSize: 10,
       unselectedFontSize: 10,
       // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),

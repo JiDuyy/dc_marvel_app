@@ -40,14 +40,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
               const TextCustom(
                 title: "Forgot Password",
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -75,30 +72,30 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 label: 'Email Address',
                 icon: Icons.email,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const TextFieldCustom(
                 label: 'New Password',
                 icon: Icons.key,
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const TextFieldCustom(
                 label: 'Confirm password',
                 icon: Icons.key,
               ),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
               const Text(
                 'By forgetting the shared password, I will help you get the password when you forgot it during use.',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 15,
               ),
               ElvatedButtonCustom(
                 caption: 'SUBMIT',

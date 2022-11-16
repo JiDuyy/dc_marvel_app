@@ -28,17 +28,9 @@ class _PageMainState extends State<PageMain> {
     const BuyEnergy(),
   ];
 
-  // int selectIndex = 0;
-  // void onPageChanged(int index) {
-  //   setState(() {
-  //     selectIndex = index;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      // initialIndex: 2,
       length: 3,
       child: Scaffold(
         appBar: PreferredSize(
@@ -48,6 +40,7 @@ class _PageMainState extends State<PageMain> {
           ),
         ),
         body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
           children: pages,
           // onPageChanged: onPageChanged,

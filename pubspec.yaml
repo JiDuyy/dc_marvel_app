@@ -43,6 +43,8 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_launcher_icons: ^0.10.0
   flutter_app_name: ^0.1.1
+  animated_text_kit: ^4.2.2
+  widget_and_text_animator: ^1.0.9
 
 flutter_icons:
   android: "launcher_icon"

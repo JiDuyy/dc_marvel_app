@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'Account/select_login.dart';
 
 class Setting extends StatefulWidget {
@@ -51,98 +52,112 @@ class _SettingState extends State<Setting> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 20, right: 20, top: 25, bottom: 25),
-                  height: 60,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/ButonSetting.png'),
-                      // fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Image.asset(
-                        'assets/images/IconMusic.png',
-                        height: 50,
-                      ),
-                      AdvancedSwitch(
-                        activeColor: Colors.blue,
-                        inactiveColor: Colors.orange,
-                        width: 80,
-                        height: 40,
-                        controller: _controller,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 20, right: 20, top: 25, bottom: 25),
-                  height: 60,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/ButonSetting.png'),
-                      // fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Image.asset(
-                        'assets/images/IconVolume.png',
-                        height: 50,
-                      ),
-                      AdvancedSwitch(
-                        activeColor: Colors.blue,
-                        inactiveColor: Colors.orange,
-                        width: 80,
-                        height: 40,
-                        controller: _controllerTwo,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SelectLogin(),
-                    ),
-                  ),
+                WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromLeft(),
                   child: Container(
                     margin: const EdgeInsets.only(
                         left: 20, right: 20, top: 25, bottom: 25),
                     height: 60,
-                    width: double.infinity,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/ButonSetting.png'),
                         // fit: BoxFit.cover,
                       ),
                     ),
-                    child: const Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Đăng xuất',
-                        style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.red,
-                          letterSpacing: 2.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          'assets/images/IconMusic.png',
+                          height: 50,
+                        ),
+                        AdvancedSwitch(
+                          activeColor: Colors.blue,
+                          inactiveColor: Colors.orange,
+                          width: 80,
+                          height: 40,
+                          controller: _controller,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromLeft(
+                          delay: const Duration(milliseconds: 100)),
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        left: 20, right: 20, top: 25, bottom: 25),
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/ButonSetting.png'),
+                        // fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.asset(
+                          'assets/images/IconVolume.png',
+                          height: 50,
+                        ),
+                        AdvancedSwitch(
+                          activeColor: Colors.blue,
+                          inactiveColor: Colors.orange,
+                          width: 80,
+                          height: 40,
+                          controller: _controllerTwo,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromLeft(
+                          delay: const Duration(milliseconds: 200)),
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SelectLogin(),
+                      ),
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 20, right: 20, top: 25, bottom: 25),
+                      height: 60,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/ButonSetting.png'),
+                          // fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Đăng xuất',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.red,
+                            letterSpacing: 2.0,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

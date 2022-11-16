@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../components/BorderStore.dart';
 
-
 class BuyEnergy extends StatefulWidget {
   const BuyEnergy({super.key});
 
@@ -37,7 +36,7 @@ class _BuyEnergyState extends State<BuyEnergy> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -61,7 +60,7 @@ class _BuyEnergyState extends State<BuyEnergy> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -84,9 +83,9 @@ class _BuyEnergyState extends State<BuyEnergy> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 50,
-          )
+          const Spacer(
+            flex: 1,
+          ),
         ],
       ),
     );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../components/BorderStore.dart';
 
-
 class DiamondRecharge extends StatefulWidget {
   const DiamondRecharge({super.key});
 
@@ -39,7 +38,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -63,7 +62,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -86,9 +85,9 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 50,
-          )
+          const Spacer(
+            flex: 1,
+          ),
         ],
       ),
     );

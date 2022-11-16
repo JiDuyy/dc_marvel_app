@@ -40,8 +40,6 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
       backgroundColor: const Color.fromARGB(255, 91, 54, 255),
       selectedFontSize: 10,
       unselectedFontSize: 10,
-      // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
       showSelectedLabels: false,
       showUnselectedLabels: false,
       items: [

@@ -2,6 +2,7 @@ import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:dc_marvel_app/components/TextFieldCustom.dart';
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import 'login.dart';
 
@@ -30,21 +31,27 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width - 150,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/Logo_Text_DCMarvel.png"),
-                    // fit: BoxFit.cover,
+              WidgetAnimator(
+                incomingEffect: WidgetTransitionEffects.incomingScaleDown(),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width - 150,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Logo_Text_DCMarvel.png"),
+                      // fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(
                 height: 30,
               ),
-              const TextCustom(
-                title: "Change Password",
+              WidgetAnimator(
+                incomingEffect: WidgetTransitionEffects.incomingScaleUp(),
+                child: const TextCustom(
+                  title: "Change Password",
+                ),
               ),
               const SizedBox(
                 height: 20,

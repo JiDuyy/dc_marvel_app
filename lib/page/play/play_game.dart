@@ -1,5 +1,7 @@
 import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
+import '../../components/Animation.dart';
 import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
 import '../../components/PlayBattle.dart';
@@ -40,8 +42,9 @@ class _PlayGameState extends State<PlayGame> {
                   flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-                    child: Image.asset(
-                      "assets/images/LogoText3D.png",
+                    child: WidgetAnimator(
+                      incomingEffect: WidgetTransitionEffects.incomingScaleUp(),
+                      child: const LogoAnimation(),
                     ),
                   ),
                 ),
@@ -55,27 +58,45 @@ class _PlayGameState extends State<PlayGame> {
               margin: const EdgeInsets.only(top: 50),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  ButtonBattleCustom(
-                    title: 'BATTLE',
-                    url: "assets/images/ButtonPlayBattle.png",
+                children: [
+                  Expanded(
                     flex: 1,
-                    fontSize: 18,
-                    showDialog: showDialogPlayBattle(),
+                    child: WidgetAnimator(
+                      incomingEffect:
+                          WidgetTransitionEffects.incomingSlideInFromLeft(),
+                      child: const ButtonBattleCustom(
+                        title: 'BATTLE',
+                        url: "assets/images/ButtonPlayBattle.png",
+                        fontSize: 18,
+                        showDialog: showDialogPlayBattle(),
+                      ),
+                    ),
                   ),
-                  ButtonBattleCustom(
-                    title: 'PLAY NOW',
-                    url: "assets/images/ButtonPlaynow.png",
+                  Expanded(
                     flex: 2,
-                    fontSize: 25,
-                    showDialog: showDialogPlayBattleNow(),
+                    child: WidgetAnimator(
+                      incomingEffect:
+                          WidgetTransitionEffects.incomingSlideInFromBottom(),
+                      child: const ButtonBattleCustom(
+                        title: 'PLAY NOW',
+                        url: "assets/images/ButtonPlaynow.png",
+                        fontSize: 25,
+                        showDialog: showDialogPlayBattleNow(),
+                      ),
+                    ),
                   ),
-                  ButtonBattleCustom(
-                    title: 'ROOM',
-                    url: "assets/images/ButtonPlayRoom.png",
+                  Expanded(
                     flex: 1,
-                    fontSize: 18,
-                    showDialog: showDialogPlayBattleRoom(),
+                    child: WidgetAnimator(
+                      incomingEffect:
+                          WidgetTransitionEffects.incomingSlideInFromRight(),
+                      child: const ButtonBattleCustom(
+                        title: 'ROOM',
+                        url: "assets/images/ButtonPlayRoom.png",
+                        fontSize: 18,
+                        showDialog: showDialogPlayBattleRoom(),
+                      ),
+                    ),
                   ),
                 ],
               ),

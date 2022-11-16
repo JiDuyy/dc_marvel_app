@@ -37,7 +37,7 @@ class _StoreState extends State<Store> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -61,7 +61,7 @@ class _StoreState extends State<Store> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -84,9 +84,7 @@ class _StoreState extends State<Store> {
               ],
             ),
           ),
-          const SizedBox(
-            height: 50,
-          )
+          const Spacer(flex: 1),
         ],
       ),
     );

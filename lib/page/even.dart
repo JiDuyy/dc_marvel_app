@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../components/FrameEven.dart';
 
@@ -23,21 +24,36 @@ class _EvenState extends State<Even> {
       ),
       child: SingleChildScrollView(
         child: Column(
-          children: const [
-            FrameEven(
-              pathFrame: "assets/images/FrameEvenTwo.png",
-              pathItemOne: 'assets/images/IconDiamond.png',
-              pathItemTwo: 'assets/images/IconSet.png',
+          children: [
+            WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromBottom(
+                delay: const Duration(milliseconds: 0),
+              ),
+              child: const FrameEven(
+                pathFrame: "assets/images/FrameEvenTwo.png",
+                pathItemOne: 'assets/images/IconDiamond.png',
+                pathItemTwo: 'assets/images/IconSet.png',
+              ),
             ),
-            FrameEven(
-              pathFrame: "assets/images/FrameEven.png",
-              pathItemOne: 'assets/images/icon_nhen.png',
-              pathItemTwo: 'assets/images/icons_khien.png',
+            WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromBottom(
+                delay: const Duration(milliseconds: 200),
+              ),
+              child: const FrameEven(
+                pathFrame: "assets/images/FrameEven.png",
+                pathItemOne: 'assets/images/icon_nhen.png',
+                pathItemTwo: 'assets/images/icons_khien.png',
+              ),
             ),
-            FrameEven(
-              pathFrame: "assets/images/FrameEvenThree.png",
-              pathItemOne: 'assets/images/icons_doi.png',
-              pathItemTwo: 'assets/images/icons_thor.png',
+            WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromBottom(
+                delay: const Duration(milliseconds: 400),
+              ),
+              child: const FrameEven(
+                pathFrame: "assets/images/FrameEvenThree.png",
+                pathItemOne: 'assets/images/icons_doi.png',
+                pathItemTwo: 'assets/images/icons_thor.png',
+              ),
             ),
           ],
         ),

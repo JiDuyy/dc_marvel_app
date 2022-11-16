@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 class BonusFrameItem extends StatelessWidget {
-  const BonusFrameItem({
-    Key? key,
-    required this.path
-  }) : super(key: key);
+  const BonusFrameItem({Key? key, required this.path}) : super(key: key);
 
   final String path;
 

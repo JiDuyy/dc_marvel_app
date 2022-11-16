@@ -105,7 +105,6 @@ class _Find_battleState extends State<Find_battle> {
                       child: const ButtonBattleCustom(
                         title: '',
                         url: "assets/images/icon_cacel.png",
-                        flex: 1,
                         fontSize: 18,
                         showDialog: showDialogPlayBattle(),
                       ),

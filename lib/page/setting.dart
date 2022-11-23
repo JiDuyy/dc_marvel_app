@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/page/LoginPhone/login_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -129,7 +130,7 @@ class _SettingState extends State<Setting> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SelectLogin(),
+                        builder: (context) => const LoginPhone(),
                       ),
                     ),
                     child: Container(

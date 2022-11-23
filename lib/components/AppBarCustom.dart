@@ -3,7 +3,6 @@
 import 'package:dc_marvel_app/components/TabAppCustom.dart';
 import 'package:flutter/material.dart';
 
-
 class AppBarCustom extends StatefulWidget {
   const AppBarCustom({super.key, required this.pageController});
   final PageController pageController;
@@ -16,6 +15,12 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) => Container(
         color: const Color.fromARGB(255, 91, 54, 255),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage('assets/images/bgappbar.jpg'),
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         child: SafeArea(
           child: Center(
             child: TabBar(

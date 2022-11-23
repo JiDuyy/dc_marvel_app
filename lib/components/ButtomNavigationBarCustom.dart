@@ -60,8 +60,8 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
           'Even',
         ),
         _createBottomNavigationBarItem(
-          'assets/images/icon_setting.png',
-          'Setting',
+          'assets/images/iconFriend.png',
+          'Friend',
         ),
       ],
     );

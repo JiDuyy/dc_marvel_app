@@ -1,4 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dc_marvel_app/components/ShowDialogSetting.dart';
+import 'package:dc_marvel_app/page/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -118,15 +120,26 @@ class _AppBarProfileState extends State<AppBarProfile> {
                   fit: BoxFit.fill,
                 ),
               ),
-              child: Container(
-                alignment: Alignment.topRight,
-                margin: const EdgeInsets.only(right: 10, top: 10),
-                width: MediaQuery.of(context).size.width / 8,
-                height: MediaQuery.of(context).size.width / 8,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/icon_setting.png"),
-                    // fit: BoxFit.cover,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: false,
+                      pageBuilder: (BuildContext context, _, __) =>
+                          const ShowDialogSetting(),
+                    ),
+                  );
+                },
+                child: Container(
+                  alignment: Alignment.topRight,
+                  margin: const EdgeInsets.only(right: 10, top: 10),
+                  width: MediaQuery.of(context).size.width / 8,
+                  height: MediaQuery.of(context).size.width / 8,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/icon_setting.png"),
+                      // fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

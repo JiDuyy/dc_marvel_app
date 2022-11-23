@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 class ButtonBattleCustom extends StatefulWidget {
   const ButtonBattleCustom(

@@ -1,5 +1,6 @@
 import 'package:dc_marvel_app/components/AppBarCustom.dart';
 import 'package:dc_marvel_app/page/even.dart';
+import 'package:dc_marvel_app/page/friend.dart';
 import 'package:dc_marvel_app/page/rank.dart';
 import 'package:dc_marvel_app/page/setting.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _PageMainState extends State<PageMain> {
     const Store(),
     const PlayGame(),
     const Even(),
-    const Setting(),
+    const Friend(),
     const DiamondRecharge(),
     const BuyEnergy(),
   ];

@@ -39,7 +39,7 @@ class _LogoAnimationState extends State<LogoAnimation>
     super.initState();
     controller =
         AnimationController(duration: const Duration(seconds: 3), vsync: this);
-    animation = CurvedAnimation(parent: controller, curve: Curves.bounceInOut)
+    animation = CurvedAnimation(parent: controller, curve: Curves.bounceIn)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           controller.reverse();

@@ -14,13 +14,19 @@ class AppBarCustom extends StatefulWidget {
 class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) => Container(
-        color: const Color.fromARGB(255, 91, 54, 255),
         // decoration: const BoxDecoration(
         //   image: DecorationImage(
         //     image: AssetImage('assets/images/bgappbar.jpg'),
         //     fit: BoxFit.cover,
         //   ),
         // ),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 91, 54, 255),
+          border: Border.all(
+            color: Colors.yellow,
+            width: 1,
+          ),
+        ),
         child: SafeArea(
           child: Center(
             child: TabBar(

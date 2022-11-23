@@ -18,8 +18,8 @@ class _EvenState extends State<Even> {
       height: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/Edit_Background.jpg"),
-          fit: BoxFit.cover,
+          image: AssetImage("assets/images/galaxy.gif"),
+          fit: BoxFit.fill,
         ),
       ),
       child: SingleChildScrollView(

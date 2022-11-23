@@ -23,8 +23,8 @@ class _PlayGameState extends State<PlayGame> {
       height: double.infinity,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/Edit_Background.jpg"),
-          fit: BoxFit.cover,
+          image: AssetImage("assets/images/galaxy.gif"),
+          fit: BoxFit.fill,
         ),
       ),
       child: Column(
@@ -43,8 +43,21 @@ class _PlayGameState extends State<PlayGame> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
                     child: WidgetAnimator(
-                      incomingEffect: WidgetTransitionEffects.incomingScaleUp(),
-                      child: const LogoAnimation(),
+                      incomingEffect: WidgetTransitionEffects.outgoingScaleUp(),
+                      atRestEffect: WidgetRestingEffects.wave(),
+                      child: Center(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/Chapter5.png"),
+                              // fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

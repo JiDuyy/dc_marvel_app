@@ -1,4 +1,5 @@
 import 'package:dc_marvel_app/page/LoginPhone/login_phone.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -18,7 +19,6 @@ class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.black,
       width: double.infinity,
       height: double.infinity,
       decoration: const BoxDecoration(
@@ -127,12 +127,11 @@ class _SettingState extends State<Setting> {
                       WidgetTransitionEffects.incomingSlideInFromLeft(
                           delay: const Duration(milliseconds: 200)),
                   child: InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPhone(),
-                      ),
-                    ),
+                    onTap: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, 'phone', (route) => false);
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(
                           left: 20, right: 20, top: 25, bottom: 25),
@@ -147,11 +146,11 @@ class _SettingState extends State<Setting> {
                       child: const Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'Đăng xuất',
+                          'SIGN OUT',
                           style: TextStyle(
                             fontSize: 23,
                             fontWeight: FontWeight.w700,
-                            color: Colors.red,
+                            color: Colors.white,
                             letterSpacing: 2.0,
                           ),
                         ),

@@ -140,20 +140,24 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 4.5,
-                        left: MediaQuery.of(context).size.width / 25),
-                    height: 60,
-                    width: 60,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/ButtonBack.png'),
-                        // fit: BoxFit.cover,
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 4.5,
+                      left: MediaQuery.of(context).size.width / 25),
+                  height: 60,
+                  width: 60,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/ButtonBack.png'),
+                          // fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

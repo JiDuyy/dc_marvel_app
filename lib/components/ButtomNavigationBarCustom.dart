@@ -27,41 +27,47 @@ BottomNavigationBarItem _createBottomNavigationBarItem(
 }
 
 class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
+  int index = 2;
   void onItemTap(selectItems) {
     widget.pageController.jumpToPage(selectItems);
+    setState(() {
+      index = selectItems;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      // currentIndex: 2,
+      currentIndex: index,
       onTap: onItemTap,
       type: BottomNavigationBarType.fixed,
       backgroundColor: const Color.fromARGB(255, 91, 54, 255),
-      selectedFontSize: 10,
+      selectedFontSize: 12,
       unselectedFontSize: 10,
-      showSelectedLabels: false,
+      showSelectedLabels: true,
       showUnselectedLabels: false,
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+      selectedItemColor: Colors.white,
       items: [
         _createBottomNavigationBarItem(
           'assets/images/IconRank.png',
-          'Rank',
+          'RANK',
         ),
         _createBottomNavigationBarItem(
           'assets/images/icon_shop.png',
-          'Store',
+          'STORE',
         ),
         _createBottomNavigationBarItem(
-          'assets/images/icon_battle.png',
-          'PlayGame',
+          'assets/images/IconBattleNew.png',
+          'PLAY GAME',
         ),
         _createBottomNavigationBarItem(
           'assets/images/icon_tickets.png',
-          'Even',
+          'EVEN',
         ),
         _createBottomNavigationBarItem(
           'assets/images/iconFriend.png',
-          'Friend',
+          'FRIEND',
         ),
       ],
     );

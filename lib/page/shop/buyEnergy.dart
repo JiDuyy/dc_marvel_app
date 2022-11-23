@@ -15,8 +15,8 @@ class _BuyEnergyState extends State<BuyEnergy> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/Edit_Background.jpg"),
-          fit: BoxFit.cover,
+          image: AssetImage("assets/images/galaxy.gif"),
+          fit: BoxFit.fill,
         ),
       ),
       child: Column(

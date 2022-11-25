@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:dc_marvel_app/page/shop/pay.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -65,27 +66,38 @@ class _BorderShopState extends State<BorderShop> {
               ),
               Expanded(
                 flex: 3,
-                child: Container(
-                  color: Colors.green,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Image.asset(
-                          widget.pathPrice,
-                          width: 30,
-                        ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) =>
+                            const PayDiamond(),
                       ),
-                      Text(
-                        widget.price,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                    );
+                  },
+                  child: Container(
+                    color: Colors.green,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Image.asset(
+                            widget.pathPrice,
+                            width: 30,
+                          ),
                         ),
-                      ),
-                    ],
+                        Text(
+                          widget.price,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -77,32 +77,30 @@ class _FrameFriendState extends State<FrameFriend> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 10,
-                    height: MediaQuery.of(context).size.width / 10,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/Icon_sms.png'),
-                        fit: BoxFit.fill,
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 10,
+                      height: MediaQuery.of(context).size.width / 10,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/Icon_sms.png'),
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                    ),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(''),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 10,
-                    height: MediaQuery.of(context).size.width / 10,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/Icon_Gift.png'),
-                        fit: BoxFit.fill,
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 10,
+                      height: MediaQuery.of(context).size.width / 10,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/Icon_Gift.png'),
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                    ),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(''),
                     ),
                   ),
                 ],

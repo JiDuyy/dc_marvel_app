@@ -206,7 +206,7 @@ class _showDialogPlayBattleNowState extends State<showDialogPlayBattleNow> {
                         opacity: 1,
                         colorTitle: Colors.black,
                         routePage: MaterialPageRoute(
-                          builder: (context) => Playing_game(),
+                          builder: (context) => PlayingGame(),
                         ),
                       ),
                     ),

@@ -1,4 +1,6 @@
 import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
+import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
+import 'package:dc_marvel_app/page/play/playing_now.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../components/Animation.dart';
@@ -90,11 +92,11 @@ class _PlayGameState extends State<PlayGame> {
                     child: WidgetAnimator(
                       incomingEffect:
                           WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      child: const ButtonBattleCustom(
+                      child: ButtonBattleCustom(
                         title: 'PLAY NOW',
                         url: "assets/images/ButtonPlaynow.png",
                         fontSize: 25,
-                        showDialog: showDialogPlayBattleNow(),
+                        showDialog: PlayingGame(),
                       ),
                     ),
                   ),
@@ -107,7 +109,7 @@ class _PlayGameState extends State<PlayGame> {
                         title: 'ROOM',
                         url: "assets/images/ButtonPlayRoom.png",
                         fontSize: 18,
-                        showDialog: showDialogPlayBattleRoom(),
+                        showDialog: ShowDialogCreateRoom(),
                       ),
                     ),
                   ),

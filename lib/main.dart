@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const MyPhone(),
-      // initialRoute: 'phone',
+      //initialRoute: 'home',
       initialRoute: FirebaseAuth.instance.currentUser == null ? 'phone' : 'home',
       routes: {
         'phone': (context) => LoginPhone(),

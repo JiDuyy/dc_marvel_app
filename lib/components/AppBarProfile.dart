@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dc_marvel_app/components/ShowDialogPlayProfile.dart';
 import 'package:dc_marvel_app/components/ShowDialogSetting.dart';
 import 'package:dc_marvel_app/page/setting.dart';
 import 'package:flutter/material.dart';
@@ -46,25 +47,36 @@ class _AppBarProfileState extends State<AppBarProfile> {
               child: Container(
                 alignment: Alignment.topLeft,
                 margin: const EdgeInsets.only(left: 10, top: 10),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 15,
-                      height: MediaQuery.of(context).size.width / 15,
-                      child: Image.asset('assets/images/Avatar.jpg'),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 9,
-                      height: MediaQuery.of(context).size.width / 9,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/BorderAvatar.png"),
-                          fit: BoxFit.cover,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) =>
+                            const ShowDiaLogProfile(),
+                      ),
+                    );
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 15,
+                        height: MediaQuery.of(context).size.width / 15,
+                        child: Image.asset('assets/images/Avatar.jpg'),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 9,
+                        height: MediaQuery.of(context).size.width / 9,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/BorderAvatar.png"),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

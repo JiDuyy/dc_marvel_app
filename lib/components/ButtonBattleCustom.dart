@@ -30,11 +30,11 @@ class _ButtonBattleCustomState extends State<ButtonBattleCustom> {
       ),
       child: TextButton(
         onPressed: () => {
-          showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return widget.showDialog;
-            },
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context, _, __) => widget.showDialog,
+            ),
           )
         },
         child: Center(

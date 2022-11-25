@@ -43,9 +43,10 @@ class _BorderShopState extends State<BorderShop> {
                     child: Text(
                       widget.quantity,
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ),

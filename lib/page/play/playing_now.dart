@@ -1,79 +1,163 @@
-import 'package:dc_marvel_app/components/widget_question.dart';
 import 'package:flutter/material.dart';
-import '../../components/Icon_helper.dart';
-import '../../components/widget_answer.dart';
 
-class Playing_game extends StatefulWidget {
-  Playing_game({super.key});
+import '../../components/ShowDialogSetting.dart';
+
+class PlayingGame extends StatefulWidget {
+  PlayingGame({super.key});
 
   @override
-  State<Playing_game> createState() => _Playing_gameState();
+  State<PlayingGame> createState() => _PlayingGameState();
 }
 
-class _Playing_gameState extends State<Playing_game> {
+class _PlayingGameState extends State<PlayingGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          padding: const EdgeInsets.all(15),
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage("assets/images/Edit_Background.jpg"),
-            fit: BoxFit.cover,
-          )),
-          child: Column(children: [
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/Background_Play.jpg"),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Column(
+          children: [
             Expanded(
-                flex: 6,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Question',
-                            style: TextStyle(
-                                fontFamily: 'Horizon',
-                                fontSize: 35,
-                                color: Colors.white,
-                                decoration: TextDecoration.none),
-                          )),
-                      Expanded(
-                          flex: 4,
-                          child: widget_Question(
-                            title:
-                                'Có bà đó bả bay lên lên trời. Hỏi bà đó chết năm bao nhiêu tuổi vì sao?',
-                          )),
-                      Expanded(child: widget_Answer(title: 'Bò đá - 73 tuổi')),
-                      Expanded(
-                          child: widget_Answer(title: 'Trâu đá - 73 tuổi')),
-                      Expanded(child: widget_Answer(title: 'Hỏi trực tiếp')),
-                      Expanded(child: widget_Answer(title: 'Không biết')),
-                      const Spacer()
-                    ])),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) =>
+                            const ShowDialogSetting(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 8,
+                    height: MediaQuery.of(context).size.width / 8,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/icon_setting.png"),
+                        // fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(bottom: 10.0),
+            //     child: Row(
+            //       children: [
+            //         Expanded(
+            //           child: Container(
+            //             margin: const EdgeInsets.only(right: 5),
+            //             decoration: const BoxDecoration(
+            //               image: DecorationImage(
+            //                 image: AssetImage("assets/images/FramePlayer.png"),
+            //                 fit: BoxFit.fill,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Expanded(
+            //           child: Container(
+            //             margin: const EdgeInsets.only(left: 5),
+            //             decoration: const BoxDecoration(
+            //               image: DecorationImage(
+            //                 image: AssetImage("assets/images/FramePlayer.png"),
+            //                 fit: BoxFit.fill,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Expanded(
-                child: Container(
-                    height: MediaQuery.of(context).size.width / 5,
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(top: 10),
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white.withOpacity(0.5)),
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon_helper(
-                              url: 'assets/images/icon_hammer.png', items: 5),
-                          Icon_helper(
-                              url: 'assets/images/icon_spider.png', items: 5),
-                          Icon_helper(
-                              url: 'assets/images/icon_bat.png', items: 5),
-                          Icon_helper(
-                              url: 'assets/images/icons_khien.png', items: 5),
-                        ])))
-          ])),
+              flex: 4,
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/FrameQuestion.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 4,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/FrameAnwer.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/FrameAnwer.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/FrameAnwer.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/FrameAnwer.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: const EdgeInsets.only(top: 10),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/FramePlayer.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+            const Flexible(flex: 1, child: Text('')),
+          ],
+        ),
+      ),
     );
   }
 }

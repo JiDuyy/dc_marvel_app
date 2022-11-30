@@ -2,11 +2,13 @@ import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
 import 'package:dc_marvel_app/page/play/find_battle.dart';
 import 'package:dc_marvel_app/page/play/playing_now.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../components/Animation.dart';
 import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
+import '../../components/ChapterImage.dart';
 import '../../components/PlayBattle.dart';
 
 class PlayGame extends StatefulWidget {
@@ -37,21 +39,39 @@ class _PlayGameState extends State<PlayGame> {
           ),
           Expanded(
             flex: 5,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
               child: WidgetAnimator(
-                incomingEffect: WidgetTransitionEffects.outgoingScaleUp(),
+                incomingEffect:
+                    WidgetTransitionEffects.incomingSlideInFromTop(),
                 atRestEffect: WidgetRestingEffects.wave(),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/Chapter6.png"),
-                      // fit: BoxFit.cover,
+                child: Row(
+                  children: const [
+                    ChapterImage(
+                      path: 'assets/images/Chapter1.png',
                     ),
-                  ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter2.png',
+                    ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter3.png',
+                    ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter4.png',
+                    ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter5.png',
+                    ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter6.png',
+                    ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter7.png',
+                    ),
+                    ChapterImage(
+                      path: 'assets/images/Chapter8.png',
+                    ),
+                  ],
                 ),
               ),
             ),

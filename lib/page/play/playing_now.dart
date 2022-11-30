@@ -41,8 +41,8 @@ class _PlayingGameState extends State<PlayingGame> {
                     );
                   },
                   child: Container(
-                    width: size.width / 8,
-                    height: size.width / 8,
+                    width: size.width / 10,
+                    height: size.width / 10,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/images/icon_setting.png"),

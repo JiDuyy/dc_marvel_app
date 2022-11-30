@@ -15,7 +15,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(.7),
+      backgroundColor: Colors.black.withOpacity(.8),
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -68,7 +68,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                           ),
                     ),
                     child: Image.asset(
-                      'assets/images/IconMusic.png',
+                      'assets/images/IconVolume.png',
                       height: 30,
                     ),
                   ),
@@ -92,7 +92,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                             ),
                       ),
                       child: Image.asset(
-                        'assets/images/IconMusic.png',
+                        'assets/images/start.png',
                         height: 30,
                       ),
                     ),
@@ -118,7 +118,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                             ),
                       ),
                       child: Image.asset(
-                        'assets/images/IconMusic.png',
+                        'assets/images/home.png',
                         height: 30,
                       ),
                     ),

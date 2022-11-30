@@ -2,6 +2,7 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dc_marvel_app/components/AppBarProfile.dart';
+import 'package:dc_marvel_app/page/history.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -224,13 +225,26 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   .size
                                                   .width /
                                               5,
-                                          child: Image.asset(
-                                              'assets/images/buttonshareProfile.png'),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                PageRouteBuilder(
+                                                  opaque: false,
+                                                  pageBuilder:
+                                                      (BuildContext context, _,
+                                                              __) =>
+                                                          const History(),
+                                                ),
+                                              );
+                                            },
+                                            child: Image.asset(
+                                                'assets/images/history.ico'),
+                                          ),
                                         ),
                                       ),
                                       Expanded(
                                         child: Text(
-                                          'Share',
+                                          'History',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,

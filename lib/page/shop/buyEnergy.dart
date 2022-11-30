@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../../components/BorderStore.dart';
 
@@ -21,66 +22,86 @@ class _BuyEnergyState extends State<BuyEnergy> {
       ),
       child: Column(
         children: [
-          const Expanded(
+          Expanded(
             flex: 2,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                'BUY ENERGY',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+            child: WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromTop(),
+              child: Container(
+                margin: const EdgeInsets.only(top: 10),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/FrameTitle.png'),
+                      fit: BoxFit.fill),
+                ),
+                child: const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'BUY ENERGY',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
           Expanded(
             flex: 6,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Expanded(
-                  child: BorderShop(
-                      quantity: '',
+            child: WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Expanded(
+                    child: BorderShop(
+                      quantity: '+5 Energy',
                       path: 'assets/images/IconSet.png',
                       price: '50',
-                      text: '5 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
-                ),
-                Expanded(
-                  child: BorderShop(
-                      quantity: '',
+                      text: '',
+                      pathPrice: 'assets/images/IconDiamond.png',
+                    ),
+                  ),
+                  Expanded(
+                    child: BorderShop(
+                      quantity: '+10 Energy',
                       path: 'assets/images/IconEnergyOne.png',
                       price: '100',
-                      text: '10 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
-                ),
-              ],
+                      text: '',
+                      pathPrice: 'assets/images/IconDiamond.png',
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
             flex: 6,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Expanded(
-                  child: BorderShop(
-                      quantity: '',
-                      path: 'assets/images/IconEnergyTwo.png',
-                      price: '150',
-                      text: '15 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
-                ),
-                Expanded(
-                  child: BorderShop(
-                      quantity: '',
-                      path: 'assets/images/IconEnergyThree.png',
-                      price: '200',
-                      text: '20 Energy',
-                      pathPrice: 'assets/images/IconDiamond.png'),
-                ),
-              ],
+            child: WidgetAnimator(
+              incomingEffect:
+                  WidgetTransitionEffects.incomingSlideInFromRight(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Expanded(
+                    child: BorderShop(
+                        quantity: '+15 Energy',
+                        path: 'assets/images/IconEnergyTwo.png',
+                        price: '150',
+                        text: '',
+                        pathPrice: 'assets/images/IconDiamond.png'),
+                  ),
+                  Expanded(
+                    child: BorderShop(
+                        quantity: '+20 Energys',
+                        path: 'assets/images/IconEnergyThree.png',
+                        price: '200',
+                        text: '',
+                        pathPrice: 'assets/images/IconDiamond.png'),
+                  ),
+                ],
+              ),
             ),
           ),
           const Spacer(

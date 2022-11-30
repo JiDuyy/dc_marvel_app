@@ -1,5 +1,6 @@
 import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
+import 'package:dc_marvel_app/page/play/find_battle.dart';
 import 'package:dc_marvel_app/page/play/playing_now.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -7,7 +8,6 @@ import '../../components/Animation.dart';
 import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
 import '../../components/PlayBattle.dart';
-import '../../components/PlayBattlePlayNow.dart';
 
 class PlayGame extends StatefulWidget {
   const PlayGame({super.key});
@@ -37,33 +37,23 @@ class _PlayGameState extends State<PlayGame> {
           ),
           Expanded(
             flex: 5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-                    child: WidgetAnimator(
-                      incomingEffect: WidgetTransitionEffects.outgoingScaleUp(),
-                      atRestEffect: WidgetRestingEffects.wave(),
-                      child: Center(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          height: double.infinity,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/Chapter5.png"),
-                              // fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: WidgetAnimator(
+                incomingEffect: WidgetTransitionEffects.outgoingScaleUp(),
+                atRestEffect: WidgetRestingEffects.wave(),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Chapter6.png"),
+                      // fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
           Expanded(
@@ -83,7 +73,7 @@ class _PlayGameState extends State<PlayGame> {
                         title: 'BATTLE',
                         url: "assets/images/ButtonPlayBattle.png",
                         fontSize: 18,
-                        showDialog: showDialogPlayBattle(),
+                        showDialog: Find_battle(),
                       ),
                     ),
                   ),

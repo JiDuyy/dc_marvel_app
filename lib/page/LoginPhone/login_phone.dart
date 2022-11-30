@@ -16,7 +16,6 @@ class LoginPhone extends StatefulWidget {
 class _LoginPhoneState extends State<LoginPhone> {
   TextEditingController countryController = TextEditingController();
   var phone = "";
-
   @override
   void initState() {
     // TODO: implement initState
@@ -26,6 +25,7 @@ class _LoginPhoneState extends State<LoginPhone> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -43,15 +43,18 @@ class _LoginPhoneState extends State<LoginPhone> {
               WidgetAnimator(
                 incomingEffect: WidgetTransitionEffects.incomingScaleDown(),
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width - 150,
+                  width: size.width,
+                  height: size.width - 150,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/Logo_Text_DCMarvel.png"),
+                      image: AssetImage("assets/images/LogoText3D.png"),
                       // fit: BoxFit.cover,
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: size.height / 30,
               ),
               WidgetAnimator(
                 incomingEffect: WidgetTransitionEffects.incomingScaleUp(),
@@ -59,7 +62,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                   children: const [
                     TextCustom(
                       title:
-                          'I want to find a talent with superior understanding?',
+                          'We need to register your phone without getting started!',
                     ),
                     TextCustom(
                       title: 'Let us help you change that.',
@@ -68,7 +71,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 8,
+                height: size.height / 12,
               ),
               WidgetAnimator(
                 incomingEffect:
@@ -117,13 +120,13 @@ class _LoginPhoneState extends State<LoginPhone> {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
+                height: size.height / 20,
               ),
               WidgetAnimator(
                 incomingEffect:
@@ -132,34 +135,35 @@ class _LoginPhoneState extends State<LoginPhone> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                      onPressed: () async {
-                        try {
-                          await FirebaseAuth.instance.verifyPhoneNumber(
-                            phoneNumber: countryController.text + phone,
-                            verificationCompleted:
-                                (PhoneAuthCredential credential) {},
-                            verificationFailed: (FirebaseAuthException e) {},
-                            codeSent:
-                                (String verificationId, int? resendToken) {
-                              LoginPhone.verify = verificationId;
-                              Navigator.pushNamed(context, 'verify');
-                            },
-                            codeAutoRetrievalTimeout:
-                                (String verificationId) {},
-                          );
-                        } catch (e) {
-                          print('feild');
-                        }
-                        // LoginPhone.verify = "123123123";
-                        // Navigator.pushNamed(context, 'verify');
-                      },
-                      child: Text("Send the code")),
+                    ),
+                    onPressed: () async {
+                      try {
+                        await FirebaseAuth.instance.verifyPhoneNumber(
+                          phoneNumber: countryController.text + phone,
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) {},
+                          verificationFailed: (FirebaseAuthException e) {
+                            if (e.code == 'invalid-phone-number') {
+                              print('The provided phone number is not valid.');
+                            }
+                          },
+                          codeSent: (String verificationId, int? resendToken) {
+                            LoginPhone.verify = verificationId;
+                            Navigator.pushNamed(context, 'verify');
+                          },
+                          codeAutoRetrievalTimeout: (String verificationId) {},
+                        );
+                      } catch (e) {
+                        print('feild');
+                      }
+                    },
+                    child: Text("Send the code"),
+                  ),
                 ),
               ),
             ],

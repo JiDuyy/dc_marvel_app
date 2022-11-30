@@ -22,6 +22,7 @@ class _VerifyState extends State<Verify> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -76,15 +77,18 @@ class _VerifyState extends State<Verify> {
               WidgetAnimator(
                 incomingEffect: WidgetTransitionEffects.incomingScaleDown(),
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width - 150,
+                  width: size.width,
+                  height: size.width - 150,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/Logo_Text_DCMarvel.png"),
+                      image: AssetImage("assets/images/LogoText3D.png"),
                       // fit: BoxFit.cover,
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: size.height / 30,
               ),
               WidgetAnimator(
                 incomingEffect: WidgetTransitionEffects.incomingScaleUp(),
@@ -101,7 +105,7 @@ class _VerifyState extends State<Verify> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 8,
+                height: size.height / 16,
               ),
               WidgetAnimator(
                 incomingEffect:
@@ -117,7 +121,7 @@ class _VerifyState extends State<Verify> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
+                height: size.height / 20,
               ),
               WidgetAnimator(
                 incomingEffect:
@@ -136,7 +140,6 @@ class _VerifyState extends State<Verify> {
                               PhoneAuthProvider.credential(
                                   verificationId: LoginPhone.verify,
                                   smsCode: code);
-
                           // Sign the user in (or link) with the credential
                           await auth.signInWithCredential(credential);
                           Navigator.pushNamedAndRemoveUntil(

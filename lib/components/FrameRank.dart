@@ -25,7 +25,7 @@ class _FrameRankState extends State<FrameRank> {
   Widget build(BuildContext context) {
     return Container(
       // padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
       width: double.infinity,
       height: 60,
       decoration: BoxDecoration(

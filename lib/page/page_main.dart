@@ -2,7 +2,6 @@ import 'package:dc_marvel_app/components/AppBarCustom.dart';
 import 'package:dc_marvel_app/page/even.dart';
 import 'package:dc_marvel_app/page/friend.dart';
 import 'package:dc_marvel_app/page/rank.dart';
-import 'package:dc_marvel_app/page/setting.dart';
 import 'package:flutter/material.dart';
 import '../components/ButtomNavigationBarCustom.dart';
 import 'play/play_game.dart';

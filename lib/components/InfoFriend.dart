@@ -6,7 +6,8 @@ import 'InfoProfile.dart';
 
 class InfoFriend extends StatefulWidget {
   String url;
-  InfoFriend({super.key, required this.url});
+  bool isFriend;
+  InfoFriend({super.key, required this.url, required this.isFriend});
 
   @override
   State<InfoFriend> createState() => _InfoFriendState();
@@ -45,9 +46,9 @@ class _InfoFriendState extends State<InfoFriend> {
                             child: WidgetAnimator(
                               incomingEffect: WidgetTransitionEffects
                                   .incomingSlideInFromRight(),
-                              child: const Text(
-                                'Friend',
-                                style: TextStyle(
+                              child: Text(
+                                widget.isFriend ? 'Friend' : 'Player',
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
                                   fontFamily: 'Horizon',
@@ -63,7 +64,7 @@ class _InfoFriendState extends State<InfoFriend> {
                         child: Column(
                           children: [
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: WidgetAnimator(
                                 incomingEffect: WidgetTransitionEffects
                                     .incomingSlideInFromTop(),
@@ -151,8 +152,8 @@ class _InfoFriendState extends State<InfoFriend> {
                                             children: [
                                               Expanded(
                                                 child: Column(
-                                                  children: [
-                                                    const Expanded(
+                                                  children: const [
+                                                    Expanded(
                                                         child: Text(
                                                       '300',
                                                       style: TextStyle(
@@ -160,9 +161,9 @@ class _InfoFriendState extends State<InfoFriend> {
                                                           fontFamily: 'Horizon',
                                                           fontSize: 20),
                                                     )),
-                                                    const Expanded(
+                                                    Expanded(
                                                         child: Text(
-                                                      'Total',
+                                                      'Points',
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'Horizon',
@@ -173,8 +174,8 @@ class _InfoFriendState extends State<InfoFriend> {
                                               ),
                                               Expanded(
                                                 child: Column(
-                                                  children: [
-                                                    const Expanded(
+                                                  children: const [
+                                                    Expanded(
                                                         child: Text(
                                                       '10',
                                                       style: TextStyle(
@@ -182,7 +183,7 @@ class _InfoFriendState extends State<InfoFriend> {
                                                           fontFamily: 'Horizon',
                                                           fontSize: 20),
                                                     )),
-                                                    const Expanded(
+                                                    Expanded(
                                                         child: Text(
                                                       'Gate',
                                                       style: TextStyle(
@@ -214,37 +215,83 @@ class _InfoFriendState extends State<InfoFriend> {
                                           x: 5),
                                       Expanded(
                                         flex: 2,
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    5,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    5,
-                                                child: Image.asset(
-                                                    'assets/images/iconAddfriend.png'),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                margin: const EdgeInsets.only(top: 5),
-                                                child: const Text(
-                                                  'Add',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 25,
-                                                    fontFamily: 'Horizon',
+                                        child: widget.isFriend
+                                            ? Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () {},
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                        child: Image.asset(
+                                                            'assets/images/buttonshareProfile.png'),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 5),
+                                                      child: const Text(
+                                                        'Share',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 25,
+                                                          fontFamily: 'Horizon',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: InkWell(
+                                                      onTap: () {},
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            5,
+                                                        child: Image.asset(
+                                                            'assets/images/iconAddfriend.png'),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 5),
+                                                      child: const Text(
+                                                        'Add',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 25,
+                                                          fontFamily: 'Horizon',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
                                       ),
                                       const Spacer()
                                     ],

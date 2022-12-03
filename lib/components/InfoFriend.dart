@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'InfoProfile.dart';
 
-class ShowDiaLogProfile extends StatefulWidget {
-  const ShowDiaLogProfile({super.key});
+class InfoFriend extends StatefulWidget {
+  String url;
+  InfoFriend({super.key, required this.url});
 
   @override
-  State<ShowDiaLogProfile> createState() => _ShowDiaLogProfileState();
+  State<InfoFriend> createState() => _InfoFriendState();
 }
 
-class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
+class _InfoFriendState extends State<InfoFriend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +25,8 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
             Expanded(
               flex: 4,
               child: Container(
-                  margin: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
+                  margin: const EdgeInsets.all(15),
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                     image: AssetImage('assets/images/profile_background.png'),
                     fit: BoxFit.fill,
@@ -36,7 +37,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                           child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Spacer(
+                          const Spacer(
                             flex: 5,
                           ),
                           Expanded(
@@ -44,8 +45,8 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                             child: WidgetAnimator(
                               incomingEffect: WidgetTransitionEffects
                                   .incomingSlideInFromRight(),
-                              child: Text(
-                                'Profile',
+                              child: const Text(
+                                'Friend',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
@@ -54,7 +55,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                               ),
                             ),
                           ),
-                          Spacer()
+                          const Spacer()
                         ],
                       )),
                       Expanded(
@@ -76,8 +77,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                       height:
                                           MediaQuery.of(context).size.width /
                                               4.8,
-                                      child: Image.asset(
-                                          'assets/images/Avatar.jpg'),
+                                      child: Image.asset(widget.url),
                                     ),
                                     Container(
                                       width: MediaQuery.of(context).size.width /
@@ -99,7 +99,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   .size
                                                   .width /
                                               4),
-                                      child: Text(
+                                      child: const Text(
                                         '2',
                                         style: TextStyle(
                                           color: Colors.white,
@@ -136,7 +136,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                       .incomingSlideInFromRight(),
                                   child: Column(
                                     children: [
-                                      Expanded(
+                                      const Expanded(
                                         child: Text(
                                           'ID : sadfaaalllwe',
                                           style: TextStyle(
@@ -152,7 +152,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               Expanded(
                                                 child: Column(
                                                   children: [
-                                                    Expanded(
+                                                    const Expanded(
                                                         child: Text(
                                                       '300',
                                                       style: TextStyle(
@@ -160,7 +160,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                           fontFamily: 'Horizon',
                                                           fontSize: 20),
                                                     )),
-                                                    Expanded(
+                                                    const Expanded(
                                                         child: Text(
                                                       'Total',
                                                       style: TextStyle(
@@ -174,7 +174,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               Expanded(
                                                 child: Column(
                                                   children: [
-                                                    Expanded(
+                                                    const Expanded(
                                                         child: Text(
                                                       '10',
                                                       style: TextStyle(
@@ -182,7 +182,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                           fontFamily: 'Horizon',
                                                           fontSize: 20),
                                                     )),
-                                                    Expanded(
+                                                    const Expanded(
                                                         child: Text(
                                                       'Gate',
                                                       style: TextStyle(
@@ -230,7 +230,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                     'assets/images/buttonshareProfile.png'),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               child: Text(
                                                 'Share',
                                                 style: TextStyle(
@@ -243,7 +243,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                           ],
                                         ),
                                       ),
-                                      Spacer()
+                                      const Spacer()
                                     ],
                                   ),
                                 )),
@@ -286,4 +286,3 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
         ));
   }
 }
-

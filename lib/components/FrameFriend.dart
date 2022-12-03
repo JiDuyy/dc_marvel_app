@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'InfoFriend.dart';
 import 'score_game.dart';
 
 class FrameFriend extends StatefulWidget {
@@ -45,18 +46,18 @@ class _FrameFriendState extends State<FrameFriend> {
                       Navigator.of(context).push(PageRouteBuilder(
                         opaque: false,
                         pageBuilder: (BuildContext context, _, __) =>
-                            Score_game(
-                          isWin: false,
-                          Lever: 2,
-                          Score: 123,
-                          hightscore: 319,
-                          diamond: 13,
-                          quantiHammer: 1,
-                          quantiBat: 23,
-                          quantiSpider: 2,
-                          quantiShield: 9,
-                        ),
-                        // InfoFriend(url: widget.pathAvatar),
+                            //     Score_game(
+                            //   isWin: false,
+                            //   Lever: 2,
+                            //   Score: 123,
+                            //   hightscore: 319,
+                            //   diamond: 13,
+                            //   quantiHammer: 1,
+                            //   quantiBat: 23,
+                            //   quantiSpider: 2,
+                            //   quantiShield: 9,
+                            // ),
+                            InfoFriend(url: widget.pathAvatar),
                       ));
                     },
                     child: Stack(

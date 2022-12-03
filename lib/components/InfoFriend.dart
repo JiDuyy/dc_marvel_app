@@ -227,16 +227,19 @@ class _InfoFriendState extends State<InfoFriend> {
                                                         .width /
                                                     5,
                                                 child: Image.asset(
-                                                    'assets/images/buttonshareProfile.png'),
+                                                    'assets/images/iconAddfriend.png'),
                                               ),
                                             ),
-                                            const Expanded(
-                                              child: Text(
-                                                'Share',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  fontFamily: 'Horizon',
+                                            Expanded(
+                                              child: Container(
+                                                margin: const EdgeInsets.only(top: 5),
+                                                child: const Text(
+                                                  'Add',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25,
+                                                    fontFamily: 'Horizon',
+                                                  ),
                                                 ),
                                               ),
                                             ),

@@ -28,11 +28,17 @@ class _FriendState extends State<Friend> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromTop(),
               child: Container(
-                color: Colors.orange,
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/FrameTitle.png'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
                 child: const Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -49,7 +55,7 @@ class _FriendState extends State<Friend> {
             ),
           ),
           Expanded(
-            flex: 10,
+            flex: 12,
             child: SingleChildScrollView(
               child: WidgetAnimator(
                 incomingEffect:

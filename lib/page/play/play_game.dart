@@ -1,13 +1,15 @@
 import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
+import 'package:dc_marvel_app/page/play/find_battle.dart';
 import 'package:dc_marvel_app/page/play/playing_now.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../components/Animation.dart';
 import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
+import '../../components/ChapterImage.dart';
 import '../../components/PlayBattle.dart';
-import '../../components/PlayBattlePlayNow.dart';
 import '../notify/notify.dart';
 
 class PlayGame extends StatefulWidget {
@@ -38,52 +40,65 @@ class _PlayGameState extends State<PlayGame> {
           ),
           Expanded(
             flex: 5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Expanded(
-                  flex: 4,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-                        child: WidgetAnimator(
-                          incomingEffect:
-                              WidgetTransitionEffects.outgoingScaleUp(),
-                          atRestEffect: WidgetRestingEffects.wave(),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            height: double.infinity,
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/Chapter5.png"),
-                                // fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: WidgetAnimator(
+                    incomingEffect:
+                        WidgetTransitionEffects.incomingSlideInFromTop(),
+                    atRestEffect: WidgetRestingEffects.wave(),
+                    child: Row(
+                      children: const [
+                        ChapterImage(
+                          path: 'assets/images/Chapter1.png',
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 1.19,
-                            right: 5,
-                            top: 5,
-                            bottom: MediaQuery.of(context).size.width / 1.19),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  const Notify(),
-                            ));
-                          },
-                          child: const Image(
-                              image: AssetImage('assets/images/Icon_bell.png')),
+                        ChapterImage(
+                          path: 'assets/images/Chapter2.png',
                         ),
-                      ),
-                    ],
+                        ChapterImage(
+                          path: 'assets/images/Chapter3.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter4.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter5.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter6.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter7.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter8.png',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromRight(),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 1.19,
+                        right: 5,
+                        top: 5,
+                        bottom: MediaQuery.of(context).size.width / 1.19),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              const Notify(),
+                        ));
+                      },
+                      child: const Image(
+                          image: AssetImage('assets/images/Icon_bell.png')),
+                    ),
                   ),
                 ),
               ],
@@ -106,7 +121,7 @@ class _PlayGameState extends State<PlayGame> {
                         title: 'BATTLE',
                         url: "assets/images/ButtonPlayBattle.png",
                         fontSize: 18,
-                        showDialog: showDialogPlayBattle(),
+                        showDialog: Find_battle(),
                       ),
                     ),
                   ),

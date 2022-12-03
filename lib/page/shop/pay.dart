@@ -19,6 +19,7 @@ class _PayDiamondState extends State<PayDiamond> {
   ];
   String? selectedValue;
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.9),
       body: SingleChildScrollView(
@@ -27,7 +28,7 @@ class _PayDiamondState extends State<PayDiamond> {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height / 23,
+                height: size.height / 23,
               ),
               Align(
                 alignment: Alignment.center,
@@ -47,7 +48,7 @@ class _PayDiamondState extends State<PayDiamond> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 35,
+                height: size.height / 35,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,15 +70,15 @@ class _PayDiamondState extends State<PayDiamond> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 18,
+                    height: size.height / 18,
                   ),
                   const FramePay(text: 'Full name:', txt: 'Trần Minh Công'),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 18,
+                    height: size.height / 18,
                   ),
                   const FramePay(text: 'Price:', txt: '20.000'),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 20,
+                    height: size.height / 20,
                   ),
                   Row(
                     children: [
@@ -90,7 +91,7 @@ class _PayDiamondState extends State<PayDiamond> {
                             fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 7,
+                        width: size.width / 7,
                       ),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2(
@@ -132,7 +133,7 @@ class _PayDiamondState extends State<PayDiamond> {
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 15,
+                    height: size.height / 15,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -165,8 +166,7 @@ class _PayDiamondState extends State<PayDiamond> {
                     alignment: Alignment.bottomLeft,
                     child: Container(
                       margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height / 8,
-                          left: MediaQuery.of(context).size.width / 25),
+                          top: size.height / 8, left: size.width / 25),
                       height: 60,
                       width: 60,
                       child: InkWell(

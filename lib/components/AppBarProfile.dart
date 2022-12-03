@@ -99,17 +99,42 @@ class _AppBarProfileState extends State<AppBarProfile> {
                 totalRepeatCount: 100,
                 animatedTexts: [
                   ColorizeAnimatedText(
-                    'JIDUY',
+                    'CHAPTER 1',
                     textStyle: colorizeTextStyle,
                     colors: colorizeColors,
                   ),
                   ColorizeAnimatedText(
-                    'DC MARVEL',
+                    'CHAPTER 2',
                     textStyle: colorizeTextStyle,
                     colors: colorizeColors,
                   ),
                   ColorizeAnimatedText(
-                    'KHANH DUY',
+                    'CHAPTER 3',
+                    textStyle: colorizeTextStyle,
+                    colors: colorizeColors,
+                  ),
+                  ColorizeAnimatedText(
+                    'CHAPTER 4',
+                    textStyle: colorizeTextStyle,
+                    colors: colorizeColors,
+                  ),
+                  ColorizeAnimatedText(
+                    'CHAPTER 5',
+                    textStyle: colorizeTextStyle,
+                    colors: colorizeColors,
+                  ),
+                  ColorizeAnimatedText(
+                    'CHAPTER 6',
+                    textStyle: colorizeTextStyle,
+                    colors: colorizeColors,
+                  ),
+                  ColorizeAnimatedText(
+                    'CHAPTER 7',
+                    textStyle: colorizeTextStyle,
+                    colors: colorizeColors,
+                  ),
+                  ColorizeAnimatedText(
+                    'CHAPTER 8',
                     textStyle: colorizeTextStyle,
                     colors: colorizeColors,
                   ),

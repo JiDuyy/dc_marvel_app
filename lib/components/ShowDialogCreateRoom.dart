@@ -3,6 +3,7 @@
 import 'package:dc_marvel_app/components/ChooseGameMode.dart';
 import 'package:dc_marvel_app/components/DropDownChooseGameMode.dart';
 import 'package:dc_marvel_app/components/DropDownSelectDiamond.dart';
+import 'package:dc_marvel_app/page/play/playing_battle.dart';
 import 'package:dc_marvel_app/page/play/playing_now.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -24,7 +25,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
     return WidgetAnimator(
       incomingEffect: WidgetTransitionEffects.outgoingScaleDown(),
       child: Scaffold(
-        backgroundColor: Colors.black.withOpacity(.9),
+        backgroundColor: Colors.black.withOpacity(.8),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -95,8 +96,12 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                 child: InkWell(
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => PlayingGame()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlayingBattle(),
+                      ),
+                    );
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width / 1.5,

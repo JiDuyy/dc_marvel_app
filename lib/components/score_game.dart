@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'IconHelper.dart';
 import 'score.dart';
 
@@ -52,27 +53,35 @@ class _Score_gameState extends State<Score_game> {
             child: Column(children: [
               Expanded(
                 flex: 2,
-                child: Center(
-                  child: Text(
-                    widget.isWin ? 'You Win' : 'You Lose',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontFamily: 'Horizon',
+                child: WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromTop(),
+                  child: Center(
+                    child: Text(
+                      widget.isWin ? 'You Win' : 'You Lose',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontFamily: 'Horizon',
+                      ),
                     ),
                   ),
                 ),
               ),
               const Spacer(),
               Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  child: Text(
-                    'Level ${widget.Lever.toString()}',
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 246, 250, 45),
-                      fontSize: 20,
-                      fontFamily: 'Horizon',
+                child: WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingOffsetThenScale(),
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    child: Text(
+                      'Level ${widget.Lever.toString()}',
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 246, 250, 45),
+                        fontSize: 20,
+                        fontFamily: 'Horizon',
+                      ),
                     ),
                   ),
                 ),
@@ -80,38 +89,46 @@ class _Score_gameState extends State<Score_game> {
               const Spacer(),
               Expanded(
                 flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        flex: 4,
-                        child: score(
-                          nameScore: 'Hight Score',
-                          point: widget.hightscore,
-                          fontsiPoint: 15,
-                          fontsi: 15,
-                          isWin: widget.isWin,
-                        )),
-                    Expanded(
-                        flex: 6,
-                        child: score(
-                          nameScore: 'Score',
-                          point: widget.Score,
-                          fontsiPoint: 45,
-                          fontsi: 35,
-                          isWin: widget.isWin,
-                        )),
-                  ],
+                child: WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromRight(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          flex: 4,
+                          child: score(
+                            nameScore: 'Hight Score',
+                            point: widget.hightscore,
+                            fontsiPoint: 15,
+                            fontsi: 15,
+                            isWin: widget.isWin,
+                          )),
+                      Expanded(
+                          flex: 6,
+                          child: score(
+                            nameScore: 'Score',
+                            point: widget.Score,
+                            fontsiPoint: 45,
+                            fontsi: 35,
+                            isWin: widget.isWin,
+                          )),
+                    ],
+                  ),
                 ),
               ),
               const Spacer(),
-              const Expanded(
-                child: Text(
-                  'Help',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 169, 221, 255),
-                    fontSize: 20,
-                    fontFamily: 'Horizon',
+              Expanded(
+                child: WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingOffsetThenScaleAndStep(),
+                  child: Text(
+                    'Help',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 169, 221, 255),
+                      fontSize: 20,
+                      fontFamily: 'Horizon',
+                    ),
                   ),
                 ),
               ),
@@ -119,49 +136,57 @@ class _Score_gameState extends State<Score_game> {
                 flex: 2,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width / 1.6,
-                  child: Row(
-                    children: [
-                      iconHelper(
-                        url: 'assets/images/icons_thor.png',
-                        quantity: widget.quantiHammer,
-                      ),
-                      iconHelper(
-                        url: 'assets/images/icon_nhen.png',
-                        quantity: widget.quantiSpider,
-                      ),
-                      iconHelper(
-                        url: 'assets/images/icons_doi.png',
-                        quantity: widget.quantiBat,
-                      ),
-                      iconHelper(
-                        url: 'assets/images/icons_khien.png',
-                        quantity: widget.quantiShield,
-                      ),
-                    ],
+                  child: WidgetAnimator(
+                    incomingEffect:
+                        WidgetTransitionEffects.incomingSlideInFromLeft(),
+                    child: Row(
+                      children: [
+                        iconHelper(
+                          url: 'assets/images/icons_thor.png',
+                          quantity: widget.quantiHammer,
+                        ),
+                        iconHelper(
+                          url: 'assets/images/icon_nhen.png',
+                          quantity: widget.quantiSpider,
+                        ),
+                        iconHelper(
+                          url: 'assets/images/icons_doi.png',
+                          quantity: widget.quantiBat,
+                        ),
+                        iconHelper(
+                          url: 'assets/images/icons_khien.png',
+                          quantity: widget.quantiShield,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
               Expanded(
                 flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '+${widget.diamond.toString()}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: 'Horizon',
+                child: WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromLeft(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '+${widget.diamond.toString()}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontFamily: 'Horizon',
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Image(
-                        width: MediaQuery.of(context).size.width / 10,
-                        image:
-                            const AssetImage('assets/images/IconDiamond.png'))
-                  ],
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Image(
+                          width: MediaQuery.of(context).size.width / 10,
+                          image:
+                              const AssetImage('assets/images/IconDiamond.png'))
+                    ],
+                  ),
                 ),
               ),
               Expanded(
@@ -190,25 +215,29 @@ class _Score_gameState extends State<Score_game> {
                       ),
                       Expanded(
                         flex: 6,
-                        child: Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 5, left: 3),
-                              child: const Center(
-                                child: Text(
-                                  'OK',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontFamily: 'Horizon',
+                        child: WidgetAnimator(
+                          incomingEffect:
+                              WidgetTransitionEffects.incomingOffsetThenScale(),
+                          child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 5, left: 3),
+                                child: const Center(
+                                  child: Text(
+                                    'OK',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontFamily: 'Horizon',
+                                    ),
                                   ),
                                 ),
                               ),

@@ -38,7 +38,10 @@ class _NotifyState extends State<Notify> {
                       child: WidgetAnimator(
                         incomingEffect:
                             WidgetTransitionEffects.incomingSlideInFromRight(),
-                        child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width / 2.8,
+                              top: MediaQuery.of(context).size.width / 50),
                           child: Text(
                             'Notify',
                             style: TextStyle(

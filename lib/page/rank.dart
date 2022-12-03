@@ -28,9 +28,15 @@ class _RankState extends State<Rank> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
-              color: Colors.red,
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/FrameTitle.png'),
+                  fit: BoxFit.fill,
+                ),
+              ),
               child: const Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -126,7 +132,7 @@ class _RankState extends State<Rank> {
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingScaleDown(),
               child: Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 25),
+                margin: const EdgeInsets.only(top: 15, bottom: 5),
                 child: const FrameRank(
                   frameRank: 'assets/images/FrameGold.png',
                   pathAvatar: 'assets/images/IconLevel.png',

@@ -1,9 +1,7 @@
-import 'package:dc_marvel_app/page/LoginPhone/login_phone.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
-import 'Account/select_login.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -30,20 +28,17 @@ class _SettingState extends State<Setting> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Expanded(
+          const Expanded(
             flex: 1,
-            child: Container(
-              // color: Colors.green,
-              child: const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'CÀI ĐẶT',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 2.5,
-                  ),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'CÀI ĐẶT',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 2.5,
                 ),
               ),
             ),

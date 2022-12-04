@@ -1,4 +1,7 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
+import 'InfoFriend.dart';
+import 'score_game.dart';
 
 class FrameFriend extends StatefulWidget {
   const FrameFriend({
@@ -35,28 +38,49 @@ class _FrameFriendState extends State<FrameFriend> {
           Expanded(
             flex: 4,
             child: Container(
-              margin: EdgeInsets.only(left: 10),
+              margin: const EdgeInsets.only(left: 10),
               child: Row(
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        width: 28,
-                        height: 28,
-                        child: Image.asset(widget.pathAvatar),
-                      ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/BorderAvatar.png"),
-                            fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) =>
+                            //     Score_game(
+                            //   isWin: false,
+                            //   Lever: 2,
+                            //   Score: 123,
+                            //   hightscore: 319,
+                            //   diamond: 13,
+                            //   quantiHammer: 1,
+                            //   quantiBat: 23,
+                            //   quantiSpider: 2,
+                            //   quantiShield: 9,
+                            // ),
+                            InfoFriend(url: widget.pathAvatar, isFriend: true,),
+                      ));
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 28,
+                          height: 28,
+                          child: Image.asset(widget.pathAvatar),
+                        ),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image:
+                                  AssetImage("assets/images/BorderAvatar.png"),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 20),
@@ -82,7 +106,7 @@ class _FrameFriendState extends State<FrameFriend> {
                     child: Container(
                       width: MediaQuery.of(context).size.width / 10,
                       height: MediaQuery.of(context).size.width / 10,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/Icon_sms.png'),
                           fit: BoxFit.fill,
@@ -95,7 +119,7 @@ class _FrameFriendState extends State<FrameFriend> {
                     child: Container(
                       width: MediaQuery.of(context).size.width / 10,
                       height: MediaQuery.of(context).size.width / 10,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/Icon_Gift.png'),
                           fit: BoxFit.fill,

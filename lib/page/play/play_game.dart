@@ -10,6 +10,7 @@ import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
 import '../../components/ChapterImage.dart';
 import '../../components/PlayBattle.dart';
+import '../notify/notify.dart';
 
 class PlayGame extends StatefulWidget {
   const PlayGame({super.key});
@@ -39,41 +40,68 @@ class _PlayGameState extends State<PlayGame> {
           ),
           Expanded(
             flex: 5,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: WidgetAnimator(
-                incomingEffect:
-                    WidgetTransitionEffects.incomingSlideInFromTop(),
-                atRestEffect: WidgetRestingEffects.wave(),
-                child: Row(
-                  children: const [
-                    ChapterImage(
-                      path: 'assets/images/Chapter1.png',
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: WidgetAnimator(
+                    incomingEffect:
+                        WidgetTransitionEffects.incomingSlideInFromTop(),
+                    atRestEffect: WidgetRestingEffects.wave(),
+                    child: Row(
+                      children: const [
+                        ChapterImage(
+                          path: 'assets/images/Chapter1.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter2.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter3.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter4.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter5.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter6.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter7.png',
+                        ),
+                        ChapterImage(
+                          path: 'assets/images/Chapter8.png',
+                        ),
+                      ],
                     ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter2.png',
-                    ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter3.png',
-                    ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter4.png',
-                    ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter5.png',
-                    ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter6.png',
-                    ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter7.png',
-                    ),
-                    ChapterImage(
-                      path: 'assets/images/Chapter8.png',
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromRight(),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 1.19,
+                        right: 5,
+                        top: 5,
+                        bottom: MediaQuery.of(context).size.width / 1.19),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              const Notify(),
+                        ));
+                      },
+                      child: const Image(
+                          image: AssetImage('assets/images/Icon_bell.png')),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(

@@ -5,6 +5,7 @@ import 'package:dc_marvel_app/components/AppBarProfile.dart';
 import 'package:dc_marvel_app/page/history.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
+import 'InfoProfile.dart';
 
 class ShowDiaLogProfile extends StatefulWidget {
   const ShowDiaLogProfile({super.key});
@@ -69,12 +70,14 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                             incomingEffect: WidgetTransitionEffects
                                 .incomingSlideInFromTop(),
                             child: Stack(
-                              alignment: Alignment(-0.05, 0.25),
+                              alignment: Alignment.center,
                               fit: StackFit.loose,
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  height: MediaQuery.of(context).size.width / 5,
+                                  width:
+                                      MediaQuery.of(context).size.width / 4.8,
+                                  height:
+                                      MediaQuery.of(context).size.width / 4.8,
                                   child:
                                       Image.asset('assets/images/Avatar.jpg'),
                                 ),
@@ -297,40 +300,6 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
             ),
           ),
           const Spacer()
-        ],
-      ),
-    );
-  }
-}
-
-class infoProfle extends StatelessWidget {
-  String Url;
-  int x;
-  infoProfle({Key? key, required this.Url, required this.x}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: Column(
-        children: [
-          Expanded(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 5,
-              height: MediaQuery.of(context).size.width / 5,
-              child: Image.asset(this.Url),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              this.x.toString(),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: 'Horizon',
-              ),
-            ),
-          ),
         ],
       ),
     );

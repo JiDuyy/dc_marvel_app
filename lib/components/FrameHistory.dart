@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 
 class FrameHistory extends StatefulWidget {
@@ -38,7 +40,7 @@ class _FrameHistoryState extends State<FrameHistory> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 10, top: 5),
+                margin: const EdgeInsets.only(left: 10, top: 5),
                 child: Column(
                   children: [
                     Stack(
@@ -64,6 +66,7 @@ class _FrameHistoryState extends State<FrameHistory> {
                     ),
                     Text(
                       widget.point,
+                      // ignore: prefer_const_constructors
                       style: TextStyle(
                           fontSize: 10,
                           color: Colors.black,
@@ -72,7 +75,7 @@ class _FrameHistoryState extends State<FrameHistory> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Container(
@@ -81,7 +84,7 @@ class _FrameHistoryState extends State<FrameHistory> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10, top: 5),
+                margin: const EdgeInsets.only(left: 10, top: 5),
                 child: Column(
                   children: [
                     Stack(
@@ -107,7 +110,7 @@ class _FrameHistoryState extends State<FrameHistory> {
                     ),
                     Text(
                       widget.point2,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
@@ -123,7 +126,7 @@ class _FrameHistoryState extends State<FrameHistory> {
               Container(
                 width: MediaQuery.of(context).size.width / 6,
                 height: MediaQuery.of(context).size.width / 12,
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(widget.item),
@@ -133,7 +136,7 @@ class _FrameHistoryState extends State<FrameHistory> {
               ),
               Text(
                 widget.time,
-                style: TextStyle(fontSize: 10, color: Colors.black),
+                style: const TextStyle(fontSize: 10, color: Colors.black),
               ),
             ],
           ),

@@ -51,6 +51,7 @@ dependencies:
   pinput: ^2.2.16
   flutter_image_slideshow: ^0.1.4
   dropdown_button2: ^1.9.1
+  cloud_firestore: ^4.1.0
 
 flutter_icons:
   android: "launcher_icon"

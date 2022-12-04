@@ -1,6 +1,6 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
 
-import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +19,7 @@ class Verify extends StatefulWidget {
 
 class _VerifyState extends State<Verify> {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -130,25 +131,40 @@ class _VerifyState extends State<Verify> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      onPressed: () async {
-                        try {
-                          PhoneAuthCredential credential =
-                              PhoneAuthProvider.credential(
-                                  verificationId: LoginPhone.verify,
-                                  smsCode: code);
-                          // Sign the user in (or link) with the credential
-                          await auth.signInWithCredential(credential);
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, "home", (route) => false);
-                        } catch (e) {
-                          return print("wrong otp");
-                        }
-                      },
-                      child: Text("Verify Phone Number")),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () async {
+                      try {
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                                verificationId: LoginPhone.verify,
+                                smsCode: code);
+                        // Sign the user in (or link) with the credential
+
+                        await auth.signInWithCredential(credential);
+                        _fireStore
+                            .collection('user')
+                            .doc(auth.currentUser!.uid)
+                            .set({
+                          'userID': auth.currentUser!.uid,
+                          'userName': "JiDuy",
+                          'level': 1,
+                          'chapter': '1',
+                          'highCore': 1000,
+                          'rank': 1,
+                        });
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "home", (route) => false);
+                      } catch (e) {
+                        return print("wrong otp");
+                      }
+                    },
+                    child: Text("Verify Phone Number"),
+                  ),
                 ),
               ),
             ],

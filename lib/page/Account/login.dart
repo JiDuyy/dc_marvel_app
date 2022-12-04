@@ -2,7 +2,7 @@ import 'package:dc_marvel_app/components/AdvancedSwitch.dart';
 import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:dc_marvel_app/components/TextFieldCustom.dart';
-import 'package:dc_marvel_app/page/Account/forgot_password.dart';
+import 'package:dc_marvel_app/page/account/forgot_password.dart';
 import 'package:dc_marvel_app/page/page_main.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';

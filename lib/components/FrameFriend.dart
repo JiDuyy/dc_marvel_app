@@ -57,7 +57,7 @@ class _FrameFriendState extends State<FrameFriend> {
                             //   quantiSpider: 2,
                             //   quantiShield: 9,
                             // ),
-                            InfoFriend(url: widget.pathAvatar),
+                            InfoFriend(url: widget.pathAvatar, isFriend: true,),
                       ));
                     },
                     child: Stack(

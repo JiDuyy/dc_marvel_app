@@ -2,6 +2,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dc_marvel_app/components/ShowDialogPlayProfile.dart';
 import 'package:dc_marvel_app/components/ShowDialogSetting.dart';
 import 'package:dc_marvel_app/page/setting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 

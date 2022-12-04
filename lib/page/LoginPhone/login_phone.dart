@@ -90,6 +90,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                       SizedBox(
                         width: 40,
                         child: TextField(
+                          readOnly: true,
                           style: TextStyle(color: Colors.white),
                           controller: countryController,
                           keyboardType: TextInputType.number,

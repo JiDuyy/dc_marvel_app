@@ -29,13 +29,13 @@ class _ButtonBattleCustomState extends State<ButtonBattleCustom> {
         ),
       ),
       child: TextButton(
-        onPressed: () => {
+        onPressed: () {
           Navigator.of(context).push(
             PageRouteBuilder(
               opaque: false,
               pageBuilder: (BuildContext context, _, __) => widget.showDialog,
             ),
-          )
+          );
         },
         child: Center(
           child: Text(

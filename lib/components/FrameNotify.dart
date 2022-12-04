@@ -44,28 +44,23 @@ class _FrameNotifyState extends State<FrameNotify> {
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(left: 25),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        width: 28,
-                        height: 28,
-                        child: Image.asset(widget.pathAvatar),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 16,
+                    height: MediaQuery.of(context).size.width / 16,
+                    child: Image.asset(widget.pathAvatar),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 10,
+                    height: MediaQuery.of(context).size.width / 10,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/BorderAvatar.png"),
+                        fit: BoxFit.cover,
                       ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/BorderAvatar.png"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),

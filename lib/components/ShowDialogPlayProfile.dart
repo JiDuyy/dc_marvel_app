@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dc_marvel_app/components/AppBarProfile.dart';
 import 'package:dc_marvel_app/page/history.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'InfoProfile.dart';
@@ -15,6 +17,8 @@ class ShowDiaLogProfile extends StatefulWidget {
 }
 
 class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
+  CollectionReference user = FirebaseFirestore.instance.collection('user');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,16 +119,40 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                           child: WidgetAnimator(
                             incomingEffect: WidgetTransitionEffects
                                 .incomingSlideInFromTop(),
-                            child: AnimatedTextKit(
-                              totalRepeatCount: 100,
-                              animatedTexts: [
-                                ColorizeAnimatedText(
-                                  'JIDUY',
-                                  textStyle: colorizeTextStyle,
-                                  colors: colorizeColors,
-                                ),
-                              ],
-                              isRepeatingAnimation: true,
+                            child: FutureBuilder<DocumentSnapshot>(
+                              future: user
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .get(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text("Something went wrong");
+                                }
+
+                                if (snapshot.hasData &&
+                                    !snapshot.data!.exists) {
+                                  return Text("Document does not exist");
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  Map<String, dynamic> data = snapshot.data!
+                                      .data() as Map<String, dynamic>;
+                                  return AnimatedTextKit(
+                                    totalRepeatCount: 100,
+                                    animatedTexts: [
+                                      ColorizeAnimatedText(
+                                        '${data['userName']}',
+                                        textStyle: colorizeTextStyle,
+                                        colors: colorizeColors,
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: true,
+                                  );
+                                }
+
+                                return Text("loading");
+                              },
                             ),
                           ),
                         ),
@@ -136,12 +164,40 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                             child: Column(
                               children: [
                                 Expanded(
-                                  child: Text(
-                                    'ID : sadfaaalllwe',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Horizon',
-                                    ),
+                                  child: FutureBuilder<DocumentSnapshot>(
+                                    future: user
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .get(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<DocumentSnapshot>
+                                            snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Text("Something went wrong");
+                                      }
+
+                                      if (snapshot.hasData &&
+                                          !snapshot.data!.exists) {
+                                        return Text("Document does not exist");
+                                      }
+
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        Map<String, dynamic> data =
+                                            snapshot.data!.data()
+                                                as Map<String, dynamic>;
+                                        return Text(
+                                          'ID: ${data['userID']}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontFamily: 'Horizon',
+                                          ),
+                                        );
+                                      }
+
+                                      return Text("loading");
+                                    },
                                   ),
                                 ),
                                 Expanded(
@@ -161,7 +217,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                             )),
                                             Expanded(
                                                 child: Text(
-                                              'Total',
+                                              'Points',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Horizon',

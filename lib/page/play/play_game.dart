@@ -83,11 +83,8 @@ class _PlayGameState extends State<PlayGame> {
                   incomingEffect:
                       WidgetTransitionEffects.incomingSlideInFromRight(),
                   child: Container(
-                    margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 1.19,
-                        right: 5,
-                        top: 5,
-                        bottom: MediaQuery.of(context).size.width / 1.19),
+                    alignment: Alignment.topRight,
+                    margin: EdgeInsets.only(top: 5, right: 5),
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).push(PageRouteBuilder(
@@ -96,8 +93,12 @@ class _PlayGameState extends State<PlayGame> {
                               const Notify(),
                         ));
                       },
-                      child: const Image(
-                          image: AssetImage('assets/images/Icon_bell.png')),
+                      child: Image(
+                        width: MediaQuery.of(context).size.width / 7,
+                        height: MediaQuery.of(context).size.width / 7,
+                        image: AssetImage('assets/images/Icon_bell.png'),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),

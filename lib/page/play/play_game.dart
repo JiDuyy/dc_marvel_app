@@ -1,15 +1,12 @@
-import 'package:dc_marvel_app/components/PlayBattleRoom.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
+import 'package:dc_marvel_app/components/showChapterAll.dart';
 import 'package:dc_marvel_app/page/play/find_battle.dart';
 import 'package:dc_marvel_app/page/play/playing_now.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
-import '../../components/Animation.dart';
 import '../../components/AppBarProfile.dart';
 import '../../components/ButtonBattleCustom.dart';
 import '../../components/ChapterImage.dart';
-import '../../components/PlayBattle.dart';
 import '../notify/notify.dart';
 
 class PlayGame extends StatefulWidget {
@@ -43,39 +40,20 @@ class _PlayGameState extends State<PlayGame> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: WidgetAnimator(
-                    incomingEffect:
-                        WidgetTransitionEffects.incomingSlideInFromTop(),
-                    atRestEffect: WidgetRestingEffects.wave(),
-                    child: Row(
-                      children: const [
-                        ChapterImage(
-                          path: 'assets/images/Chapter1.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter2.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter3.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter4.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter5.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter6.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter7.png',
-                        ),
-                        ChapterImage(
-                          path: 'assets/images/Chapter8.png',
-                        ),
-                      ],
+                WidgetAnimator(
+                  incomingEffect:
+                      WidgetTransitionEffects.incomingSlideInFromTop(),
+                  atRestEffect: WidgetRestingEffects.wave(),
+                  child: InkWell(
+                    onTap: (() => Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                const ShowChapterAll(),
+                          ),
+                        )),
+                    child: const ChapterImage(
+                      path: 'assets/images/Chapter1.png',
                     ),
                   ),
                 ),
@@ -84,7 +62,7 @@ class _PlayGameState extends State<PlayGame> {
                       WidgetTransitionEffects.incomingSlideInFromRight(),
                   child: Container(
                     alignment: Alignment.topRight,
-                    margin: EdgeInsets.only(top: 5, right: 5),
+                    margin: const EdgeInsets.only(top: 5, right: 5),
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).push(PageRouteBuilder(

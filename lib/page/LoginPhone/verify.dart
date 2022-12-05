@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print, unrelated_type_equality_checks
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
@@ -145,18 +145,26 @@ class _VerifyState extends State<Verify> {
                                 smsCode: code);
                         // Sign the user in (or link) with the credential
 
-                        await auth.signInWithCredential(credential);
-                        _fireStore
-                            .collection('user')
-                            .doc(auth.currentUser!.uid)
-                            .set({
-                          'userID': auth.currentUser!.uid,
-                          'userName': "JiDuy",
-                          'level': 1,
-                          'chapter': '1',
-                          'highCore': 1000,
-                          'rank': 1,
-                        });
+                            await auth.signInWithCredential(credential);
+                        if (_fireStore
+                                .collection('user')
+                                .doc(auth.currentUser!.uid)
+                                .get() ==
+                            auth.currentUser!.uid) {
+                          _fireStore
+                              .collection('user')
+                              .doc(auth.currentUser!.uid)
+                              .set({
+                            'userID': auth.currentUser!.uid,
+                            'userName': "user name",
+                            'level': 1,
+                            'chapter': 1,
+                            'highCore': 1000,
+                            'rank': 1,
+                            'diamond': 0,
+                          });
+                        }
+
                         Navigator.pushNamedAndRemoveUntil(
                             context, "home", (route) => false);
                       } catch (e) {

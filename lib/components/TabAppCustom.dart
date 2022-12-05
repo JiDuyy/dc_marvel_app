@@ -33,7 +33,7 @@ class _TabAppBarCustomState extends State<TabAppBarCustom> {
             // width: 75,
             width: MediaQuery.of(context).size.width / 6,
             height: 15,
-            color: Colors.white,
+            color: Colors.black,
             child: Stack(
               children: [
                 Align(
@@ -47,7 +47,7 @@ class _TabAppBarCustomState extends State<TabAppBarCustom> {
                   alignment: Alignment.center,
                   child: Text(
                     widget.title,
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ],

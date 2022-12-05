@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
-
 import '../components/FrameRank.dart';
 
 class Rank extends StatefulWidget {
@@ -13,6 +12,11 @@ class Rank extends StatefulWidget {
 }
 
 class _RankState extends State<Rank> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('user')
+      .orderBy('highCore', descending: true)
+      .snapshots(includeMetadataChanges: true);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,77 +57,35 @@ class _RankState extends State<Rank> {
           ),
           Expanded(
             flex: 10,
-            child: SingleChildScrollView(
-              child: WidgetAnimator(
-                incomingEffect:
-                    WidgetTransitionEffects.incomingSlideInFromLeft(),
-                child: Column(
-                  children: const [
-                    FrameRank(
-                      frameRank: 'assets/images/FrameGold.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '1',
-                      userName: "JiDuy",
-                      pointRank: '9999',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameSiver.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '2',
-                      userName: "HKDuy",
-                      pointRank: '8888',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameCopper.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '3',
-                      userName: "JD02",
-                      pointRank: '7777',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '5',
-                      userName: "Duyyy",
-                      pointRank: '6666',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '5',
-                      userName: "Duyyyy",
-                      pointRank: '5555',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '6',
-                      userName: "Duyyyyy",
-                      pointRank: '4444',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '7',
-                      userName: "Duyyyyyy",
-                      pointRank: '3333',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '8',
-                      userName: "Duyyyyyyy",
-                      pointRank: '2222',
-                    ),
-                    FrameRank(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      rank: '9',
-                      userName: "Duyyyyyyyy",
-                      pointRank: '1111',
-                    ),
-                  ],
-                ),
+            child: WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _usersStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+
+                  return ListView(
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return FrameRank(
+                        frameRank: 'assets/images/FrameGold.png',
+                        pathAvatar: 'assets/images/IconLevel.png',
+                        rank: '1',
+                        userName: data['userName'],
+                        pointRank: data['highCore'].toString(),
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ),
           ),

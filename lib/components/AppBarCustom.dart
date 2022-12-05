@@ -15,6 +15,11 @@ class AppBarCustom extends StatefulWidget {
 
 class _AppBarCustomState extends State<AppBarCustom> {
   CollectionReference user = FirebaseFirestore.instance.collection('user');
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> _usersStream =
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots(includeMetadataChanges: true);
   @override
   Widget build(BuildContext context) => Container(
         decoration: BoxDecoration(

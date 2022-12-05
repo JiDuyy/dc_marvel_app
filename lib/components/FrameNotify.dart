@@ -67,51 +67,52 @@ class _FrameNotifyState extends State<FrameNotify> {
             ),
           ),
           Expanded(
-              flex: 4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 5, top: 7),
-                          child: Text(
-                            widget.userName,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
-                          ),
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 5, top: 7),
+                        child: Text(
+                          widget.userName,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 10, top: 7),
-                          child: Text(
-                            widget.Time,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 5, top: 1, right: 10),
-                      child: Text(
-                        widget.Notication,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
                       ),
+                      Container(
+                        margin: const EdgeInsets.only(right: 10, top: 7),
+                        child: Text(
+                          widget.Time,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 5, top: 1, right: 10),
+                    child: Text(
+                      widget.Notication,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
                     ),
                   ),
-                ],
-              ))
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

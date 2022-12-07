@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
-import '../page/page_main.dart';
+import '../view/page_main.dart';
 
 class ShowDialogSettingPlayGame extends StatefulWidget {
   const ShowDialogSettingPlayGame({super.key});

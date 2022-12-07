@@ -3,7 +3,7 @@
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:flutter/material.dart';
 
-import '../page/account/select_login.dart';
+import '../view/account/select_login.dart';
 
 class TextButtonCustom extends StatefulWidget {
   const TextButtonCustom(

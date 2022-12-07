@@ -1,7 +1,7 @@
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
 import 'package:dc_marvel_app/components/showChapterAll.dart';
-import 'package:dc_marvel_app/page/play/find_battle.dart';
-import 'package:dc_marvel_app/page/play/playing_now.dart';
+import 'package:dc_marvel_app/view/play/find_battle.dart';
+import 'package:dc_marvel_app/view/play/playing_now.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../components/AppBarProfile.dart';

@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dc_marvel_app/components/TabAppCustom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class AppBarCustom extends StatefulWidget {
@@ -14,12 +14,8 @@ class AppBarCustom extends StatefulWidget {
 }
 
 class _AppBarCustomState extends State<AppBarCustom> {
-  CollectionReference user = FirebaseFirestore.instance.collection('user');
-  final Stream<DocumentSnapshot<Map<String, dynamic>>> _usersStream =
-      FirebaseFirestore.instance
-          .collection('user')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .snapshots(includeMetadataChanges: true);
+  final auth = FirebaseAuth.instance;
+  final _database = FirebaseDatabase.instance.ref();
   @override
   Widget build(BuildContext context) => Container(
         decoration: BoxDecoration(
@@ -31,21 +27,16 @@ class _AppBarCustomState extends State<AppBarCustom> {
         ),
         child: SafeArea(
           child: Center(
-            child: FutureBuilder<DocumentSnapshot>(
-              future: user.doc(FirebaseAuth.instance.currentUser!.uid).get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text("Something went wrong");
-                }
-
-                if (snapshot.hasData && !snapshot.data!.exists) {
-                  return const Text("Document does not exist");
-                }
-
-                if (snapshot.connectionState == ConnectionState.done) {
-                  Map<String, dynamic> data =
-                      snapshot.data!.data() as Map<String, dynamic>;
+            child: StreamBuilder(
+              stream:
+                  _database.child('members/${auth.currentUser!.uid}').onValue,
+              builder: ((context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  final data = Map<String, dynamic>.from(
+                    Map<String, dynamic>.from((snapshot.data as DatabaseEvent)
+                        .snapshot
+                        .value as Map<dynamic, dynamic>),
+                  );
                   return TabBar(
                     indicatorColor: Colors.transparent,
                     tabs: [
@@ -108,10 +99,8 @@ class _AppBarCustomState extends State<AppBarCustom> {
                     ],
                   );
                 }
-                return const Text(
-                  "loading...",
-                );
-              },
+                return CircularProgressIndicator();
+              }),
             ),
           ),
         ),

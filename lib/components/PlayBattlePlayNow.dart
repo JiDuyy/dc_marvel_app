@@ -3,7 +3,7 @@
 import 'package:dc_marvel_app/components/ElvatedButtonCustom.dart';
 import 'package:dc_marvel_app/components/buttonMode.dart';
 import 'package:flutter/material.dart';
-import '../page/play/playing_now.dart';
+import '../view/play/playing_now.dart';
 
 class showDialogPlayBattleNow extends StatefulWidget {
   const showDialogPlayBattleNow({

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -20,6 +21,8 @@ class Verify extends StatefulWidget {
 class _VerifyState extends State<Verify> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  static const NUMBERS_PATH = 'members';
 
   @override
   Widget build(BuildContext context) {
@@ -122,23 +125,27 @@ class _VerifyState extends State<Verify> {
                           .get()
                           .then((DocumentSnapshot documentSnapshot) {
                         if (!documentSnapshot.exists) {
-                          _fireStore
-                              .collection('user')
-                              .doc(auth.currentUser!.uid)
-                              .set({
+                          final nextMember = <String, dynamic>{
                             'userID': auth.currentUser!.uid,
+                            'phone': auth.currentUser!.phoneNumber,
                             'userName': "user name",
                             'level': 1,
                             'chapter': 1,
-                            'highCore': 1000,
+                            'highScore': 0,
                             'rank': 1,
                             'diamond': 0,
-                          });
+                            'time': DateTime.now().millisecondsSinceEpoch,
+                          };
+                          _db
+                              .child('$NUMBERS_PATH/${auth.currentUser!.uid}')
+                              .set(nextMember)
+                              .then((_) => print('Member has been written!'))
+                              .catchError(
+                                  (error) => print('You got an error $error'));
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, "home", (route) => false);
                         }
                       });
-
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, "home", (route) => false);
                     } catch (e) {
                       return print("wrong otp");
                     }

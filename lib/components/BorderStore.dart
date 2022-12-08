@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:dc_marvel_app/page/shop/pay.dart';
+import 'package:dc_marvel_app/view/shop/pay.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 

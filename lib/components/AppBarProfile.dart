@@ -1,9 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dc_marvel_app/components/ShowDialogPlayProfile.dart';
 import 'package:dc_marvel_app/components/ShowDialogSetting.dart';
-import 'package:dc_marvel_app/page/setting.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -88,60 +85,62 @@ class _AppBarProfileState extends State<AppBarProfile> {
           flex: 2,
           child: WidgetAnimator(
             incomingEffect: WidgetTransitionEffects.incomingSlideInFromTop(),
-            child: Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(bottom: 20),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/BgProfileBetween.png"),
-                  fit: BoxFit.fill,
+            child: InkWell(
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/BgProfileBetween.png"),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              child: AnimatedTextKit(
-                totalRepeatCount: 100,
-                animatedTexts: [
-                  ColorizeAnimatedText(
-                    'CHAPTER 1',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 2',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 3',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 4',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 5',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 6',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 7',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                  ColorizeAnimatedText(
-                    'CHAPTER 8',
-                    textStyle: colorizeTextStyle,
-                    colors: colorizeColors,
-                  ),
-                ],
-                isRepeatingAnimation: true,
+                child: AnimatedTextKit(
+                  totalRepeatCount: 100,
+                  animatedTexts: [
+                    ColorizeAnimatedText(
+                      'CHAPTER 1',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 2',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 3',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 4',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 5',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 6',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 7',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                    ColorizeAnimatedText(
+                      'CHAPTER 8',
+                      textStyle: colorizeTextStyle,
+                      colors: colorizeColors,
+                    ),
+                  ],
+                  isRepeatingAnimation: true,
+                ),
               ),
             ),
           ),

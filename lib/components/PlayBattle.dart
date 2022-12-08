@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../page/play/find_battle.dart';
+import '../view/play/find_battle.dart';
 import 'ElvatedButtonCustom.dart';
 import 'buttonMode.dart';
 

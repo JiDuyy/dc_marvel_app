@@ -3,8 +3,8 @@
 import 'package:dc_marvel_app/components/ChooseGameMode.dart';
 import 'package:dc_marvel_app/components/DropDownChooseGameMode.dart';
 import 'package:dc_marvel_app/components/DropDownSelectDiamond.dart';
-import 'package:dc_marvel_app/page/play/playing_battle.dart';
-import 'package:dc_marvel_app/page/play/playing_now.dart';
+import 'package:dc_marvel_app/view/play/playing_battle.dart';
+import 'package:dc_marvel_app/view/play/playing_now.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 

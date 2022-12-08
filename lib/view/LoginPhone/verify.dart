@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print, unrelated_type_equality_checks
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dc_marvel_app/components/TextCustom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -20,6 +21,8 @@ class Verify extends StatefulWidget {
 class _VerifyState extends State<Verify> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  static const NUMBERS_PATH = 'members';
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +31,9 @@ class _VerifyState extends State<Verify> {
       width: 56,
       height: 56,
       textStyle: TextStyle(
-          fontSize: 20,
-          color: Color.fromRGBO(30, 60, 87, 1),
-          fontWeight: FontWeight.w600),
+          fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1), width: 2),
         borderRadius: BorderRadius.circular(9),
       ),
     );
@@ -44,24 +45,15 @@ class _VerifyState extends State<Verify> {
 
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration?.copyWith(
-        color: Colors.white,
-      ),
-    );
-    var code = "";
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Colors.white,
+          // color: Colors.grey,
           ),
-        ),
-        elevation: 0,
-      ),
+    );
+    // final errorPinTheme = defaultPinTheme.copyWith(
+    //   decoration: defaultPinTheme.decoration?.copyWith(
+    //     color: Colors.red,
+    //   ),
+    // );
+    return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(20),
         width: double.infinity,
@@ -112,66 +104,73 @@ class _VerifyState extends State<Verify> {
                 incomingEffect:
                     WidgetTransitionEffects.incomingSlideInFromLeft(),
                 child: Pinput(
+                  // androidSmsAutofillMethod:  AndroidSmsAutofillMethod.smsUserConsentApi,
                   length: 6,
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: focusedPinTheme,
                   submittedPinTheme: submittedPinTheme,
+                  // errorPinTheme: errorPinTheme,
                   showCursor: true,
-                  onCompleted: (pin) => print(pin),
-                  onChanged: (value) => code = value,
-                ),
-              ),
-              SizedBox(
-                height: size.height / 20,
-              ),
-              WidgetAnimator(
-                incomingEffect:
-                    WidgetTransitionEffects.incomingSlideInFromRight(),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 45,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () async {
-                      try {
-                        PhoneAuthCredential credential =
-                            PhoneAuthProvider.credential(
-                                verificationId: LoginPhone.verify,
-                                smsCode: code);
-                        // Sign the user in (or link) with the credential
+                  onCompleted: (pin) async {
+                    try {
+                      PhoneAuthCredential credential =
+                          PhoneAuthProvider.credential(
+                              verificationId: LoginPhone.verify, smsCode: pin);
+                      // Sign the user in (or link) with the credential
 
-                            await auth.signInWithCredential(credential);
-                        if (_fireStore
-                                .collection('user')
-                                .doc(auth.currentUser!.uid)
-                                .get() ==
-                            auth.currentUser!.uid) {
-                          _fireStore
-                              .collection('user')
-                              .doc(auth.currentUser!.uid)
-                              .set({
+                      await auth.signInWithCredential(credential);
+                      FirebaseFirestore.instance
+                          .collection('user')
+                          .doc(auth.currentUser!.uid)
+                          .get()
+                          .then((DocumentSnapshot documentSnapshot) {
+                        if (!documentSnapshot.exists) {
+                          final nextMember = <String, dynamic>{
                             'userID': auth.currentUser!.uid,
+                            'phone': auth.currentUser!.phoneNumber,
                             'userName': "user name",
                             'level': 1,
                             'chapter': 1,
-                            'highCore': 1000,
+                            'highScore': 0,
                             'rank': 1,
                             'diamond': 0,
-                          });
+                            'time': DateTime.now().millisecondsSinceEpoch,
+                          };
+                          _db
+                              .child('$NUMBERS_PATH/${auth.currentUser!.uid}')
+                              .set(nextMember)
+                              .then((_) => print('Member has been written!'))
+                              .catchError(
+                                  (error) => print('You got an error $error'));
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, "home", (route) => false);
                         }
-
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, "home", (route) => false);
-                      } catch (e) {
-                        return print("wrong otp");
-                      }
-                    },
-                    child: Text("Verify Phone Number"),
+                      });
+                    } catch (e) {
+                      return print("wrong otp");
+                    }
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Didn\'t receive code?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              InkWell(
+                onTap: () => Navigator.pop(context),
+                child: const Text(
+                  'Resend',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                    letterSpacing: 1.2,
                   ),
                 ),
               ),

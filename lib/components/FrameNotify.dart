@@ -1,5 +1,5 @@
 import 'package:dc_marvel_app/components/InfoFriend.dart';
-import 'package:dc_marvel_app/page/notify/notify.dart';
+import 'package:dc_marvel_app/view/notify/notify.dart';
 import 'package:flutter/material.dart';
 
 import 'score_game.dart';

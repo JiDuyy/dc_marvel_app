@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class Rank extends StatefulWidget {
 
 class _RankState extends State<Rank> {
   final _db = FirebaseDatabase.instance.ref().child('members');
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +43,7 @@ class _RankState extends State<Rank> {
               child: const Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'XẾP HẠNG',
+                  'RANK',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -78,7 +81,7 @@ class _RankState extends State<Rank> {
                   frameRank: 'assets/images/FrameGold.png',
                   pathAvatar: 'assets/images/IconLevel.png',
                   rank: '1',
-                  userName: "JiDuy",
+                  userName: 'JiDuy',
                   pointRank: '9999',
                 ),
               ),

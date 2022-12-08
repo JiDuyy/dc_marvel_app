@@ -42,7 +42,7 @@ class _FriendState extends State<Friend> {
                 child: const Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'BẠN BÈ',
+                    'FRIEND',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

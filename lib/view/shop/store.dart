@@ -37,7 +37,7 @@ class _StoreState extends State<Store> {
                 child: const Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'CỬA HÀNG',
+                    'STORE',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

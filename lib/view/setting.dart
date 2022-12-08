@@ -33,7 +33,7 @@ class _SettingState extends State<Setting> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                'CÀI ĐẶT',
+                'SETTING',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 28,

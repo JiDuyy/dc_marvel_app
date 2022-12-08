@@ -1,7 +1,6 @@
 import 'package:dc_marvel_app/components/card_player.dart';
 import 'package:flutter/material.dart';
 import '../../components/ButtonBattleCustom.dart';
-import '../../components/ElvatedButtonCustom.dart';
 import '../../components/PlayBattle.dart';
 import 'playing_battle.dart';
 
@@ -88,11 +87,21 @@ class _Find_battleState extends State<Find_battle> {
                   margin: const EdgeInsets.only(top: 20),
                   width: size.width / 8,
                   height: size.width / 8,
-                  child: const ButtonBattleCustom(
-                    title: '',
-                    url: "assets/images/icon_cacel.png",
-                    fontSize: 18,
-                    showDialog: showDialogPlayBattle(),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              const showDialogPlayBattle(),
+                        ),
+                      );
+                    },
+                    child: const ButtonBattleCustom(
+                      title: '',
+                      url: "assets/images/icon_cacel.png",
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),

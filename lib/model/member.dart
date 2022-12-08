@@ -36,6 +36,4 @@ class Member {
       userID: data['userID'] ?? 'Unknown',
     );
   }
-
-  getAllUsers() {}
 }

@@ -13,6 +13,7 @@ class PlayingGame extends StatefulWidget {
 }
 
 class _PlayingGameState extends State<PlayingGame> {
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -53,37 +54,6 @@ class _PlayingGameState extends State<PlayingGame> {
                 ),
               ),
             ),
-            // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(bottom: 10.0),
-            //     child: Row(
-            //       children: [
-            //         Expanded(
-            //           child: Container(
-            //             margin: const EdgeInsets.only(right: 5),
-            //             decoration: const BoxDecoration(
-            //               image: DecorationImage(
-            //                 image: AssetImage("assets/images/FramePlayer.png"),
-            //                 fit: BoxFit.fill,
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //         Expanded(
-            //           child: Container(
-            //             margin: const EdgeInsets.only(left: 5),
-            //             decoration: const BoxDecoration(
-            //               image: DecorationImage(
-            //                 image: AssetImage("assets/images/FramePlayer.png"),
-            //                 fit: BoxFit.fill,
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
             Expanded(
               flex: 4,
               child: Container(

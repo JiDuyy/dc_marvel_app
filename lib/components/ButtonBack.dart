@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class ButtonBack extends StatefulWidget {
@@ -6,17 +7,20 @@ class ButtonBack extends StatefulWidget {
     required this.size,
     required this.marginTop,
     required this.marginLeft,
+    required this.roomId,
   }) : super(key: key);
 
   final Size size;
   final double marginTop;
   final double marginLeft;
+  final String roomId;
 
   @override
   State<ButtonBack> createState() => _ButtonBackState();
 }
 
 class _ButtonBackState extends State<ButtonBack> {
+  final _db = FirebaseDatabase.instance.ref('rooms');
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -28,7 +32,11 @@ class _ButtonBackState extends State<ButtonBack> {
         height: 60,
         width: 60,
         child: InkWell(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            print(widget.roomId);
+            Navigator.pop(context);
+            _db.child(widget.roomId).remove();
+          },
           child: Container(
             height: double.infinity,
             width: double.infinity,

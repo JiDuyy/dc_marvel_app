@@ -89,10 +89,10 @@ class _VerifyState extends State<Verify> {
                   children: const [
                     TextCustom(
                       title:
-                          'I want to find a talent with superior understanding?',
+                          'We need to register your phone without getting started!',
                     ),
                     TextCustom(
-                      title: 'Let us help you change that.',
+                      title: 'Enter OTP authentication code',
                     ),
                   ],
                 ),
@@ -119,33 +119,31 @@ class _VerifyState extends State<Verify> {
                       // Sign the user in (or link) with the credential
 
                       await auth.signInWithCredential(credential);
-                      FirebaseFirestore.instance
-                          .collection('user')
-                          .doc(auth.currentUser!.uid)
-                          .get()
-                          .then((DocumentSnapshot documentSnapshot) {
-                        if (!documentSnapshot.exists) {
-                          final nextMember = <String, dynamic>{
-                            'userID': auth.currentUser!.uid,
-                            'phone': auth.currentUser!.phoneNumber,
-                            'userName': "user name",
-                            'level': 1,
-                            'chapter': 1,
-                            'highScore': 0,
-                            'rank': 1,
-                            'diamond': 0,
-                            'time': DateTime.now().millisecondsSinceEpoch,
-                          };
-                          _db
-                              .child('$NUMBERS_PATH/${auth.currentUser!.uid}')
-                              .set(nextMember)
-                              .then((_) => print('Member has been written!'))
-                              .catchError(
-                                  (error) => print('You got an error $error'));
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, "home", (route) => false);
-                        }
-                      });
+                      if (_db
+                          .child(NUMBERS_PATH)
+                          .child(auth.currentUser!.uid)
+                          .key!
+                          .isEmpty) {
+                        final nextMember = <String, dynamic>{
+                          'userID': auth.currentUser!.uid,
+                          'phone': auth.currentUser!.phoneNumber,
+                          'userName': "user name",
+                          'level': 1,
+                          'chapter': 1,
+                          'highScore': 0,
+                          'rank': 1,
+                          'diamond': 0,
+                          'time': DateTime.now().millisecondsSinceEpoch,
+                        };
+                        _db
+                            .child('$NUMBERS_PATH/${auth.currentUser!.uid}')
+                            .set(nextMember)
+                            .then((_) => print('Member has been written!'))
+                            .catchError(
+                                (error) => print('You got an error $error'));
+                      }
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "home", (route) => false);
                     } catch (e) {
                       return print("wrong otp");
                     }

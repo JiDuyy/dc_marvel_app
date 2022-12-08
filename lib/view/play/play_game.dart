@@ -1,7 +1,14 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously, non_constant_identifier_names
+
+import 'dart:math';
+
+import 'package:dc_marvel_app/components/ChangeRoom.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
 import 'package:dc_marvel_app/components/showChapterAll.dart';
 import 'package:dc_marvel_app/view/play/find_battle.dart';
 import 'package:dc_marvel_app/view/play/playing_now.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../components/AppBarProfile.dart';
@@ -17,6 +24,8 @@ class PlayGame extends StatefulWidget {
 }
 
 class _PlayGameState extends State<PlayGame> {
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +83,7 @@ class _PlayGameState extends State<PlayGame> {
                       child: Image(
                         width: MediaQuery.of(context).size.width / 7,
                         height: MediaQuery.of(context).size.width / 7,
-                        image: AssetImage('assets/images/Icon_bell.png'),
+                        image: const AssetImage('assets/images/Icon_bell.png'),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -96,11 +105,21 @@ class _PlayGameState extends State<PlayGame> {
                     child: WidgetAnimator(
                       incomingEffect:
                           WidgetTransitionEffects.incomingSlideInFromLeft(),
-                      child: const ButtonBattleCustom(
-                        title: 'BATTLE',
-                        url: "assets/images/ButtonPlayBattle.png",
-                        fontSize: 18,
-                        showDialog: Find_battle(),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  const Find_battle(),
+                            ),
+                          );
+                        },
+                        child: const ButtonBattleCustom(
+                          title: 'BATTLE',
+                          url: "assets/images/ButtonPlayBattle.png",
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
@@ -109,11 +128,21 @@ class _PlayGameState extends State<PlayGame> {
                     child: WidgetAnimator(
                       incomingEffect:
                           WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      child: ButtonBattleCustom(
-                        title: 'PLAY NOW',
-                        url: "assets/images/ButtonPlaynow.png",
-                        fontSize: 25,
-                        showDialog: PlayingGame(),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  PlayingGame(),
+                            ),
+                          );
+                        },
+                        child: const ButtonBattleCustom(
+                          title: 'PLAY NOW',
+                          url: "assets/images/ButtonPlaynow.png",
+                          fontSize: 25,
+                        ),
                       ),
                     ),
                   ),
@@ -122,11 +151,21 @@ class _PlayGameState extends State<PlayGame> {
                     child: WidgetAnimator(
                       incomingEffect:
                           WidgetTransitionEffects.incomingSlideInFromRight(),
-                      child: const ButtonBattleCustom(
-                        title: 'ROOM',
-                        url: "assets/images/ButtonPlayRoom.png",
-                        fontSize: 18,
-                        showDialog: ShowDialogCreateRoom(),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  const ChangeRoom(),
+                            ),
+                          );
+                        },
+                        child: const ButtonBattleCustom(
+                          title: 'ROOM',
+                          url: "assets/images/ButtonPlayRoom.png",
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),

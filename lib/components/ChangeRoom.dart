@@ -20,6 +20,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
   TextEditingController roomId = TextEditingController();
   TextEditingController user = TextEditingController();
   TextEditingController rank = TextEditingController();
+  TextEditingController image = TextEditingController();
   final _db = FirebaseDatabase.instance.ref();
   final _auth = FirebaseAuth.instance;
   late StreamSubscription _subscription;
@@ -37,6 +38,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
       setState(() {
         user.text = data['userName'].toString();
         rank.text = data['rank'].toString();
+        image.text = data['image'].toString();
       });
     });
   }
@@ -44,7 +46,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(.9),
+      backgroundColor: Colors.black.withOpacity(.8),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -83,11 +85,13 @@ class _ChangeRoomState extends State<ChangeRoom> {
                           'key': RoomKey,
                           'playerOne': {
                             'userName': user.text,
+                            'image': image.text,
                             'rank': rank.text,
                             'highScore': 0,
                           },
                           'playerTwo': {
                             'userName': "",
+                            'image': "",
                             'rank': "",
                             'highScore': 0,
                           },
@@ -168,7 +172,8 @@ class _ChangeRoomState extends State<ChangeRoom> {
                     onPressed: () async {
                       _db
                           .child('rooms/${roomId.text}/playerTwo')
-                          .update({'userName': "f2ff", 'rank': 'f2ff'});
+                          .update({'userName': user.text, 'rank': rank.text});
+
                       Navigator.pop(context);
                       Navigator.of(context).push(
                         PageRouteBuilder(

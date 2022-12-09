@@ -19,9 +19,11 @@ class ChangeRoom extends StatefulWidget {
 class _ChangeRoomState extends State<ChangeRoom> {
   TextEditingController roomId = TextEditingController();
   TextEditingController user = TextEditingController();
+  TextEditingController rank = TextEditingController();
   final _db = FirebaseDatabase.instance.ref();
   final _auth = FirebaseAuth.instance;
   late StreamSubscription _subscription;
+
   @override
   void initState() {
     super.initState();
@@ -29,13 +31,12 @@ class _ChangeRoomState extends State<ChangeRoom> {
   }
 
   void _activateListeners() {
-    _subscription = _db
-        .child('members/${_auth.currentUser!.uid}/userName')
-        .onValue
-        .listen((event) {
-      final String username = event.snapshot.value.toString();
+    _subscription =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
       setState(() {
-        user.text = username;
+        user.text = data['userName'].toString();
+        rank.text = data['rank'].toString();
       });
     });
   }
@@ -76,23 +77,22 @@ class _ChangeRoomState extends State<ChangeRoom> {
                         ),
                       ),
                       onPressed: () async {
-                        DatabaseReference ref = FirebaseDatabase.instance
-                            .ref("members/${_auth.currentUser!.uid}");
-                        DatabaseEvent event =
-                            await ref.child('userName').once();
                         var RoomKey = Random().nextInt(9999);
 
                         final nextMember = <String, dynamic>{
                           'key': RoomKey,
                           'playerOne': {
-                            'userName': event.snapshot.value,
+                            'userName': user.text,
+                            'rank': rank.text,
                             'highScore': 0,
                           },
                           'playerTwo': {
                             'userName': "",
+                            'rank': "",
                             'highScore': 0,
                           },
                           'status': false,
+                          'statusEnd': false,
                           'time': DateTime.now().millisecondsSinceEpoch,
                         };
                         _db.child('rooms/$RoomKey').set(nextMember);
@@ -167,9 +167,8 @@ class _ChangeRoomState extends State<ChangeRoom> {
                     ),
                     onPressed: () async {
                       _db
-                          .child('rooms/${roomId.text}/playerTwo/userName')
-                          .set(user.text);
-                      print(roomId.text);
+                          .child('rooms/${roomId.text}/playerTwo')
+                          .update({'userName': "f2ff", 'rank': 'f2ff'});
                       Navigator.pop(context);
                       Navigator.of(context).push(
                         PageRouteBuilder(

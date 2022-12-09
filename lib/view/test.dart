@@ -22,19 +22,18 @@ class _MyWidgetState extends State<MyWidget> {
         child: Center(
           child: IconButton(
             onPressed: () {
-              _db.child('questions').child('5').set({
-                '1': "bảo toàn năng lượng.",
-                '2': "bảo toàn khối lượng.",
-                '3': "bảo toàn momen động lượng.",
-                '4': "bảo toàn động lượng.",
+              _db.child('questions').child('100').set({
+                '1': "Con bươm bướm.",
+                '2': "Con hổ.",
+                '3': "Con dế.",
+                '4': "Con cua.",
                 'chapter': {
-                  'id': 1,
-                  'title': "Vũ trụ",
+                  'id': 10,
+                  'title': "Siêu cấp",
                 },
-                'id': 5,
-                'key': '3',
-                'title':
-                    ' Việc các hành tinh quay xung quanh Mặt Trời theo cùng một chiều được giải thích là hệ quả của định luật'
+                'id': 100,
+                'key': '4',
+                'title': 'Con gì càng to càng nhỏ vậy bạn?'
               });
             },
             icon: const Icon(Icons.add),

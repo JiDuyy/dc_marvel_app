@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +23,36 @@ class ButtonBack extends StatefulWidget {
 
 class _ButtonBackState extends State<ButtonBack> {
   final _db = FirebaseDatabase.instance.ref('rooms');
+
+  late StreamSubscription _getStart;
+  @override
+  void initState() {
+    super.initState();
+    _getStatus();
+  }
+
+  void _getStatus() {
+    _getStart = _db.child('${widget.roomId}/statusEnd').onValue.listen(
+      (event) {
+        final String status = event.snapshot.value.toString();
+        setState(
+          () {
+            // status.text = statu;
+            if (status == 'true') {
+              Navigator.pop(context);
+              Timer(
+                const Duration(seconds: 2),
+                () {
+                  _db.child(widget.roomId).remove();
+                },
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -33,9 +65,7 @@ class _ButtonBackState extends State<ButtonBack> {
         width: 60,
         child: InkWell(
           onTap: () {
-            print(widget.roomId);
-            Navigator.pop(context);
-            _db.child(widget.roomId).remove();
+            _db.child('${widget.roomId}/statusEnd').set(true);
           },
           child: Container(
             height: double.infinity,
@@ -50,5 +80,11 @@ class _ButtonBackState extends State<ButtonBack> {
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _getStart.cancel();
+    super.deactivate();
   }
 }

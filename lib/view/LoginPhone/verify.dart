@@ -120,10 +120,10 @@ class _VerifyState extends State<Verify> {
 
                       await auth.signInWithCredential(credential);
                       if (_db
-                          .child(NUMBERS_PATH)
-                          .child(auth.currentUser!.uid)
-                          .key!
-                          .isEmpty) {
+                              .child(NUMBERS_PATH)
+                              .child(auth.currentUser!.uid)
+                              .key ==
+                          null) {
                         final nextMember = <String, dynamic>{
                           'userID': auth.currentUser!.uid,
                           'phone': auth.currentUser!.phoneNumber,

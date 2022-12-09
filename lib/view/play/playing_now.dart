@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+import 'package:dc_marvel_app/components/Progressbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../../components/Answer.dart';
 import '../../components/Icon_helper.dart';
-import '../../components/ShowDialogSettingPlayGame.dart';
 
 class PlayingGame extends StatefulWidget {
   PlayingGame({super.key});
@@ -15,13 +16,54 @@ class PlayingGame extends StatefulWidget {
 }
 
 class _PlayingGameState extends State<PlayingGame> {
+  TextEditingController chaptertitle = TextEditingController();
   final auth = FirebaseAuth.instance;
   final _database = FirebaseDatabase.instance.ref();
+  int num = 0;
+  int selectOption = 0;
+
+  late StreamSubscription _subscription;
+
+  @override
+  void initState() {
+    if (selectOption != 0) {
+      Timer(Duration(seconds: 1), () {
+        setState(() {
+          if (num <= 9) {
+            num++;
+          }
+        });
+        _Chapter();
+        selectOption = 1;
+      });
+    } else {
+      (setState(
+        () {
+          num++;
+        },
+      ));
+    }
+  }
+
+  void _Chapter() {
+    _subscription = _database
+        .child('questions/$num/chapter')
+        .onValue
+        .listen((DatabaseEvent event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        chaptertitle.text = 'Chapter ${data['id']}: ${data['title']} ';
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         padding: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -30,8 +72,11 @@ class _PlayingGameState extends State<PlayingGame> {
           ),
         ),
         child: StreamBuilder(
-          stream: _database.child('questions/1').onValue,
+          stream: _database.child('questions/${num}').onValue,
           builder: ((context, snapshot) {
+            if (num == 0) {
+              return CircularProgressIndicator();
+            }
             if (snapshot.hasData && snapshot.data != null) {
               final data = Map<String, dynamic>.from(
                 Map<String, dynamic>.from((snapshot.data as DatabaseEvent)
@@ -41,31 +86,7 @@ class _PlayingGameState extends State<PlayingGame> {
               return Column(
                 children: [
                   Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  const ShowDialogSettingPlayGame(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: size.width / 10,
-                          height: size.width / 10,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/icon_setting.png"),
-                              // fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: ProgressBar(size: size),
                   ),
                   Expanded(
                     flex: 4,
@@ -83,7 +104,7 @@ class _PlayingGameState extends State<PlayingGame> {
                             child: Padding(
                               padding: EdgeInsets.all(size.width / 15),
                               child: Align(
-                                alignment: Alignment.topLeft,
+                                alignment: Alignment.topCenter,
                                 child: Text(
                                   data['title'].toString(),
                                   style: TextStyle(color: Colors.white),
@@ -92,23 +113,8 @@ class _PlayingGameState extends State<PlayingGame> {
                             ),
                           ),
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  '30',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
                             child: Text(
-                              data['chapter'].toString(),
+                              chaptertitle.text,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -124,27 +130,88 @@ class _PlayingGameState extends State<PlayingGame> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: Answer(
-                            title: 'A',
-                            caption: data['1'].toString(),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectOption = 5;
+                              });
+                              initState();
+                            },
+                            child: Container(
+                              color: selectOption == 5
+                                  ? int.parse(data['key']) == 1
+                                      ? Color.fromARGB(255, 9, 216, 231)
+                                      : Color.fromARGB(255, 255, 45, 209)
+                                  : Color.fromARGB(0, 255, 45, 209),
+                              child: Answer(
+                                title: 'A',
+                                caption: data['1'].toString(),
+                              ),
+                            ),
                           ),
                         ),
                         Expanded(
-                          child: Answer(
-                            title: 'B',
-                            caption: data['2'].toString(),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectOption = 6;
+                              });
+                              initState();
+                            },
+                            child: Container(
+                              color: selectOption == 6
+                                  ? int.parse(data['key']) == 2
+                                      ? Color.fromARGB(255, 9, 216, 231)
+                                      : Color.fromARGB(255, 255, 45, 209)
+                                  : Color.fromARGB(0, 255, 45, 209),
+                              child: Answer(
+                                title: 'B',
+                                caption: data['2'].toString(),
+                              ),
+                            ),
                           ),
                         ),
                         Expanded(
-                          child: Answer(
-                            title: 'C',
-                            caption: data['3'].toString(),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectOption = 7;
+                              });
+                              initState();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              color: selectOption == 7
+                                  ? int.parse(data['key']) == 3
+                                      ? Color.fromARGB(255, 9, 216, 231)
+                                      : Color.fromARGB(255, 255, 45, 209)
+                                  : Color.fromARGB(0, 255, 45, 209),
+                              child: Answer(
+                                title: 'C',
+                                caption: data['3'].toString(),
+                              ),
+                            ),
                           ),
                         ),
                         Expanded(
-                          child: Answer(
-                            title: 'D',
-                            caption: data['4'].toString(),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectOption = 8;
+                              });
+                              initState();
+                            },
+                            child: Container(
+                              color: selectOption == 8
+                                  ? int.parse(data['key']) == 4
+                                      ? Color.fromARGB(255, 9, 216, 231)
+                                      : Color.fromARGB(255, 255, 45, 209)
+                                  : Color.fromARGB(0, 255, 45, 209),
+                              child: Answer(
+                                title: 'D',
+                                caption: data['4'].toString(),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -175,9 +242,6 @@ class _PlayingGameState extends State<PlayingGame> {
                       ),
                     ),
                   ),
-                  const Spacer(
-                    flex: 1,
-                  ),
                 ],
               );
             }
@@ -186,5 +250,11 @@ class _PlayingGameState extends State<PlayingGame> {
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _subscription.cancel();
+    super.deactivate();
   }
 }

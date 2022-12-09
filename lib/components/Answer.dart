@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class Answer extends StatefulWidget {
   const Answer({
-    Key? key, required this.title, required this.caption,
+    Key? key,
+    required this.title,
+    required this.caption,
   }) : super(key: key);
   final String title;
   final String caption;
@@ -24,7 +26,7 @@ class _AnswerState extends State<Answer> {
       ),
       child: Row(
         children: [
-           Expanded(
+          Expanded(
             flex: 1,
             child: Text(
               widget.title,
@@ -39,7 +41,7 @@ class _AnswerState extends State<Answer> {
             flex: 4,
             child: Container(
               margin: const EdgeInsets.only(right: 20),
-              child:  Align(
+              child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   widget.caption,

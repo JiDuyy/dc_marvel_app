@@ -5,6 +5,7 @@ import 'package:dc_marvel_app/components/Progressbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:quiver/async.dart';
 import '../../components/Answer.dart';
 import '../../components/Icon_helper.dart';
 
@@ -21,7 +22,8 @@ class _PlayingGameState extends State<PlayingGame> {
   final _database = FirebaseDatabase.instance.ref();
   int num = 0;
   int selectOption = 0;
-
+  int _start = 300;
+  int _current = 300;
   late StreamSubscription _subscription;
 
   @override
@@ -39,6 +41,7 @@ class _PlayingGameState extends State<PlayingGame> {
     } else {
       (setState(
         () {
+          startTimer();
           num++;
         },
       ));
@@ -54,6 +57,27 @@ class _PlayingGameState extends State<PlayingGame> {
       setState(() {
         chaptertitle.text = 'Chapter ${data['id']}: ${data['title']} ';
       });
+    });
+  }
+
+  void startTimer() {
+    CountdownTimer countDownTimer = CountdownTimer(
+      Duration(
+        seconds: _start,
+      ),
+      const Duration(seconds: 1),
+    );
+
+    var sub = countDownTimer.listen(null);
+    sub.onData((duration) {
+      setState(() {
+        _current = _start - duration.elapsed.inSeconds;
+      });
+    });
+
+    sub.onDone(() {
+      print("Done");
+      sub.cancel();
     });
   }
 
@@ -86,7 +110,10 @@ class _PlayingGameState extends State<PlayingGame> {
               return Column(
                 children: [
                   Expanded(
-                    child: ProgressBar(size: size),
+                    child: ProgressBar(
+                      size: size,
+                      timeCurrent: _current,
+                    ),
                   ),
                   Expanded(
                     flex: 4,

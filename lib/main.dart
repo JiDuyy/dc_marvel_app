@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyWidget(),
-      // initialRoute:
-      //     FirebaseAuth.instance.currentUser == null ? 'phone' : 'home',
-      // routes: {
-      //   'phone': (context) => LoginPhone(),
-      //   'verify': (context) => Verify(),
-      //   'home': (context) => PageMain(),
-      // },
+      // home: MyWidget(),
+      initialRoute:
+          FirebaseAuth.instance.currentUser == null ? 'phone' : 'home',
+      routes: {
+        'phone': (context) => LoginPhone(),
+        'verify': (context) => Verify(),
+        'home': (context) => PageMain(),
+      },
     );
   }
 }

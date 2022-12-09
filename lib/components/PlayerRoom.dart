@@ -5,10 +5,12 @@ class PlayerRoom extends StatefulWidget {
     Key? key,
     required this.size,
     required this.path,
+    required this.pathFrameRank,
   }) : super(key: key);
 
   final Size size;
   final String path;
+  final String pathFrameRank;
 
   @override
   State<PlayerRoom> createState() => _PlayerRoomState();
@@ -25,7 +27,7 @@ class _PlayerRoomState extends State<PlayerRoom> {
           Align(
             alignment: Alignment.center,
             child: Image(
-              image:  AssetImage(widget.path),
+              image: AssetImage(widget.path),
               width: widget.size.width / 6,
               height: widget.size.width / 6,
             ),
@@ -33,9 +35,11 @@ class _PlayerRoomState extends State<PlayerRoom> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/BorderAvatar.png"),
+                image: AssetImage(widget.pathFrameRank.isEmpty
+                    ? "assets/images/FrameRank1.png"
+                    : "assets/images/FrameRank${widget.pathFrameRank}.png"),
                 fit: BoxFit.cover,
               ),
             ),

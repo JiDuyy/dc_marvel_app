@@ -23,6 +23,8 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
+  TextEditingController frameRankUserOne = TextEditingController();
+  TextEditingController frameRankUserTwo = TextEditingController();
 
   final auth = FirebaseAuth.instance;
   final _database = FirebaseDatabase.instance.ref();
@@ -33,57 +35,62 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   @override
   void initState() {
     super.initState();
-    _activateListeners();
+    _getPlayerTwo();
     _getPlayerOne();
     _getStatus();
   }
 
-  void _activateListeners() {
+  void _getPlayerTwo() {
     _subscription = _database
-        .child('rooms/${widget.roomId}/playerTwo/userName')
+        .child('rooms/${widget.roomId}/playerTwo')
         .onValue
         .listen((event) {
-      final String username = event.snapshot.value.toString();
+      final data = event.snapshot.value as dynamic;
       setState(() {
-        userTwo.text = username;
+        userTwo.text = data['userName'].toString();
+        frameRankUserTwo.text = data['rank'].toString();
       });
     });
   }
 
   void _getPlayerOne() {
     _getRoom = _database
-        .child('rooms/${widget.roomId}/playerOne/userName')
+        .child('rooms/${widget.roomId}/playerOne')
         .onValue
         .listen((event) {
-      final String username = event.snapshot.value.toString();
+      final data = event.snapshot.value as dynamic;
       setState(() {
-        userOne.text = username;
+        userOne.text = data['userName'].toString();
+        frameRankUserOne.text = data['rank'].toString();
       });
     });
   }
 
   void _getStatus() {
-    _getStart = _database
-        .child('rooms/${widget.roomId}/status')
-        .onValue
-        .listen((event) {
-      final String statu = event.snapshot.value.toString();
-      setState(() {
-        // status.text = statu;
-        if (statu == 'true') {
-          print(status.text);
-          Timer(Duration(seconds: 2), () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PlayingBattle(),
-              ),
-            );
-          });
-        }
-      });
-    });
+    _getStart = _database.child('rooms/${widget.roomId}/status').onValue.listen(
+      (event) {
+        final String status = event.snapshot.value.toString();
+        setState(
+          () {
+            // status.text = statu;
+            if (status == 'true') {
+              Timer(
+                Duration(seconds: 3),
+                () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlayingBattle(),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -111,18 +118,20 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                     Text(
                       'CREATE ROOM',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          letterSpacing: 2.0,
-                          fontWeight: FontWeight.w500),
+                        color: Colors.white,
+                        fontSize: 24,
+                        letterSpacing: 2.0,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     Text(
                       'ID: ${widget.roomId}',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          letterSpacing: 2.0,
-                          fontWeight: FontWeight.w500),
+                        color: Colors.white,
+                        fontSize: 16,
+                        letterSpacing: 2.0,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
@@ -137,6 +146,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   Column(
                     children: [
                       PlayerRoom(
+                        pathFrameRank: frameRankUserOne.text,
                         size: size,
                         path: 'assets/images/Avatar.jpg',
                       ),
@@ -167,6 +177,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                       PlayerRoom(
                         size: size,
                         path: 'assets/images/Avatar.jpg',
+                        pathFrameRank: frameRankUserTwo.text,
                       ),
                       Text(
                         userTwo.text,

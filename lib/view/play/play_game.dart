@@ -26,6 +26,7 @@ class PlayGame extends StatefulWidget {
 class _PlayGameState extends State<PlayGame> {
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,7 +107,7 @@ class _PlayGameState extends State<PlayGame> {
                       incomingEffect:
                           WidgetTransitionEffects.incomingSlideInFromLeft(),
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           Navigator.of(context).push(
                             PageRouteBuilder(
                               opaque: false,

@@ -1,8 +1,5 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 import 'dart:async';
-
-import 'package:dc_marvel_app/components/DropDownChooseGameMode.dart';
-import 'package:dc_marvel_app/components/DropDownSelectDiamond.dart';
 import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -83,7 +80,9 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PlayingBattle(),
+                      builder: (context) => PlayingBattle(
+                        roomID: widget.roomId,
+                      ),
                     ),
                   );
                 },

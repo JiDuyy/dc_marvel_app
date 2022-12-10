@@ -124,7 +124,7 @@ class _Find_battleState extends State<Find_battle> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PlayingBattle(),
+                          builder: (context) => const PlayingBattle(roomID: '',),
                         ),
                       ),
                     },

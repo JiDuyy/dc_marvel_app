@@ -17,363 +17,394 @@ class ShowDiaLogProfile extends StatefulWidget {
 }
 
 class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
+  final auth = FirebaseAuth.instance;
+  final _database = FirebaseDatabase.instance.ref();
+  bool _isvisible = false;
+  TextEditingController txtname = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
-    final _database = FirebaseDatabase.instance.ref();
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(.6),
       // title: const Text('Basic dialog title'),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Spacer(),
-          Expanded(
-            flex: 4,
-            child: Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/profile_background.png'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: StreamBuilder(
-                  stream: _database
-                      .child('members/${auth.currentUser!.uid}')
-                      .onValue,
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      final data = Map<String, dynamic>.from(
-                        Map<String, dynamic>.from(
-                            (snapshot.data as DatabaseEvent).snapshot.value
-                                as Map<dynamic, dynamic>),
-                      );
-                      return Column(
-                        children: [
-                          Expanded(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Spacer(
-                                flex: 5,
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: WidgetAnimator(
-                                  incomingEffect: WidgetTransitionEffects
-                                      .incomingSlideInFromRight(),
-                                  child: Text(
-                                    'Profile',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontFamily: 'Horizon',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Spacer()
-                            ],
-                          )),
-                          Expanded(
-                            flex: 13,
-                            child: Column(
+      body: Center(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height / 1.3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image:
+                            AssetImage('assets/images/profile_background.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: StreamBuilder(
+                        stream: _database
+                            .child('members/${auth.currentUser!.uid}')
+                            .onValue,
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasData && snapshot.data != null) {
+                            final data = Map<String, dynamic>.from(
+                              Map<String, dynamic>.from(
+                                  (snapshot.data as DatabaseEvent)
+                                      .snapshot
+                                      .value as Map<dynamic, dynamic>),
+                            );
+                            return Column(
                               children: [
                                 Expanded(
-                                  flex: 2,
-                                  child: WidgetAnimator(
-                                    incomingEffect: WidgetTransitionEffects
-                                        .incomingSlideInFromTop(),
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      fit: StackFit.loose,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4.8,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4.8,
-                                          child: Image.asset(
-                                              'assets/images/Avatar.jpg'),
+                                    child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: const [
+                                    Spacer(
+                                      flex: 5,
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Text(
+                                        'Profile',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30,
+                                          fontFamily: 'Horizon',
                                         ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.2,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.2,
-                                          decoration: const BoxDecoration(
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/images/BoderAvatar2.png"),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: MediaQuery.of(context)
+                                      ),
+                                    ),
+                                    Spacer()
+                                  ],
+                                )),
+                                Expanded(
+                                  flex: 13,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          fit: StackFit.loose,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4),
-                                          child: Text(
-                                            data['level'].toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11,
-                                              fontFamily: 'Horizon',
+                                                  4.8,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4.8,
+                                              child: Image.asset(
+                                                  'assets/images/AvatarChibi${data['image']}.jpg'),
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 65),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          data['userName'],
-                                          style: TextStyle(
-                                            fontSize: 39,
-                                            fontFamily: 'Horizon',
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Stack(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Container(
-                                                height: 25,
-                                                width: 25,
-                                                child: Image.asset(
-                                                  'assets/images/icontich.png',
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3.2,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3.2,
+                                              decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      "assets/images/BoderAvatar2.png"),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
                                             ),
                                             Container(
-                                              height: 30,
-                                              width: 30,
-                                              child: Image.asset(
-                                                'assets/images/iconpen.png',
-                                                fit: BoxFit.cover,
+                                              margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4),
+                                              child: Text(
+                                                data['level'].toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                  fontFamily: 'Horizon',
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  150,
+                                              child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  controller: txtname,
+                                                  readOnly: _isvisible == false
+                                                      ? true
+                                                      : false,
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    label: _isvisible == false
+                                                        ? Padding(
+                                                            padding: EdgeInsets.only(
+                                                                left: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    5.5),
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Text(
+                                                                data[
+                                                                    'userName'],
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 39,
+                                                                  fontFamily:
+                                                                      'Horizon',
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : Text(''),
+                                                  ),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      txtname.text = value;
+                                                    });
+                                                  }),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _isvisible == false
+                                                      ? _isvisible = true
+                                                      : _isvisible = false;
+                                                });
+                                                if (_isvisible == false) {
+                                                  _database
+                                                      .child(
+                                                          'members/${auth.currentUser!.uid}/userName')
+                                                      .set(txtname.text);
+                                                  txtname.clear();
+                                                }
+                                              },
+                                              icon: Icon(
+                                                _isvisible == false
+                                                    ? Icons.edit
+                                                    : Icons.check,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: WidgetAnimator(
-                                    incomingEffect: WidgetTransitionEffects
-                                        .incomingSlideInFromRight(),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                          'ID: ${data['userID']}',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontFamily: 'Horizon',
-                                          ),
-                                        )),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Column(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        data['highScore']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                'Horizon',
-                                                            fontSize: 20),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Points',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                'Horizon',
-                                                            fontSize: 20),
-                                                      ),
-                                                    ),
-                                                  ],
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                'ID: ${data['userID']}',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontFamily: 'Horizon',
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  children: const [
-                                                    Expanded(
-                                                      child: Text(
-                                                        '10',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                'Horizon',
-                                                            fontSize: 20),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Gate',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                'Horizon',
-                                                            fontSize: 20),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: WidgetAnimator(
-                                    incomingEffect: WidgetTransitionEffects
-                                        .incomingSlideInFromLeft(),
-                                    child: Row(
-                                      children: [
-                                        infoProfle(
-                                          Url: 'assets/images/cup.png',
-                                          x: 1,
-                                        ),
-                                        infoProfle(
-                                            Url: 'assets/images/RankKC.png',
-                                            x: 5),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Column(
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      5,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      5,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Navigator.of(context)
-                                                          .push(
-                                                        PageRouteBuilder(
-                                                          opaque: false,
-                                                          pageBuilder: (BuildContext
-                                                                      context,
-                                                                  _,
-                                                                  __) =>
-                                                              const History(),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Image.asset(
-                                                        'assets/images/history.ico'),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  'History',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20,
-                                                    fontFamily: 'Horizon',
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Spacer()
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: WidgetAnimator(
-                                    incomingEffect: WidgetTransitionEffects
-                                        .incomingSlideInFromLeft(),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: (() {
-                                            Navigator.pop(context);
-                                          }),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                5,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                5,
-                                            decoration: const BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/images/backhome.png"),
-                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                          ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(
+                                                            data['highScore']
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    'Horizon',
+                                                                fontSize: 20),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            'Points',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    'Horizon',
+                                                                fontSize: 20),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: const [
+                                                        Expanded(
+                                                          child: Text(
+                                                            '10',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    'Horizon',
+                                                                fontSize: 20),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            'Gate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    'Horizon',
+                                                                fontSize: 20),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Row(
+                                          children: [
+                                            infoProfle(
+                                              Url: 'assets/images/cup.png',
+                                              x: 1,
+                                            ),
+                                            infoProfle(
+                                                Url: 'assets/images/RankKC.png',
+                                                x: 5),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          Navigator.of(context)
+                                                              .push(
+                                                            PageRouteBuilder(
+                                                              opaque: false,
+                                                              pageBuilder: (BuildContext
+                                                                          context,
+                                                                      _,
+                                                                      __) =>
+                                                                  const History(),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Image.asset(
+                                                            'assets/images/history.ico'),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      'History',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20,
+                                                        fontFamily: 'Horizon',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Spacer()
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            InkWell(
+                                              onTap: (() {
+                                                Navigator.pop(context);
+                                              }),
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    5,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    5,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/backhome.png"),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
+                                ),
                               ],
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                    return CircularProgressIndicator();
-                  })),
+                            );
+                          }
+                          return CircularProgressIndicator();
+                        })),
+                  ),
+                ),
+              ],
             ),
           ),
-          const Spacer(),
-        ],
+        ),
       ),
     );
   }

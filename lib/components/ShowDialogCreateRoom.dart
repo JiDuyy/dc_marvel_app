@@ -65,7 +65,6 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
         userOne.text = data['userName'].toString();
         userImageOne.text = data['image'].toString();
         frameRankUserOne.text = data['rank'].toString();
-        print(userImageOne.text);
       });
     });
   }
@@ -78,7 +77,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
           () {
             if (data['status'].toString() == 'true') {
               Timer(
-                Duration(seconds: 3),
+                Duration(seconds: 1),
                 () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -226,49 +225,6 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   ],
                 ),
               ),
-              // Expanded(
-              //   flex: 1,
-              //   child: SizedBox(
-              //     width: size.width,
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       crossAxisAlignment: CrossAxisAlignment.end,
-              //       children: const [
-              //         DropDownSelectDiamond(),
-              //         DropDownChooseGameMode(),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Expanded(
-              //   flex: 1,
-              //   child: InkWell(
-              //     onTap: () {
-              //       _database
-              //           .child('rooms/${widget.roomId}/status')
-              //           .set(true);
-              //     },
-              //     child: Container(
-              //       width: MediaQuery.of(context).size.width / 1.5,
-              //       decoration: const BoxDecoration(
-              //         image: DecorationImage(
-              //           image: AssetImage('assets/images/ButonSetting.png'),
-              //         ),
-              //       ),
-              //       child: Center(
-              //         child: Text(
-              //           'PLAY NOW',
-              //           style: TextStyle(
-              //             fontSize: 23,
-              //             fontWeight: FontWeight.w700,
-              //             color: Colors.white,
-              //             letterSpacing: 2.0,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 9.0, bottom: 9.0),
@@ -288,17 +244,6 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   ),
                 ),
               ),
-              // Expanded(
-              //   flex: 1,
-              //   child: Align(
-              //     child: ButtonBack(
-              //       roomId: widget.roomId,
-              //       size: size,
-              //       marginTop: 200,
-              //       marginLeft: 50,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

@@ -170,9 +170,11 @@ class _ChangeRoomState extends State<ChangeRoom> {
                       ),
                     ),
                     onPressed: () async {
-                      _db
-                          .child('rooms/${roomId.text}/playerTwo')
-                          .update({'userName': user.text, 'rank': rank.text});
+                      _db.child('rooms/${roomId.text}/playerTwo').update({
+                        'userName': user.text,
+                        'image': image.text,
+                        'rank': rank.text
+                      });
 
                       Navigator.pop(context);
                       Navigator.of(context).push(

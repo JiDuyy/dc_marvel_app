@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dc_marvel_app/components/AnswerBattle.dart';
 import 'package:flutter/material.dart';
 import '../../components/Answer.dart';
-import '../../components/Icon_helper.dart';
-import '../../components/ShowDialogSettingPlayGame.dart';
 
 class PlayingBattle extends StatefulWidget {
   const PlayingBattle({super.key});
@@ -26,32 +25,6 @@ class _PlayingBattleState extends State<PlayingBattle> {
         ),
         child: Column(
           children: [
-            // Expanded(
-            //   child: Align(
-            //     alignment: Alignment.centerRight,
-            //     child: InkWell(
-            //       onTap: () {
-            //         Navigator.of(context).push(
-            //           PageRouteBuilder(
-            //             opaque: false,
-            //             pageBuilder: (BuildContext context, _, __) =>
-            //                 const ShowDialogSettingPlayGame(),
-            //           ),
-            //         );
-            //       },
-            //       child: Container(
-            //         width: size.width / 8,
-            //         height: size.width / 8,
-            //         decoration: const BoxDecoration(
-            //           image: DecorationImage(
-            //             image: AssetImage("assets/images/icon_setting.png"),
-            //             // fit: BoxFit.cover,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Expanded(
               flex: 2,
               child: Container(
@@ -81,7 +54,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
                               ),
                               Center(
                                 child: Image.asset(
-                                  'assets/images/BoderAvatar2.png',
+                                  'assets/images/khungkimcuong.png',
                                   height: 100,
                                 ),
                               ),
@@ -101,11 +74,6 @@ class _PlayingBattleState extends State<PlayingBattle> {
                             image: AssetImage("assets/images/vsbattle.png"),
                           ),
                         ),
-                        // child: const Text(
-                        //   'VS',
-                        //   style: TextStyle(color: Colors.white, fontSize: 30),
-                        //   textAlign: TextAlign.center,
-                        // ),
                       ),
                     ),
                     Expanded(
@@ -145,7 +113,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
               child: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/FrameQuestion.png"),
+                    image: AssetImage("assets/images/FrameTitle.png"),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -195,18 +163,39 @@ class _PlayingBattleState extends State<PlayingBattle> {
             Expanded(
               flex: 4,
               child: Column(
-                children: const [
+                children: [
                   Expanded(
-                    child: Answer(title: 'A', caption: 'Lú cái đầu'),
+                    child: InkWell(
+                      onTap: () {
+                        print('object');
+                      },
+                      child: AnswerBattle(
+                        frameAnswer: "assets/images/FrameTitle.png",
+                        title: 'A',
+                        caption: 'Lú cái đầu',
+                      ),
+                    ),
                   ),
                   Expanded(
-                    child: Answer(title: 'B', caption: 'Lú cái đầu'),
+                    child: AnswerBattle(
+                      frameAnswer: "assets/images/FrameTitle.png",
+                      title: 'B',
+                      caption: 'Lú cái đầu',
+                    ),
                   ),
                   Expanded(
-                    child: Answer(title: 'C', caption: 'Lú cái đầu'),
+                    child: AnswerBattle(
+                      frameAnswer: "assets/images/FrameTitle.png",
+                      title: 'C',
+                      caption: 'Lú cái đầu',
+                    ),
                   ),
                   Expanded(
-                    child: Answer(title: 'D', caption: 'Lú cái đầu'),
+                    child: AnswerBattle(
+                      frameAnswer: "assets/images/FrameTitle.png",
+                      title: 'D',
+                      caption: 'Lú cái đầu',
+                    ),
                   ),
                 ],
               ),

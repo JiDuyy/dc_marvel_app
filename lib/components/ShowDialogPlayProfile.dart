@@ -139,19 +139,47 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: WidgetAnimator(
-                                    incomingEffect: WidgetTransitionEffects
-                                        .incomingSlideInFromTop(),
-                                    child: AnimatedTextKit(
-                                      totalRepeatCount: 100,
-                                      animatedTexts: [
-                                        ColorizeAnimatedText(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 65),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
                                           data['userName'],
-                                          textStyle: colorizeTextStyle,
-                                          colors: colorizeColors,
+                                          style: TextStyle(
+                                            fontSize: 39,
+                                            fontFamily: 'Horizon',
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        Stack(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                height: 25,
+                                                width: 25,
+                                                child: Image.asset(
+                                                  'assets/images/icontich.png',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              height: 30,
+                                              width: 30,
+                                              child: Image.asset(
+                                                'assets/images/iconpen.png',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
-                                      isRepeatingAnimation: true,
                                     ),
                                   ),
                                 ),

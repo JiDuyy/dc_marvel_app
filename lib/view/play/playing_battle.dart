@@ -116,7 +116,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
         _activeAnswer = 0;
         _nextQuestion = Random().nextInt(99) + 1;
         ++EndNextQuestion;
-        if (EndNextQuestion == 10) {
+        if (EndNextQuestion == 2) {
           timer.cancel();
           _db.child('rooms/${widget.roomID}/status').set(false);
           Navigator.pop(context);
@@ -152,7 +152,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
               'highScore': highScoreTwo.text,
             },
             'report': report,
-            'time': DateTime.now(),
+            'time': DateTime.now().microsecondsSinceEpoch,
           };
           _db
               .child('historys/${_auth.currentUser!.uid}/${widget.roomID}')

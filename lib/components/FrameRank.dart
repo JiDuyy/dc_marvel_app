@@ -9,7 +9,7 @@ class FrameRank extends StatefulWidget {
     required this.pathAvatar,
     required this.rank,
     required this.userName,
-    required this.pointRank,
+    required this.pointRank, required this.frame,
   }) : super(key: key);
 
   final String frameRank;
@@ -17,6 +17,7 @@ class FrameRank extends StatefulWidget {
   final String rank;
   final String userName;
   final String pointRank;
+  final String frame;
 
   @override
   State<FrameRank> createState() => _FrameRankState();
@@ -32,7 +33,7 @@ class _FrameRankState extends State<FrameRank> {
       height: 60,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(widget.frameRank),
+          image: AssetImage(widget.frame),
           fit: BoxFit.fill,
         ),
       ),
@@ -77,9 +78,9 @@ class _FrameRankState extends State<FrameRank> {
                       Container(
                         width: 40,
                         height: 40,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/BorderAvatar.png"),
+                            image: AssetImage(widget.frameRank),
                             fit: BoxFit.cover,
                           ),
                         ),

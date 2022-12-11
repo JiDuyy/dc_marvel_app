@@ -59,11 +59,15 @@ class _RankState extends State<Rank> {
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
               child: FirebaseAnimatedList(
-                  query: _db,
+                  reverse: true,
+                  query: _db.orderByChild('rank'),
                   itemBuilder: (context, snapshot, animation, index) {
                     return FrameRank(
-                      frameRank: 'assets/images/FrameGold.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
+                      frame: 'assets/images/FrameGold.png',
+                      frameRank:
+                          'assets/images/FrameRank${snapshot.child('rank').value.toString()}.png',
+                      pathAvatar:
+                          'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
                       rank: '1',
                       userName: snapshot.child('userName').value.toString(),
                       pointRank: snapshot.child('highScore').value.toString(),
@@ -78,7 +82,8 @@ class _RankState extends State<Rank> {
               child: Container(
                 margin: const EdgeInsets.only(top: 15, bottom: 5),
                 child: const FrameRank(
-                  frameRank: 'assets/images/FrameGold.png',
+                  frame: 'assets/images/FrameGold.png',
+                  frameRank: 'assets/images/FrameRank1.png',
                   pathAvatar: 'assets/images/IconLevel.png',
                   rank: '1',
                   userName: 'JiDuy',

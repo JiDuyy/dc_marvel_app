@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:dc_marvel_app/components/AppBarProfile.dart';
+import 'package:dc_marvel_app/view/avatar.dart';
 import 'package:dc_marvel_app/view/history.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'InfoProfile.dart';
 
 class ShowDiaLogProfile extends StatefulWidget {
@@ -20,7 +17,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
   final auth = FirebaseAuth.instance;
   final _database = FirebaseDatabase.instance.ref();
   bool _isvisible = false;
-  String txtname = " ";
+  TextEditingController txtname = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -103,20 +100,33 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               child: Image.asset(
                                                   'assets/images/AvatarChibi${data['image']}.jpg'),
                                             ),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  3.2,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  3.2,
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      "assets/images/BoderAvatar2.png"),
-                                                  fit: BoxFit.cover,
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                  PageRouteBuilder(
+                                                    opaque: false,
+                                                    pageBuilder:
+                                                        (BuildContext context,
+                                                                _, __) =>
+                                                            const Avatar(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3.2,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3.2,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/BoderAvatar2.png"),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -134,7 +144,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   fontFamily: 'Horizon',
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -150,6 +160,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   150,
                                               child: TextField(
                                                   textAlign: TextAlign.center,
+                                                  controller: txtname,
                                                   readOnly: _isvisible == false
                                                       ? true
                                                       : false,
@@ -174,7 +185,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                                     'userName'],
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize: 39,
+                                                                  fontSize: 30,
                                                                   fontFamily:
                                                                       'Horizon',
                                                                   color: Colors
@@ -185,9 +196,9 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                           )
                                                         : Text(''),
                                                   ),
-                                                  onChanged: (value) {
+                                                  onSubmitted: (value) {
                                                     setState(() {
-                                                      txtname = value;
+                                                      txtname.text = value;
                                                     });
                                                   }),
                                             ),
@@ -202,8 +213,8 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   _database
                                                       .child(
                                                           'members/${auth.currentUser!.uid}/userName')
-                                                      .set(txtname);
-                                                   txtname = " ";
+                                                      .set(txtname.text);
+                                                  txtname.clear();
                                                 }
                                               },
                                               icon: Icon(

@@ -33,7 +33,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
   int _nextQuestion = 1;
   int ScoreOne = 0;
   int ScoreTwo = 0;
-  int EndNextQuestion = 0;
+  int EndNextQuestion = 1;
 
   final _db = FirebaseDatabase.instance.ref();
   final _auth = FirebaseAuth.instance;
@@ -93,7 +93,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
           --timeDown;
         });
       } else {
-        timeDown = 10;
+        timeDown = 15;
         final snapshotQuestion =
             await _db.child('questions/$_nextQuestion/key').get();
         final snapshot = await _db
@@ -116,7 +116,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
         _activeAnswer = 0;
         _nextQuestion = Random().nextInt(99) + 1;
         ++EndNextQuestion;
-        if (EndNextQuestion == 10) {
+        if (EndNextQuestion == 11) {
           timer.cancel();
           _db.child('rooms/${widget.roomID}/status').set(false);
           Navigator.pop(context);
@@ -157,7 +157,8 @@ class _PlayingBattleState extends State<PlayingBattle> {
             'time': DateTime.now().microsecondsSinceEpoch,
           };
           _db
-              .child('historys/${_auth.currentUser!.uid}/${widget.roomID}')
+              .child(
+                  'historys/${_auth.currentUser!.uid}/${DateTime.now().microsecondsSinceEpoch}')
               .set(nextHistory)
               .then((_) => print('Member has been written!'))
               .catchError((error) => print('You got an error $error'));

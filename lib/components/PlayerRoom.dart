@@ -28,8 +28,8 @@ class _PlayerRoomState extends State<PlayerRoom> {
             alignment: Alignment.center,
             child: Image(
               image: AssetImage(widget.path),
-              width: widget.size.width / 6,
-              height: widget.size.width / 6,
+              width: widget.size.width / 5.5,
+              height: widget.size.width / 5.5,
             ),
           ),
           Container(

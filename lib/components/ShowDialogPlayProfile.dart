@@ -92,11 +92,11 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4.8,
+                                                  3.5,
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4.8,
+                                                  3.5,
                                               child: Image.asset(
                                                   'assets/images/AvatarChibi${data['image']}.jpg'),
                                             ),
@@ -121,10 +121,10 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                         .size
                                                         .width /
                                                     3.2,
-                                                decoration: const BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
-                                                        "assets/images/BoderAvatar2.png"),
+                                                        "assets/images/FrameRank${data['rank']}.png"),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),

@@ -129,6 +129,7 @@ class _VerifyState extends State<Verify> {
                           'phone': auth.currentUser!.phoneNumber,
                           'userName': "user name",
                           'level': 1,
+                          'exp': 0,
                           'chapter': 1,
                           'highScore': 0,
                           'rank': 1,

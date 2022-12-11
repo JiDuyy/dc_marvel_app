@@ -1,18 +1,177 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_build_context_synchronously, avoid_print
 
+import 'dart:async';
+import 'dart:math';
+
+import 'package:dc_marvel_app/components/AnswerBattle.dart';
+import 'package:dc_marvel_app/components/ReportBattle.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import '../../components/Answer.dart';
-import '../../components/Icon_helper.dart';
-import '../../components/ShowDialogSettingPlayGame.dart';
 
 class PlayingBattle extends StatefulWidget {
-  const PlayingBattle({super.key});
+  const PlayingBattle({super.key, required this.roomID});
+  final String roomID;
 
   @override
   State<PlayingBattle> createState() => _PlayingBattleState();
 }
 
 class _PlayingBattleState extends State<PlayingBattle> {
+  TextEditingController userTwo = TextEditingController();
+  TextEditingController userOne = TextEditingController();
+  TextEditingController frameRankUserOne = TextEditingController();
+  TextEditingController frameRankUserTwo = TextEditingController();
+  TextEditingController userImageOne = TextEditingController();
+  TextEditingController userImageTwo = TextEditingController();
+  TextEditingController highScoreOne = TextEditingController();
+  TextEditingController highScoreTwo = TextEditingController();
+  TextEditingController chapterID = TextEditingController();
+  TextEditingController chapterName = TextEditingController();
+  int _activeAnswer = 0;
+  int timeDown = 10;
+  int _nextQuestion = 1;
+  int ScoreOne = 0;
+  int ScoreTwo = 0;
+  int EndNextQuestion = 0;
+
+  final _db = FirebaseDatabase.instance.ref();
+  final _auth = FirebaseAuth.instance;
+  late StreamSubscription _getRoomPlayerOne, _getRoomPlayerTwo, _getChapter;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _getPlayerOne();
+    _getPlayerTwo();
+    _getNextQuestion();
+    _getChapters();
+  }
+
+  void _getPlayerOne() {
+    _getRoomPlayerOne =
+        _db.child('rooms/${widget.roomID}/playerOne').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        userOne.text = data['userName'].toString();
+        userImageOne.text = data['image'].toString();
+        frameRankUserOne.text = data['rank'].toString();
+        highScoreOne.text = data['highScore'].toString();
+      });
+    });
+  }
+
+  void _getPlayerTwo() {
+    _getRoomPlayerTwo =
+        _db.child('rooms/${widget.roomID}/playerTwo').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        userTwo.text = data['userName'].toString();
+        userImageTwo.text = data['image'].toString();
+        frameRankUserTwo.text = data['rank'].toString();
+        highScoreTwo.text = data['highScore'].toString();
+      });
+    });
+  }
+
+  void _getChapters() {
+    _getChapter =
+        _db.child('questions/$_nextQuestion/chapter').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        chapterID.text = data['id'].toString();
+        chapterName.text = data['title'].toString();
+      });
+    });
+  }
+
+  void _getNextQuestion() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+      if (timeDown != 0) {
+        setState(() {
+          --timeDown;
+        });
+      } else {
+        timeDown = 10;
+        final snapshotQuestion =
+            await _db.child('questions/$_nextQuestion/key').get();
+        final snapshot = await _db
+            .child('members/${FirebaseAuth.instance.currentUser!.uid}/userName')
+            .get();
+
+        if (snapshotQuestion.value == _activeAnswer.toString()) {
+          ScoreOne += 20;
+          ScoreTwo += 20;
+        }
+
+        snapshot.value == userOne.text
+            ? _db
+                .child('rooms/${widget.roomID}/playerOne/highScore')
+                .set(ScoreOne)
+            : _db
+                .child('rooms/${widget.roomID}/playerTwo/highScore')
+                .set(ScoreTwo);
+
+        _activeAnswer = 0;
+        _nextQuestion = Random().nextInt(99) + 1;
+        ++EndNextQuestion;
+        if (EndNextQuestion == 2) {
+          timer.cancel();
+          _db.child('rooms/${widget.roomID}/status').set(false);
+          Navigator.pop(context);
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context, _, __) => ReportBattle(
+                highScoreOne: int.parse(highScoreOne.text),
+                highScoreTwo: int.parse(highScoreTwo.text),
+                roomId: widget.roomID.toString(),
+              ),
+            ),
+          );
+          final String report;
+          if ((int.parse(highScoreOne.text) > int.parse(highScoreTwo.text) &&
+                  snapshot.value == userOne.text) ||
+              (int.parse(highScoreOne.text) < int.parse(highScoreTwo.text) &&
+                  snapshot.value != userOne.text)) {
+            report = 'win';
+          } else {
+            report = 'lose';
+          }
+
+          final nextHistory = <String, dynamic>{
+            'playerOne': {
+              'userName': userOne.text,
+              'image': userImageOne.text,
+              'rank': frameRankUserOne.text,
+              'highScore': highScoreOne.text,
+            },
+            'playerTwo': {
+              'userName': userTwo.text,
+              'image': userImageTwo.text,
+              'rank': frameRankUserTwo.text,
+              'highScore': highScoreTwo.text,
+            },
+            'report': report,
+            'time': DateTime.now().microsecondsSinceEpoch,
+          };
+          _db
+              .child('historys/${_auth.currentUser!.uid}/${widget.roomID}')
+              .set(nextHistory)
+              .then((_) => print('Member has been written!'))
+              .catchError((error) => print('You got an error $error'));
+
+          Timer.periodic(Duration(seconds: 2), (timer) {
+            _db.child('rooms/${widget.roomID}/playerOne/highScore').set(0);
+            _db.child('rooms/${widget.roomID}/playerTwo/highScore').set(0);
+            timer.cancel();
+          });
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -26,32 +185,6 @@ class _PlayingBattleState extends State<PlayingBattle> {
         ),
         child: Column(
           children: [
-            // Expanded(
-            //   child: Align(
-            //     alignment: Alignment.centerRight,
-            //     child: InkWell(
-            //       onTap: () {
-            //         Navigator.of(context).push(
-            //           PageRouteBuilder(
-            //             opaque: false,
-            //             pageBuilder: (BuildContext context, _, __) =>
-            //                 const ShowDialogSettingPlayGame(),
-            //           ),
-            //         );
-            //       },
-            //       child: Container(
-            //         width: size.width / 8,
-            //         height: size.width / 8,
-            //         decoration: const BoxDecoration(
-            //           image: DecorationImage(
-            //             image: AssetImage("assets/images/icon_setting.png"),
-            //             // fit: BoxFit.cover,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Expanded(
               flex: 2,
               child: Container(
@@ -75,20 +208,24 @@ class _PlayingBattleState extends State<PlayingBattle> {
                             children: [
                               Center(
                                 child: Image.asset(
-                                  'assets/images/Avatar.jpg',
+                                  userImageOne.text == ""
+                                      ? 'assets/images/iconAddfriend.png'
+                                      : 'assets/images/AvatarChibi${userImageOne.text}.jpg',
                                   height: 66,
                                 ),
                               ),
                               Center(
                                 child: Image.asset(
-                                  'assets/images/BoderAvatar2.png',
+                                  frameRankUserOne.text.isEmpty
+                                      ? "assets/images/FrameRank1.png"
+                                      : "assets/images/FrameRank${frameRankUserOne.text}.png",
                                   height: 100,
                                 ),
                               ),
                             ],
                           ),
                           Text(
-                            '2000',
+                            '${userOne.text} : ${highScoreOne.text}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
@@ -101,11 +238,6 @@ class _PlayingBattleState extends State<PlayingBattle> {
                             image: AssetImage("assets/images/vsbattle.png"),
                           ),
                         ),
-                        // child: const Text(
-                        //   'VS',
-                        //   style: TextStyle(color: Colors.white, fontSize: 30),
-                        //   textAlign: TextAlign.center,
-                        // ),
                       ),
                     ),
                     Expanded(
@@ -117,20 +249,24 @@ class _PlayingBattleState extends State<PlayingBattle> {
                             children: [
                               Center(
                                 child: Image.asset(
-                                  'assets/images/Avatar.jpg',
+                                  userImageTwo.text == ""
+                                      ? 'assets/images/iconAddfriend.png'
+                                      : 'assets/images/AvatarChibi${userImageOne.text}.jpg',
                                   height: 66,
                                 ),
                               ),
                               Center(
                                 child: Image.asset(
-                                  'assets/images/BoderAvatar2.png',
+                                  frameRankUserTwo.text.isEmpty
+                                      ? "assets/images/FrameRank1.png"
+                                      : "assets/images/FrameRank${frameRankUserTwo.text}.png",
                                   height: 100,
                                 ),
                               ),
                             ],
                           ),
                           Text(
-                            '2000',
+                            '${userTwo.text} : ${highScoreTwo.text}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
@@ -141,97 +277,155 @@ class _PlayingBattleState extends State<PlayingBattle> {
               ),
             ),
             Expanded(
-              flex: 4,
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/FrameQuestion.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Padding(
-                        padding: EdgeInsets.all(size.width / 15),
-                        child: const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Mình tự đánh mình, mình cảm thấy đâu là mình mạnh hay mình yếu?',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '30',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+              flex: 8,
+              child: StreamBuilder(
+                  stream: _db.child('questions/$_nextQuestion').onValue,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      final data = Map<String, dynamic>.from(
+                        Map<String, dynamic>.from(
+                            (snapshot.data as DatabaseEvent).snapshot.value
+                                as Map<dynamic, dynamic>),
+                      );
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/FrameTitle.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(size.width / 15),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          data['title'].toString(),
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          timeDown.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      // "Chapter ${chapterID.text}: ${chapterName.text}",
+                                      'Câu $EndNextQuestion / 20',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Chương 1: Vũ trụ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 1;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 1
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'A',
+                                      caption: data['1'].toString(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 2;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 2
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'B',
+                                      caption: data['2'].toString(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 3;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 3
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'C',
+                                      caption: data['3'].toString(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 4;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 4
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'D',
+                                      caption: data['4'].toString(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return CircularProgressIndicator();
+                  }),
             ),
-            Expanded(
-              flex: 4,
-              child: Column(
-                children: const [
-                  Expanded(
-                    child: Answer(title: 'A', caption: 'Lú cái đầu'),
-                  ),
-                  Expanded(
-                    child: Answer(title: 'B', caption: 'Lú cái đầu'),
-                  ),
-                  Expanded(
-                    child: Answer(title: 'C', caption: 'Lú cái đầu'),
-                  ),
-                  Expanded(
-                    child: Answer(title: 'D', caption: 'Lú cái đầu'),
-                  ),
-                ],
-              ),
-            ),
-            // Expanded(
-            //   flex: 2,
-            //   child: Container(
-            //     margin: const EdgeInsets.only(top: 10),
-            //     decoration: const BoxDecoration(
-            //       image: DecorationImage(
-            //         image: AssetImage("assets/images/FramePlayer.png"),
-            //         fit: BoxFit.fill,
-            //       ),
-            //     ),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: [
-            //         Icon_helper(url: 'assets/images/icon_hammer.png', items: 5),
-            //         Icon_helper(url: 'assets/images/icon_spider.png', items: 5),
-            //         Icon_helper(url: 'assets/images/icon_bat.png', items: 5),
-            //         Icon_helper(url: 'assets/images/icons_khien.png', items: 5),
-            //       ],
-            //     ),
-            //   ),
-            // ),
             const Spacer(
               flex: 1,
             ),
@@ -239,5 +433,14 @@ class _PlayingBattleState extends State<PlayingBattle> {
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _getRoomPlayerOne.cancel();
+    _getRoomPlayerTwo.cancel();
+    _getChapter.cancel();
+    _timer!.cancel();
+    super.deactivate();
   }
 }

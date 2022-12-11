@@ -79,7 +79,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                         ),
                       ),
                       onPressed: () async {
-                        var RoomKey = Random().nextInt(9999);
+                        var RoomKey = Random().nextInt(8999) + 1000;
 
                         final nextMember = <String, dynamic>{
                           'key': RoomKey,
@@ -170,6 +170,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                       ),
                     ),
                     onPressed: () async {
+<<<<<<< HEAD
                       _db
                           .child('rooms/${roomId.text}/playerTwo')
                           .update({'userName': user.text, 'rank': rank.text});
@@ -180,9 +181,28 @@ class _ChangeRoomState extends State<ChangeRoom> {
                           pageBuilder: (BuildContext context, _, __) =>
                               ShowDialogCreateRoom(
                             roomId: roomId.text.toString(),
+=======
+                      final snapshot =
+                          await _db.child('rooms/${roomId.text}/key').get();
+                      if (roomId.text.isNotEmpty && snapshot.exists) {
+                        _db.child('rooms/${roomId.text}/playerTwo').update({
+                          'userName': user.text,
+                          'image': image.text,
+                          'rank': rank.text
+                        });
+
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                ShowDialogCreateRoom(
+                              roomId: roomId.text.toString(),
+                            ),
+>>>>>>> origin/main
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                     child: Text("Let's go"),
                   ),

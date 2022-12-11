@@ -6,15 +6,21 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'PlayerRoom.dart';
 
-class ShowDialogCreateRoom extends StatefulWidget {
-  const ShowDialogCreateRoom({super.key, required this.roomId});
+class ReportBattle extends StatefulWidget {
+  const ReportBattle(
+      {super.key,
+      required this.roomId,
+      required this.highScoreOne,
+      required this.highScoreTwo});
   final String roomId;
+  final int highScoreOne;
+  final int highScoreTwo;
 
   @override
-  State<ShowDialogCreateRoom> createState() => _ShowDialogCreateRoomState();
+  State<ReportBattle> createState() => _ReportBattleState();
 }
 
-class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
+class _ReportBattleState extends State<ReportBattle> {
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
@@ -111,7 +117,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width / 1.5,
+          height: MediaQuery.of(context).size.height / 2.6,
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -167,6 +173,27 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                 ),
               ),
               Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      widget.highScoreOne > widget.highScoreTwo
+                          ? 'assets/images/iconwin.png'
+                          : 'assets/images/iconlose.png',
+                      width: MediaQuery.of(context).size.width / 4.5,
+                    ),
+                    Image.asset(
+                      widget.highScoreOne > widget.highScoreTwo
+                          ? 'assets/images/iconlose.png'
+                          : 'assets/images/iconwin.png',
+                      width: MediaQuery.of(context).size.width / 4.5,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
                 flex: 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,7 +212,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                           userOne.text,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: MediaQuery.of(context).size.height / 45,
                           ),
                         ),
                       ],
@@ -216,7 +243,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                           userTwo.text,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: MediaQuery.of(context).size.height / 45,
                           ),
                         ),
                       ],
@@ -239,9 +266,9 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                           .child('rooms/${widget.roomId}/playerTwo/userName')
                           .get();
                       if (snapshot.value != "") {
-                        // _database
-                        //     .child('rooms/${widget.roomId}/status')
-                        //     .set(true);
+                        _database
+                            .child('rooms/${widget.roomId}/status')
+                            .set(true);
                       }
                       _database
                           .child('rooms/${widget.roomId}/status')

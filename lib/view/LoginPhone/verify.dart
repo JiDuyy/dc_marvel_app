@@ -119,11 +119,11 @@ class _VerifyState extends State<Verify> {
                       // Sign the user in (or link) with the credential
 
                       await auth.signInWithCredential(credential);
-                      if (_db
-                              .child(NUMBERS_PATH)
-                              .child(auth.currentUser!.uid)
-                              .key ==
-                          null) {
+                      final snapshot = await _db
+                          .child(
+                              'members/${FirebaseAuth.instance.currentUser!.uid}/userName')
+                          .get();
+                      if (!snapshot.exists) {
                         final nextMember = <String, dynamic>{
                           'userID': auth.currentUser!.uid,
                           'phone': auth.currentUser!.phoneNumber,
@@ -133,7 +133,7 @@ class _VerifyState extends State<Verify> {
                           'highScore': 0,
                           'rank': 1,
                           'diamond': 0,
-                          'image': '1',
+                          'image': "1",
                           'time': DateTime.now().millisecondsSinceEpoch,
                         };
                         _db

@@ -138,7 +138,7 @@ class _PlayGameState extends State<PlayGame> {
                       incomingEffect:
                           WidgetTransitionEffects.incomingSlideInFromLeft(),
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           Navigator.of(context).push(
                             PageRouteBuilder(
                               opaque: false,

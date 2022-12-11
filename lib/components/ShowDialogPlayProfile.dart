@@ -20,7 +20,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
   final auth = FirebaseAuth.instance;
   final _database = FirebaseDatabase.instance.ref();
   bool _isvisible = false;
-  TextEditingController txtname = TextEditingController();
+  String txtname = " ";
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +150,6 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   150,
                                               child: TextField(
                                                   textAlign: TextAlign.center,
-                                                  controller: txtname,
                                                   readOnly: _isvisible == false
                                                       ? true
                                                       : false,
@@ -188,7 +187,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   ),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      txtname.text = value;
+                                                      txtname = value;
                                                     });
                                                   }),
                                             ),
@@ -203,8 +202,8 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   _database
                                                       .child(
                                                           'members/${auth.currentUser!.uid}/userName')
-                                                      .set(txtname.text);
-                                                  txtname.clear();
+                                                      .set(txtname);
+                                                   txtname = " ";
                                                 }
                                               },
                                               icon: Icon(

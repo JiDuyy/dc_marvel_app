@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_build_context_synchronously, avoid_print
 
 import 'dart:async';
 import 'dart:math';
@@ -36,6 +36,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
   int EndNextQuestion = 0;
 
   final _db = FirebaseDatabase.instance.ref();
+  final _auth = FirebaseAuth.instance;
   late StreamSubscription _getRoomPlayerOne, _getRoomPlayerTwo, _getChapter;
   Timer? _timer;
 
@@ -129,7 +130,37 @@ class _PlayingBattleState extends State<PlayingBattle> {
               ),
             ),
           );
-          Timer.periodic(Duration(seconds: 1), (timer) {
+          final String report;
+          if (int.parse(highScoreOne.text) > int.parse(highScoreTwo.text) &&
+              snapshot.value == userOne.text) {
+            report = 'win';
+          } else {
+            report = 'lose';
+          }
+
+          final nextHistory = <String, dynamic>{
+            'playerOne': {
+              'userName': userOne.text,
+              'image': userImageOne.text,
+              'rank': frameRankUserOne.text,
+              'highScore': highScoreOne.text,
+            },
+            'playerTwo': {
+              'userName': userTwo.text,
+              'image': userImageTwo.text,
+              'rank': frameRankUserTwo.text,
+              'highScore': highScoreTwo.text,
+            },
+            'report': report,
+            'time': DateTime.now(),
+          };
+          _db
+              .child('historys/${_auth.currentUser!.uid}/${widget.roomID}')
+              .set(nextHistory)
+              .then((_) => print('Member has been written!'))
+              .catchError((error) => print('You got an error $error'));
+
+          Timer.periodic(Duration(seconds: 2), (timer) {
             _db.child('rooms/${widget.roomID}/playerOne/highScore').set(0);
             _db.child('rooms/${widget.roomID}/playerTwo/highScore').set(0);
             timer.cancel();

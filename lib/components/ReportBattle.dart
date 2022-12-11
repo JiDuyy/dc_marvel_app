@@ -266,9 +266,9 @@ class _ReportBattleState extends State<ReportBattle> {
                           .child('rooms/${widget.roomId}/playerTwo/userName')
                           .get();
                       if (snapshot.value != "") {
-                        // _database
-                        //     .child('rooms/${widget.roomId}/status')
-                        //     .set(true);
+                        _database
+                            .child('rooms/${widget.roomId}/status')
+                            .set(true);
                       }
                       _database
                           .child('rooms/${widget.roomId}/status')

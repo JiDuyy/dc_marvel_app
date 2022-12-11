@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class score extends StatelessWidget {
   String nameScore;
-  int point;
+  String point;
   double fontsi;
   double fontsiPoint;
   bool isWin;
@@ -34,7 +34,7 @@ class score extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              point.toString(),
+              point,
               style: TextStyle(
                 color: isWin
                     ? Color.fromARGB(255, 154, 255, 72)

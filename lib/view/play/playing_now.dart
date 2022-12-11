@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:dc_marvel_app/components/Progressbar.dart';
+import 'package:dc_marvel_app/components/score_game.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,18 @@ import '../../components/Answer.dart';
 import '../../components/Icon_helper.dart';
 
 class PlayingGame extends StatefulWidget {
-  PlayingGame({super.key});
-
+  PlayingGame(
+      {super.key,
+      required this.level,
+      required this.diamond,
+      required this.exp,
+      required this.hightScore,
+      required this.chapter});
+  int level;
+  int diamond;
+  int exp;
+  int hightScore;
+  int chapter;
   @override
   State<PlayingGame> createState() => _PlayingGameState();
 }
@@ -22,63 +33,111 @@ class _PlayingGameState extends State<PlayingGame> {
   final _database = FirebaseDatabase.instance.ref();
   int num = 0;
   int selectOption = 0;
-  int _start = 300;
   int _current = 300;
   late StreamSubscription _subscription;
+  int total = 0;
+  int point = 0;
+  bool trueSelect = false;
 
   @override
+  // ignore: must_call_super
   void initState() {
     if (selectOption != 0) {
-      Timer(Duration(seconds: 1), () {
-        setState(() {
-          if (num <= 9) {
-            num++;
+      //Set time to next when user tap to the awser
+      Timer(Duration(milliseconds: 500), () async {
+        if (num <= (widget.chapter * 10)) {
+          num++;
+          if (trueSelect) {
+            ++total;
           }
-        });
-        _Chapter();
+        }
+        // _Chapter();
         selectOption = 1;
+        if (num == widget.chapter * 10 + 1) {
+          Score();
+        }
       });
     } else {
-      (setState(
-        () {
-          startTimer();
-          num++;
-        },
-      ));
+      //fun run to screen playing now
+      if (mounted) {
+        super.initState();
+        num = (widget.chapter - 1) * 10 + 1;
+        startTimer();
+        _Chapter();
+      }
     }
   }
 
+  //Get chapter in firebase
+  // ignore: non_constant_identifier_names
   void _Chapter() {
     _subscription = _database
         .child('questions/$num/chapter')
         .onValue
         .listen((DatabaseEvent event) {
       final data = event.snapshot.value as dynamic;
-      setState(() {
-        chaptertitle.text = 'Chapter ${data['id']}: ${data['title']} ';
-      });
+      if (mounted) {
+        setState(() {
+          chaptertitle.text = 'Chapter ${data['id']}: ${data['title']} ';
+        });
+      }
     });
   }
 
+//set timer
   void startTimer() {
     CountdownTimer countDownTimer = CountdownTimer(
       Duration(
-        seconds: _start,
+        seconds: 300,
       ),
       const Duration(seconds: 1),
     );
-
     var sub = countDownTimer.listen(null);
     sub.onData((duration) {
-      setState(() {
-        _current = _start - duration.elapsed.inSeconds;
-      });
+      if (mounted) {
+        setState(() {
+          _current = 300 - duration.elapsed.inSeconds;
+          if (_current == 0) {
+            Score();
+          }
+        });
+      }
     });
 
+    if (num == widget.chapter * 10 + 1) {
+      sub.cancel();
+    }
     sub.onDone(() {
+      // ignore: avoid_print
       print("Done");
       sub.cancel();
     });
+  }
+
+  void Score() {
+    if (_current <= 150) {
+      point = total * 50;
+    } else {
+      total >= 5
+          ? point = (total * 100 * ((_current + 5) / 300)).ceil()
+          : point = (total * 50 * ((_current + 5) / 300)).ceil();
+    }
+    Navigator.of(context).pop();
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => Score_game(
+            isWin: total >= 5,
+            Lever: widget.level,
+            exp: widget.exp,
+            Score: point,
+            diamond: widget.diamond,
+            total: total,
+            chapter: widget.chapter,
+            hightscore: widget.hightScore,
+            time: 300 - _current,
+            quantiHammer: 5,
+            quantiSpider: 5,
+            quantiBat: 5,
+            quantiShield: 5)));
   }
 
   @override
@@ -96,7 +155,7 @@ class _PlayingGameState extends State<PlayingGame> {
           ),
         ),
         child: StreamBuilder(
-          stream: _database.child('questions/${num}').onValue,
+          stream: _database.child('questions/$num').onValue,
           builder: ((context, snapshot) {
             if (num == 0) {
               return CircularProgressIndicator();
@@ -158,12 +217,18 @@ class _PlayingGameState extends State<PlayingGame> {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectOption = 5;
-                              });
-                              initState();
-                            },
+                            onTap: (selectOption == 5 ||
+                                    selectOption == 6 ||
+                                    selectOption == 7 ||
+                                    selectOption == 8)
+                                ? null
+                                : () {
+                                    setState(() {
+                                      trueSelect = int.parse(data['key']) == 1;
+                                      selectOption = 5;
+                                    });
+                                    initState();
+                                  },
                             child: Container(
                               color: selectOption == 5
                                   ? int.parse(data['key']) == 1
@@ -179,12 +244,19 @@ class _PlayingGameState extends State<PlayingGame> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectOption = 6;
-                              });
-                              initState();
-                            },
+                            onTap: (selectOption == 5 ||
+                                    selectOption == 6 ||
+                                    selectOption == 7 ||
+                                    selectOption == 8)
+                                ? null
+                                : () {
+                                    setState(() {
+                                      trueSelect = int.parse(data['key']) == 2;
+                                      selectOption = 6;
+                                    });
+
+                                    initState();
+                                  },
                             child: Container(
                               color: selectOption == 6
                                   ? int.parse(data['key']) == 2
@@ -200,12 +272,19 @@ class _PlayingGameState extends State<PlayingGame> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectOption = 7;
-                              });
-                              initState();
-                            },
+                            onTap: (selectOption == 5 ||
+                                    selectOption == 6 ||
+                                    selectOption == 7 ||
+                                    selectOption == 8)
+                                ? null
+                                : () {
+                                    setState(() {
+                                      trueSelect = int.parse(data['key']) == 3;
+                                      selectOption = 7;
+                                    });
+
+                                    initState();
+                                  },
                             child: Container(
                               alignment: Alignment.center,
                               color: selectOption == 7
@@ -222,12 +301,19 @@ class _PlayingGameState extends State<PlayingGame> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectOption = 8;
-                              });
-                              initState();
-                            },
+                            onTap: (selectOption == 5 ||
+                                    selectOption == 6 ||
+                                    selectOption == 7 ||
+                                    selectOption == 8)
+                                ? null
+                                : () {
+                                    setState(() {
+                                      trueSelect = int.parse(data['key']) == 4;
+                                      selectOption = 8;
+                                    });
+
+                                    initState();
+                                  },
                             child: Container(
                               color: selectOption == 8
                                   ? int.parse(data['key']) == 4
@@ -282,6 +368,7 @@ class _PlayingGameState extends State<PlayingGame> {
   @override
   void deactivate() {
     _subscription.cancel();
+
     super.deactivate();
   }
 }

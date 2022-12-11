@@ -20,8 +20,8 @@ class _PlayerRoomState extends State<PlayerRoom> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.size.width / 4,
-      height: widget.size.width / 4,
+      width: widget.size.width / 4.5,
+      height: widget.size.width / 4.5,
       child: Stack(
         children: [
           Align(

@@ -133,6 +133,7 @@ class _VerifyState extends State<Verify> {
                           'highScore': 0,
                           'rank': 1,
                           'diamond': 0,
+                          'image': '1',
                           'time': DateTime.now().millisecondsSinceEpoch,
                         };
                         _db

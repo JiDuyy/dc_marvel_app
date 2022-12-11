@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, non_constant_identifier_names
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:dc_marvel_app/components/ChangeRoom.dart';
@@ -26,6 +27,37 @@ class PlayGame extends StatefulWidget {
 class _PlayGameState extends State<PlayGame> {
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _useLevel;
+  int level = 1;
+  int hightScore = 0;
+  int chapter = 1;
+  int exp = 0;
+  int diamond = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userLevel();
+  }
+
+  //Get lever user
+  void _userLevel() {
+    _useLevel =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      if (mounted) {
+        setState(() {
+          level = data['level'];
+          hightScore = data['highScore'];
+          chapter = data['chapter'];
+          exp = data['exp'];
+          diamond = data['diamond'];
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -134,7 +166,12 @@ class _PlayGameState extends State<PlayGame> {
                             PageRouteBuilder(
                               opaque: false,
                               pageBuilder: (BuildContext context, _, __) =>
-                                  PlayingGame(),
+                                  PlayingGame(
+                                      level: level,
+                                      exp: exp,
+                                      hightScore: hightScore,
+                                      chapter: chapter,
+                                      diamond: diamond),
                             ),
                           );
                         },
@@ -176,5 +213,12 @@ class _PlayGameState extends State<PlayGame> {
         ],
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _useLevel.cancel();
+
+    super.deactivate();
   }
 }

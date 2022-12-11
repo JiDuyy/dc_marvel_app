@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:math';
 
 import 'package:dc_marvel_app/components/AnswerBattle.dart';
+import 'package:dc_marvel_app/components/ReportBattle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -25,14 +26,18 @@ class _PlayingBattleState extends State<PlayingBattle> {
   TextEditingController userImageTwo = TextEditingController();
   TextEditingController highScoreOne = TextEditingController();
   TextEditingController highScoreTwo = TextEditingController();
+  TextEditingController chapterID = TextEditingController();
+  TextEditingController chapterName = TextEditingController();
   int _activeAnswer = 0;
   int timeDown = 10;
   int _nextQuestion = 1;
   int ScoreOne = 0;
   int ScoreTwo = 0;
+  int EndNextQuestion = 0;
 
   final _db = FirebaseDatabase.instance.ref();
-  late StreamSubscription _getRoomPlayerOne, _getRoomPlayerTwo;
+  late StreamSubscription _getRoomPlayerOne, _getRoomPlayerTwo, _getChapter;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -40,6 +45,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
     _getPlayerOne();
     _getPlayerTwo();
     _getNextQuestion();
+    _getChapters();
   }
 
   void _getPlayerOne() {
@@ -68,8 +74,19 @@ class _PlayingBattleState extends State<PlayingBattle> {
     });
   }
 
+  void _getChapters() {
+    _getChapter =
+        _db.child('questions/$_nextQuestion/chapter').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        chapterID.text = data['id'].toString();
+        chapterName.text = data['title'].toString();
+      });
+    });
+  }
+
   void _getNextQuestion() {
-    Timer.periodic(Duration(seconds: 1), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
       if (timeDown != 0) {
         setState(() {
           --timeDown;
@@ -87,13 +104,37 @@ class _PlayingBattleState extends State<PlayingBattle> {
           ScoreTwo += 20;
         }
 
-        if (snapshot.value == userOne.text) {
-          _db.child('rooms/${widget.roomID}/playerOne/highScore').set(ScoreOne);
-        } else {
-          _db.child('rooms/${widget.roomID}/playerTwo/highScore').set(ScoreTwo);
-        }
+        snapshot.value == userOne.text
+            ? _db
+                .child('rooms/${widget.roomID}/playerOne/highScore')
+                .set(ScoreOne)
+            : _db
+                .child('rooms/${widget.roomID}/playerTwo/highScore')
+                .set(ScoreTwo);
+
         _activeAnswer = 0;
         _nextQuestion = Random().nextInt(99) + 1;
+        ++EndNextQuestion;
+        if (EndNextQuestion == 10) {
+          timer.cancel();
+          _db.child('rooms/${widget.roomID}/status').set(false);
+          Navigator.pop(context);
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context, _, __) => ReportBattle(
+                highScoreOne: int.parse(highScoreOne.text),
+                highScoreTwo: int.parse(highScoreTwo.text),
+                roomId: widget.roomID.toString(),
+              ),
+            ),
+          );
+          Timer.periodic(Duration(seconds: 1), (timer) {
+            _db.child('rooms/${widget.roomID}/playerOne/highScore').set(0);
+            _db.child('rooms/${widget.roomID}/playerTwo/highScore').set(0);
+            timer.cancel();
+          });
+        }
       }
     });
   }
@@ -256,7 +297,8 @@ class _PlayingBattleState extends State<PlayingBattle> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      data['id'].toString(),
+                                      // "Chapter ${chapterID.text}: ${chapterName.text}",
+                                      'Câu $EndNextQuestion / 20',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -364,6 +406,8 @@ class _PlayingBattleState extends State<PlayingBattle> {
   void deactivate() {
     _getRoomPlayerOne.cancel();
     _getRoomPlayerTwo.cancel();
+    _getChapter.cancel();
+    _timer!.cancel();
     super.deactivate();
   }
 }

@@ -212,7 +212,7 @@ class _ReportBattleState extends State<ReportBattle> {
                           userOne.text,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: MediaQuery.of(context).size.height / 45,
                           ),
                         ),
                       ],
@@ -243,7 +243,7 @@ class _ReportBattleState extends State<ReportBattle> {
                           userTwo.text,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: MediaQuery.of(context).size.height / 45,
                           ),
                         ),
                       ],

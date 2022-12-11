@@ -225,7 +225,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
                             ],
                           ),
                           Text(
-                            highScoreOne.text,
+                            '${userOne.text} : ${highScoreOne.text}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
@@ -266,7 +266,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
                             ],
                           ),
                           Text(
-                            highScoreTwo.text,
+                            '${userTwo.text} : ${highScoreTwo.text}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],

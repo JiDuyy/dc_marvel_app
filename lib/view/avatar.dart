@@ -36,9 +36,15 @@ class _AvatarState extends State<Avatar> {
                       },
                       child: Image.asset('assets/images/AvatarChibi1.jpg'),
                     ),
-                    Image.asset('assets/images/AvatarChibi2.jpg'),
+                    InkWell(
+                        onTap: () {
+                          _database
+                              .child('members/${auth.currentUser!.uid}/image')
+                              .set(2);
+                        },
+                        child: Image.asset('assets/images/AvatarChibi2.jpg')),
                   ],
-                ), 
+                ),
               ),
             ],
           ),

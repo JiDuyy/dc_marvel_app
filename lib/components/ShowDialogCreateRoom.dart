@@ -234,7 +234,15 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      final snapshot = await _database
+                          .child('rooms/${widget.roomId}/playerTwo/userName')
+                          .get();
+                      if (snapshot.value != "") {
+                        // _database
+                        //     .child('rooms/${widget.roomId}/status')
+                        //     .set(true);
+                      }
                       _database
                           .child('rooms/${widget.roomId}/status')
                           .set(true);

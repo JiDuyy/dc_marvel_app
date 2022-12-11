@@ -116,7 +116,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
         _activeAnswer = 0;
         _nextQuestion = Random().nextInt(99) + 1;
         ++EndNextQuestion;
-        if (EndNextQuestion == 2) {
+        if (EndNextQuestion == 10) {
           timer.cancel();
           _db.child('rooms/${widget.roomID}/status').set(false);
           Navigator.pop(context);
@@ -251,7 +251,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
                                 child: Image.asset(
                                   userImageTwo.text == ""
                                       ? 'assets/images/iconAddfriend.png'
-                                      : 'assets/images/AvatarChibi${userImageOne.text}.jpg',
+                                      : 'assets/images/AvatarChibi${userImageTwo.text}.jpg',
                                   height: 66,
                                 ),
                               ),
@@ -331,7 +331,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
                                   Expanded(
                                     child: Text(
                                       // "Chapter ${chapterID.text}: ${chapterName.text}",
-                                      'Câu $EndNextQuestion / 20',
+                                      'Câu $EndNextQuestion / 10',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,

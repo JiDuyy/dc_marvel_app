@@ -29,7 +29,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
   TextEditingController chapterID = TextEditingController();
   TextEditingController chapterName = TextEditingController();
   int _activeAnswer = 0;
-  int timeDown = 10;
+  int timeDown = 15;
   int _nextQuestion = 1;
   int ScoreOne = 0;
   int ScoreTwo = 0;
@@ -101,8 +101,8 @@ class _PlayingBattleState extends State<PlayingBattle> {
             .get();
 
         if (snapshotQuestion.value == _activeAnswer.toString()) {
-          ScoreOne += 20;
-          ScoreTwo += 20;
+          ScoreOne += 10;
+          ScoreTwo += 10;
         }
 
         snapshot.value == userOne.text
@@ -308,7 +308,9 @@ class _PlayingBattleState extends State<PlayingBattle> {
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           data['title'].toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18),
                                         ),
                                       ),
                                     ),

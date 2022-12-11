@@ -170,18 +170,6 @@ class _ChangeRoomState extends State<ChangeRoom> {
                       ),
                     ),
                     onPressed: () async {
-<<<<<<< HEAD
-                      _db
-                          .child('rooms/${roomId.text}/playerTwo')
-                          .update({'userName': user.text, 'rank': rank.text});
-                      Navigator.pop(context);
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (BuildContext context, _, __) =>
-                              ShowDialogCreateRoom(
-                            roomId: roomId.text.toString(),
-=======
                       final snapshot =
                           await _db.child('rooms/${roomId.text}/key').get();
                       if (roomId.text.isNotEmpty && snapshot.exists) {
@@ -199,7 +187,6 @@ class _ChangeRoomState extends State<ChangeRoom> {
                                 ShowDialogCreateRoom(
                               roomId: roomId.text.toString(),
                             ),
->>>>>>> origin/main
                           ),
                         );
                       }

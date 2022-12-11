@@ -133,7 +133,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
           final String report;
           if ((int.parse(highScoreOne.text) > int.parse(highScoreTwo.text) &&
                   snapshot.value == userOne.text) ||
-              (int.parse(highScoreOne.text) > int.parse(highScoreTwo.text) &&
+              (int.parse(highScoreOne.text) < int.parse(highScoreTwo.text) &&
                   snapshot.value != userOne.text)) {
             report = 'win';
           } else {

@@ -79,7 +79,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                         ),
                       ),
                       onPressed: () async {
-                        var RoomKey = Random().nextInt(9999);
+                        var RoomKey = Random().nextInt(8999) + 1000;
 
                         final nextMember = <String, dynamic>{
                           'key': RoomKey,

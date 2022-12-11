@@ -239,13 +239,10 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                           .child('rooms/${widget.roomId}/playerTwo/userName')
                           .get();
                       if (snapshot.value != "") {
-                        // _database
-                        //     .child('rooms/${widget.roomId}/status')
-                        //     .set(true);
+                        _database
+                            .child('rooms/${widget.roomId}/status')
+                            .set(true);
                       }
-                      _database
-                          .child('rooms/${widget.roomId}/status')
-                          .set(true);
                     },
                     child: Text("Play Now"),
                   ),

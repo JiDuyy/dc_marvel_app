@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dc_marvel_app/components/AnswerBattle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,26 +25,25 @@ class _PlayingBattleState extends State<PlayingBattle> {
   TextEditingController userImageTwo = TextEditingController();
   TextEditingController highScoreOne = TextEditingController();
   TextEditingController highScoreTwo = TextEditingController();
-  bool isCheck1 = false;
-  bool isCheck2 = false;
-  bool isCheck3 = false;
-  bool isCheck4 = false;
+  int _activeAnswer = 0;
+  int timeDown = 10;
+  int _nextQuestion = 1;
   int ScoreOne = 0;
   int ScoreTwo = 0;
 
   final _db = FirebaseDatabase.instance.ref();
-  late StreamSubscription _subscription;
-  late StreamSubscription _getRoom;
+  late StreamSubscription _getRoomPlayerOne, _getRoomPlayerTwo;
 
   @override
   void initState() {
     super.initState();
     _getPlayerOne();
     _getPlayerTwo();
+    _getNextQuestion();
   }
 
   void _getPlayerOne() {
-    _getRoom =
+    _getRoomPlayerOne =
         _db.child('rooms/${widget.roomID}/playerOne').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
       setState(() {
@@ -56,7 +56,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
   }
 
   void _getPlayerTwo() {
-    _subscription =
+    _getRoomPlayerTwo =
         _db.child('rooms/${widget.roomID}/playerTwo').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
       setState(() {
@@ -65,6 +65,36 @@ class _PlayingBattleState extends State<PlayingBattle> {
         frameRankUserTwo.text = data['rank'].toString();
         highScoreTwo.text = data['highScore'].toString();
       });
+    });
+  }
+
+  void _getNextQuestion() {
+    Timer.periodic(Duration(seconds: 1), (timer) async {
+      if (timeDown != 0) {
+        setState(() {
+          --timeDown;
+        });
+      } else {
+        timeDown = 10;
+        final snapshotQuestion =
+            await _db.child('questions/$_nextQuestion/key').get();
+        final snapshot = await _db
+            .child('members/${FirebaseAuth.instance.currentUser!.uid}/userName')
+            .get();
+
+        if (snapshotQuestion.value == _activeAnswer.toString()) {
+          ScoreOne += 20;
+          ScoreTwo += 20;
+        }
+
+        if (snapshot.value == userOne.text) {
+          _db.child('rooms/${widget.roomID}/playerOne/highScore').set(ScoreOne);
+        } else {
+          _db.child('rooms/${widget.roomID}/playerTwo/highScore').set(ScoreTwo);
+        }
+        _activeAnswer = 0;
+        _nextQuestion = Random().nextInt(99) + 1;
+      }
     });
   }
 
@@ -173,164 +203,153 @@ class _PlayingBattleState extends State<PlayingBattle> {
               ),
             ),
             Expanded(
-              flex: 4,
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/FrameTitle.png"),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Padding(
-                        padding: EdgeInsets.all(size.width / 15),
-                        child: const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Mình tự đánh mình, mình cảm thấy đâu là mình mạnh hay mình yếu?',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '30',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+              flex: 8,
+              child: StreamBuilder(
+                  stream: _db.child('questions/$_nextQuestion').onValue,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      final data = Map<String, dynamic>.from(
+                        Map<String, dynamic>.from(
+                            (snapshot.data as DatabaseEvent).snapshot.value
+                                as Map<dynamic, dynamic>),
+                      );
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/FrameTitle.png"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(size.width / 15),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          data['title'].toString(),
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          timeDown.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      data['id'].toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Chương 1: Vũ trụ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () async {
-                        setState(
-                          () {
-                            isCheck1 = true;
-                            isCheck2 = false;
-                            isCheck3 = false;
-                            isCheck4 = false;
-                            ScoreOne += 20;
-                            ScoreTwo += 20;
-                          },
-                        );
-                        final snapshot = await _db
-                            .child(
-                                'members/${FirebaseAuth.instance.currentUser!.uid}/userName')
-                            .get();
-                        if (snapshot.value == userOne.text) {
-                          _db
-                              .child(
-                                  'rooms/${widget.roomID}/playerOne/highScore')
-                              .set(ScoreOne);
-                        } else {
-                          _db
-                              .child(
-                                  'rooms/${widget.roomID}/playerTwo/highScore')
-                              .set(ScoreTwo);
-                        }
-                      },
-                      child: AnswerBattle(
-                        frameAnswer: !isCheck1
-                            ? "assets/images/FrameTitle.png"
-                            : "assets/images/FrameCopper.png",
-                        title: 'A',
-                        caption: 'Lú cái đầu',
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(
-                          () {
-                            isCheck1 = false;
-                            isCheck2 = true;
-                            isCheck3 = false;
-                            isCheck4 = false;
-                          },
-                        );
-                      },
-                      child: AnswerBattle(
-                        frameAnswer: !isCheck2
-                            ? "assets/images/FrameTitle.png"
-                            : "assets/images/FrameCopper.png",
-                        title: 'B',
-                        caption: 'Lú cái đầu',
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(
-                          () {
-                            isCheck1 = false;
-                            isCheck2 = false;
-                            isCheck3 = true;
-                            isCheck4 = false;
-                          },
-                        );
-                      },
-                      child: AnswerBattle(
-                        frameAnswer: !isCheck3
-                            ? "assets/images/FrameTitle.png"
-                            : "assets/images/FrameCopper.png",
-                        title: 'C',
-                        caption: 'Lú cái đầu',
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(
-                          () {
-                            isCheck1 = false;
-                            isCheck2 = false;
-                            isCheck3 = false;
-                            isCheck4 = true;
-                          },
-                        );
-                      },
-                      child: AnswerBattle(
-                        frameAnswer: !isCheck4
-                            ? "assets/images/FrameTitle.png"
-                            : "assets/images/FrameCopper.png",
-                        title: 'D',
-                        caption: 'Lú cái đầu',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 1;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 1
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'A',
+                                      caption: data['1'].toString(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 2;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 2
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'B',
+                                      caption: data['2'].toString(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 3;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 3
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'C',
+                                      caption: data['3'].toString(),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          _activeAnswer = 4;
+                                        },
+                                      );
+                                    },
+                                    child: AnswerBattle(
+                                      frameAnswer: _activeAnswer == 4
+                                          ? "assets/images/FrameCopper.png"
+                                          : "assets/images/FrameTitle.png",
+                                      title: 'D',
+                                      caption: data['4'].toString(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return CircularProgressIndicator();
+                  }),
             ),
             const Spacer(
               flex: 1,
@@ -343,8 +362,8 @@ class _PlayingBattleState extends State<PlayingBattle> {
 
   @override
   void deactivate() {
-    _subscription.cancel();
-    _getRoom.cancel();
+    _getRoomPlayerOne.cancel();
+    _getRoomPlayerTwo.cancel();
     super.deactivate();
   }
 }

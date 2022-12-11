@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
-import 'package:dc_marvel_app/components/Progressbar.dart';
 import 'package:dc_marvel_app/components/score_game.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:quiver/async.dart';
 import '../../components/Answer.dart';
 import '../../components/Icon_helper.dart';
+import '../../components/ShowDialogSettingPlayGame.dart';
 
 class PlayingGame extends StatefulWidget {
   PlayingGame(
@@ -31,13 +30,15 @@ class _PlayingGameState extends State<PlayingGame> {
   TextEditingController chaptertitle = TextEditingController();
   final auth = FirebaseAuth.instance;
   final _database = FirebaseDatabase.instance.ref();
-  int num = 0;
-  int selectOption = 0;
-  int _current = 300;
+  int num = 0,
+      selectOption = 0,
+      _current = 300,
+      _timerStart = 300,
+      total = 0,
+      point = 0;
   late StreamSubscription _subscription;
-  int total = 0;
-  int point = 0;
-  bool trueSelect = false;
+  bool trueSelect = false, pause = false;
+  late StreamSubscription sub;
 
   @override
   // ignore: must_call_super
@@ -92,11 +93,12 @@ class _PlayingGameState extends State<PlayingGame> {
       ),
       const Duration(seconds: 1),
     );
-    var sub = countDownTimer.listen(null);
+    sub = countDownTimer.listen(null);
     sub.onData((duration) {
       if (mounted) {
         setState(() {
-          _current = 300 - duration.elapsed.inSeconds;
+          _current =
+              int.parse((_timerStart - duration.elapsed.inSeconds).toString());
           if (_current == 0) {
             Score();
           }
@@ -125,7 +127,7 @@ class _PlayingGameState extends State<PlayingGame> {
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => Score_game(
-            isWin: total >= 5,
+            isWin: total >= 7,
             Lever: widget.level,
             exp: widget.exp,
             Score: point,
@@ -169,9 +171,97 @@ class _PlayingGameState extends State<PlayingGame> {
               return Column(
                 children: [
                   Expanded(
-                    child: ProgressBar(
-                      size: size,
-                      timeCurrent: _current,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 5,
+                            child: Container(
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.width / 14,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color:
+                                        const Color.fromARGB(255, 19, 19, 19),
+                                    width: 3),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Stack(children: [
+                                LayoutBuilder(
+                                  builder: (context, constraints) => Container(
+                                    width:
+                                        constraints.maxWidth * (_current / 300),
+                                    decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            // ignore: prefer_const_literals_to_create_immutables
+                                            colors: [
+                                              Color.fromARGB(255, 183, 0, 255),
+                                              Color.fromARGB(255, 21, 228, 255)
+                                            ]),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                  ),
+                                ),
+                                Positioned.fill(
+                                    child: Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "${_current.toString()} sec",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
+                                ))
+                              ]),
+                            )),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              setState(() {
+                                pause = true;
+                                _timerStart = _current;
+                              });
+                              if (pause) {
+                                sub.pause();
+                              }
+                              pause = await Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                          opaque: false,
+                                          pageBuilder:
+                                              (BuildContext context, _, __) =>
+                                                  ShowDialogSettingPlayGame(),
+                                        ),
+                                      ) ==
+                                      null
+                                  ? pause = true
+                                  : pause = false;
+
+                              if (!pause) {
+                                sub.cancel();
+                                sub.resume();
+                                startTimer();
+                              }
+                            },
+                            child: Container(
+                              width: size.width / 10,
+                              height: size.width / 10,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/icon_setting.png"),
+                                  // fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Expanded(

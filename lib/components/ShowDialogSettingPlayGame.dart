@@ -79,7 +79,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context,false);
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
@@ -99,13 +99,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PageMain(),
-                        ),
-                      );
+                      Navigator.popUntil(context, ModalRoute.withName('home'));
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),

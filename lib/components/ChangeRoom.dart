@@ -172,7 +172,17 @@ class _ChangeRoomState extends State<ChangeRoom> {
                     onPressed: () async {
                       final snapshot =
                           await _db.child('rooms/${roomId.text}/key').get();
-                      if (roomId.text.isNotEmpty && snapshot.exists) {
+                      final rankOne = await _db
+                          .child('rooms/${roomId.text}/playerOne/rank')
+                          .get();
+                      final rankTwo = await _db
+                          .child('members/${_auth.currentUser!.uid}/rank')
+                          .get();
+
+                      if (roomId.text.isNotEmpty &&
+                          snapshot.exists &&
+                          (rankOne.value.toString() ==
+                              rankTwo.value.toString())) {
                         _db.child('rooms/${roomId.text}/playerTwo').update({
                           'userName': user.text,
                           'image': image.text,

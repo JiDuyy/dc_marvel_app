@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dc_marvel_app/view/play/PlayBattleLoad.dart';
 import 'package:dc_marvel_app/view/setting.dart';
 import 'package:dc_marvel_app/view/testScreens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,13 +38,14 @@ class _MyWidgetState extends State<MyWidget> {
           () {
             if (data['status'].toString() == 'true') {
               Timer(
-                Duration(seconds: 2),
+                Duration(seconds: 3),
                 () {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TestScreend()),
+                        builder: (context) =>
+                            PlayBattleGame(roomID: widget.roomId)),
                   );
                 },
               );

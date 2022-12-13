@@ -37,7 +37,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
       final data = event.snapshot.value as dynamic;
       setState(() {
         user.text = data['userName'].toString();
-        rank.text = data['rank'].toString();
+        rank.text = data['frameRank'].toString();
         image.text = data['image'].toString();
       });
     });

@@ -56,7 +56,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
       setState(() {
         userOne.text = data['userName'].toString();
         userImageOne.text = data['image'].toString();
-        frameRankUserOne.text = data['rank'].toString();
+        frameRankUserOne.text = data['frameRank'].toString();
         highScoreOne.text = data['highScore'].toString();
       });
     });
@@ -69,7 +69,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
       setState(() {
         userTwo.text = data['userName'].toString();
         userImageTwo.text = data['image'].toString();
-        frameRankUserTwo.text = data['rank'].toString();
+        frameRankUserTwo.text = data['frameRank'].toString();
         highScoreTwo.text = data['highScore'].toString();
       });
     });
@@ -140,6 +140,9 @@ class _PlayingBattleState extends State<PlayingBattle> {
             report = 'lose';
           }
 
+          DateTime dateToday = DateTime.now();
+          String date = dateToday.toString().substring(0, 19);
+
           final nextHistory = <String, dynamic>{
             'playerOne': {
               'userName': userOne.text,
@@ -154,7 +157,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
               'highScore': highScoreTwo.text,
             },
             'report': report,
-            'time': DateTime.now().microsecondsSinceEpoch,
+            'time': date,
           };
           _db
               .child(

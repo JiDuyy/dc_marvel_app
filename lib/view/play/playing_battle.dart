@@ -56,7 +56,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
       setState(() {
         userOne.text = data['userName'].toString();
         userImageOne.text = data['image'].toString();
-        frameRankUserOne.text = data['frameRank'].toString();
+        frameRankUserOne.text = data['rank'].toString();
         highScoreOne.text = data['highScore'].toString();
       });
     });
@@ -69,7 +69,7 @@ class _PlayingBattleState extends State<PlayingBattle> {
       setState(() {
         userTwo.text = data['userName'].toString();
         userImageTwo.text = data['image'].toString();
-        frameRankUserTwo.text = data['frameRank'].toString();
+        frameRankUserTwo.text = data['rank'].toString();
         highScoreTwo.text = data['highScore'].toString();
       });
     });

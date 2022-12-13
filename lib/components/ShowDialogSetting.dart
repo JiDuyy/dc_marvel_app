@@ -31,12 +31,21 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
     isplay.release();
     isplay.dispose();
   }
+
   playMusic() async {
     await isplay.play(AssetSource('musics/nhacnen2.mp3'));
   }
+
   pauseMusic() async {
     await isplay.pause();
   }
+
+  void play() {
+    if (_controller == true) {
+      playMusic();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

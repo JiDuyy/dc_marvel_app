@@ -65,7 +65,7 @@ class _RankState extends State<Rank> {
                     return FrameRank(
                       frame: 'assets/images/FrameGold.png',
                       frameRank:
-                          'assets/images/FrameRank${snapshot.child('rank').value.toString()}.png',
+                          'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
                       pathAvatar:
                           'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
                       rank: '1',

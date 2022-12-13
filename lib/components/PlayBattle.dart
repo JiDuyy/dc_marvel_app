@@ -203,7 +203,7 @@ class _showDialogPlayBattleState extends State<showDialogPlayBattle> {
                         opacity: 1,
                         colorTitle: Colors.black,
                         routePage: MaterialPageRoute(
-                          builder: (context) => const Find_battle(),
+                          builder: (context) => const PlayBattle(),
                         ),
                       ),
                     ),

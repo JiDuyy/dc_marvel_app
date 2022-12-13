@@ -124,7 +124,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: AssetImage(
-                                                        "assets/images/FrameRank${data['rank']}.png"),
+                                                        "assets/images/FrameRank${data['frameRank']}.png"),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),

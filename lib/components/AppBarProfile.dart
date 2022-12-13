@@ -50,7 +50,7 @@ class _AppBarProfileState extends State<AppBarProfile> {
       final data = event.snapshot.value as dynamic;
       setState(() {
         getAvater.text = data['image'].toString();
-        getRank.text = data['rank'].toString();
+        getRank.text = data['frameRank'].toString();
       });
     });
   }

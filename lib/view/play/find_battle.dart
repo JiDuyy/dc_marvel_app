@@ -1,107 +1,134 @@
-import 'package:dc_marvel_app/components/card_player.dart';
-import 'package:flutter/material.dart';
-import '../../components/ButtonBattleCustom.dart';
-import '../../components/PlayBattle.dart';
-import 'playing_battle.dart';
+// ignore_for_file: use_build_context_synchronously
 
-class Find_battle extends StatefulWidget {
-  const Find_battle({super.key});
+import 'dart:async';
+import 'dart:math';
+
+import 'package:dc_marvel_app/view/setting.dart';
+import 'package:dc_marvel_app/view/test.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+
+class PlayBattle extends StatefulWidget {
+  const PlayBattle({super.key});
 
   @override
-  State<Find_battle> createState() => _Find_battleState();
+  State<PlayBattle> createState() => PlayBattleState();
 }
 
-class _Find_battleState extends State<Find_battle> {
+class PlayBattleState extends State<PlayBattle> {
+  final _rank = TextEditingController();
+  final _roomID = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _getRank, _getStart;
+
+  @override
+  void initState() {
+    super.initState();
+    getRank();
+    _getStatus();
+  }
+
+  void getRank() {
+    _getRank =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        _rank.text = data['rank'].toString();
+      });
+    });
+  }
+
+  void _getStatus() {
+    _getStart = _db.child('battle/${_roomID.text}').onValue.listen(
+      (event) {
+        final data = event.snapshot.value as dynamic;
+        setState(
+          () {
+            if (data['status'].toString() == 'true') {
+              Timer(
+                Duration(seconds: 2),
+                () {
+                  // Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Setting()),
+                  );
+                },
+              );
+            }
+            if (data['statusEnd'].toString() == 'true') {
+              Navigator.pop(context);
+              Timer(
+                const Duration(seconds: 1),
+                () {
+                  _db.child('rooms/${_roomID.text}').remove();
+                },
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(.9),
-      body: Container(
+      body: SizedBox(
         // padding: const EdgeInsets.all(15),
         width: double.infinity,
         height: double.infinity,
         child: Column(
           children: [
             Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 10, bottom: 10),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/FrameTitle.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: const Text(
-                  "Play Battle",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontFamily: 'Horizon',
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 8,
-              child: Column(
+              flex: 1,
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Card_player_wFind(
-                        url: 'assets/images/Avatar.jpg',
-                        Name: 'JiDuy',
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/FrameTitle.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: const Text(
+                      'Battle',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontFamily: 'Horizon',
                       ),
                     ),
                   ),
-                  // ignore: prefer_const_literals_to_create_immutables
-                  Expanded(
-                    child: Column(
-                      children: const [
-                        Expanded(
-                          child: Image(
-                            image: AssetImage('assets/images/vsbattle.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Card_player_wFind(
-                        url: 'assets/images/Avatar.jpg',
-                        Name: 'KDY',
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        Icons.logout_rounded,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
             Expanded(
-              child: Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  width: size.width / 8,
-                  height: size.width / 8,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (BuildContext context, _, __) =>
-                              const showDialogPlayBattle(),
-                        ),
-                      );
-                    },
-                    child: const ButtonBattleCustom(
-                      title: '',
-                      url: "assets/images/icon_cacel.png",
-                      fontSize: 18,
-                    ),
+              flex: 3,
+              child: Container(
+                margin: const EdgeInsets.all(30.0),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(_rank.text == ""
+                        ? "assets/images/rank1.png"
+                        : "assets/images/rank${_rank.text}.png"),
+                    // fit: BoxFit.fill,
                   ),
                 ),
               ),
@@ -119,14 +146,65 @@ class _Find_battleState extends State<Find_battle> {
                     ),
                   ),
                   child: TextButton(
-                    onPressed: () => {
-                      Navigator.pop(context),
+                    onPressed: () async {
+                      final snapshot = await _db.child('battle').get();
+                      // print(snapshot.children.length);
+                      List lstRooms = [];
+                      if (snapshot.children.isNotEmpty) {
+                        for (int i = 0; i < snapshot.children.length; i++) {
+                          final a = snapshot.children
+                              .elementAt(i)
+                              .child('playerTwo/userName');
+                          if (a.value == "") {
+                            // print(snapshot.children.elementAt(i).key.toString());
+                            lstRooms.add(
+                                snapshot.children.elementAt(i).key.toString());
+                          }
+                        }
+
+                        // print(a.value.toString());
+                        // print(a.child('playerOne/userName').value.toString());
+                        // print(a.child('playerOne/userName').value.toString() ==
+                        //         "JiDuy"
+                        //     ? true
+                        //     : false);
+                      }
+                      if (lstRooms.isEmpty) {
+                        var RoomKey = Random().nextInt(8999) + 1000;
+                        setState(() {
+                          _roomID.text = RoomKey.toString();
+                        });
+                        final nextMember = <String, dynamic>{
+                          'key': RoomKey,
+                          'playerOne': {
+                            'userName': "JiDuy",
+                          },
+                          'playerTwo': {
+                            'userName': "",
+                          },
+                          'status': false,
+                          'statusEnd': false,
+                          'time': DateTime.now().millisecondsSinceEpoch,
+                        };
+                        _db.child('battle/$RoomKey').set(nextMember);
+                      } else {
+                        print(lstRooms[0]);
+                        setState(() {
+                          _roomID.text = lstRooms[0];
+                        });
+                        _db
+                            .child('battle/${lstRooms[0]}/playerTwo/userName')
+                            .set("hehe");
+                        _db.child('battle/${lstRooms[0]}/status').set(true);
+                      }
+
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PlayingBattle(roomID: '',),
+                          builder: (context) => MyWidget(roomId: lstRooms[0]),
                         ),
-                      ),
+                      );
                     },
                     child: const Center(
                       child: Text(
@@ -143,12 +221,16 @@ class _Find_battleState extends State<Find_battle> {
                 ),
               ),
             ),
-            const Spacer(
-              flex: 1,
-            )
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _getRank.cancel();
+    _getStart.cancel();
+    super.deactivate();
   }
 }

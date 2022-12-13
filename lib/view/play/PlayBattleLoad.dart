@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'find_battle.dart';
+
 class PlayBattleGame extends StatefulWidget {
   const PlayBattleGame({super.key, required this.roomID});
   final String roomID;
@@ -56,7 +58,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
       setState(() {
         userOne.text = data['userName'].toString();
         userImageOne.text = data['image'].toString();
-        frameRankUserOne.text = data['frameRank'].toString();
+        frameRankUserOne.text = data['rank'].toString();
         highScoreOne.text = data['highScore'].toString();
       });
     });
@@ -69,7 +71,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
       setState(() {
         userTwo.text = data['userName'].toString();
         userImageTwo.text = data['image'].toString();
-        frameRankUserTwo.text = data['frameRank'].toString();
+        frameRankUserTwo.text = data['rank'].toString();
         highScoreTwo.text = data['highScore'].toString();
       });
     });
@@ -123,11 +125,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
           Navigator.of(context).push(
             PageRouteBuilder(
               opaque: false,
-              pageBuilder: (BuildContext context, _, __) => ReportBattle(
-                highScoreOne: int.parse(highScoreOne.text),
-                highScoreTwo: int.parse(highScoreTwo.text),
-                roomId: widget.roomID.toString(),
-              ),
+              pageBuilder: (BuildContext context, _, __) => PlayBattle(),
             ),
           );
           final String report;

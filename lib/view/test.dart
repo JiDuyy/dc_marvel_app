@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:dc_marvel_app/view/setting.dart';
+import 'package:dc_marvel_app/view/testScreens.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -28,8 +29,6 @@ class _MyWidgetState extends State<MyWidget> {
     _getStatus();
   }
 
-
-
   void _getStatus() {
     _getStart = _db.child('battle/${widget.roomId}').onValue.listen(
       (event) {
@@ -40,10 +39,11 @@ class _MyWidgetState extends State<MyWidget> {
               Timer(
                 Duration(seconds: 2),
                 () {
-                  // Navigator.pop(context);
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const Setting()),
+                    MaterialPageRoute(
+                        builder: (context) => const TestScreend()),
                   );
                 },
               );
@@ -68,12 +68,13 @@ class _MyWidgetState extends State<MyWidget> {
     return const Scaffold(
       body: SafeArea(
         child: Center(
-          child: Text('Test'),
+          child: Text('Đang tìm trận'),
         ),
       ),
     );
   }
-   @override
+
+  @override
   void deactivate() {
     _getStart.cancel();
     super.deactivate();

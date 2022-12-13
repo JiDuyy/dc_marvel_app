@@ -197,12 +197,11 @@ class PlayBattleState extends State<PlayBattle> {
                             .set("hehe");
                         _db.child('battle/${lstRooms[0]}/status').set(true);
                       }
-
                       Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MyWidget(roomId: lstRooms[0]),
+                          builder: (context) => MyWidget(roomId: _roomID.text),
                         ),
                       );
                     },

@@ -19,6 +19,7 @@ class ChangeRoom extends StatefulWidget {
 class _ChangeRoomState extends State<ChangeRoom> {
   TextEditingController roomId = TextEditingController();
   TextEditingController user = TextEditingController();
+  TextEditingController frameRank = TextEditingController();
   TextEditingController rank = TextEditingController();
   TextEditingController image = TextEditingController();
   final _db = FirebaseDatabase.instance.ref();
@@ -37,7 +38,8 @@ class _ChangeRoomState extends State<ChangeRoom> {
       final data = event.snapshot.value as dynamic;
       setState(() {
         user.text = data['userName'].toString();
-        rank.text = data['frameRank'].toString();
+        frameRank.text = data['frameRank'].toString();
+        rank.text = data['rank'].toString();
         image.text = data['image'].toString();
       });
     });
@@ -86,7 +88,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                           'playerOne': {
                             'userName': user.text,
                             'image': image.text,
-                            'rank': rank.text,
+                            'rank': frameRank.text,
                             'highScore': 0,
                           },
                           'playerTwo': {
@@ -186,7 +188,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                         _db.child('rooms/${roomId.text}/playerTwo').update({
                           'userName': user.text,
                           'image': image.text,
-                          'rank': rank.text
+                          'rank': frameRank.text
                         });
 
                         Navigator.pop(context);

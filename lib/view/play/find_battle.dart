@@ -17,17 +17,34 @@ class PlayBattle extends StatefulWidget {
 }
 
 class PlayBattleState extends State<PlayBattle> {
+  TextEditingController roomId = TextEditingController();
+  TextEditingController user = TextEditingController();
+  TextEditingController rank = TextEditingController();
+  TextEditingController image = TextEditingController();
   final _rank = TextEditingController();
   final _roomID = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
-  late StreamSubscription _getRank, _getStart;
+  late StreamSubscription _getRank, _getUser;
 
   @override
   void initState() {
     super.initState();
     getRank();
-    _getStatus();
+    // _getStatus();
+    _getPlayger();
+  }
+
+  void _getPlayger() {
+    _getUser =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        user.text = data['userName'].toString();
+        rank.text = data['frameRank'].toString();
+        image.text = data['image'].toString();
+      });
+    });
   }
 
   void getRank() {
@@ -40,38 +57,38 @@ class PlayBattleState extends State<PlayBattle> {
     });
   }
 
-  void _getStatus() {
-    _getStart = _db.child('battle/${_roomID.text}').onValue.listen(
-      (event) {
-        final data = event.snapshot.value as dynamic;
-        setState(
-          () {
-            if (data['status'].toString() == 'true') {
-              Timer(
-                Duration(seconds: 2),
-                () {
-                  // Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Setting()),
-                  );
-                },
-              );
-            }
-            if (data['statusEnd'].toString() == 'true') {
-              Navigator.pop(context);
-              Timer(
-                const Duration(seconds: 1),
-                () {
-                  _db.child('rooms/${_roomID.text}').remove();
-                },
-              );
-            }
-          },
-        );
-      },
-    );
-  }
+  // void _getStatus() {
+  //   _getStart = _db.child('battle/${_roomID.text}').onValue.listen(
+  //     (event) {
+  //       final data = event.snapshot.value as dynamic;
+  //       setState(
+  //         () {
+  //           if (data['status'].toString() == 'true') {
+  //             Timer(
+  //               Duration(seconds: 2),
+  //               () {
+  //                 // Navigator.pop(context);
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(builder: (context) => const Setting()),
+  //                 );
+  //               },
+  //             );
+  //           }
+  //           if (data['statusEnd'].toString() == 'true') {
+  //             Navigator.pop(context);
+  //             Timer(
+  //               const Duration(seconds: 1),
+  //               () {
+  //                 _db.child('rooms/${_roomID.text}').remove();
+  //               },
+  //             );
+  //           }
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -156,18 +173,10 @@ class PlayBattleState extends State<PlayBattle> {
                               .elementAt(i)
                               .child('playerTwo/userName');
                           if (a.value == "") {
-                            // print(snapshot.children.elementAt(i).key.toString());
                             lstRooms.add(
                                 snapshot.children.elementAt(i).key.toString());
                           }
                         }
-
-                        // print(a.value.toString());
-                        // print(a.child('playerOne/userName').value.toString());
-                        // print(a.child('playerOne/userName').value.toString() ==
-                        //         "JiDuy"
-                        //     ? true
-                        //     : false);
                       }
                       if (lstRooms.isEmpty) {
                         var RoomKey = Random().nextInt(8999) + 1000;
@@ -177,10 +186,16 @@ class PlayBattleState extends State<PlayBattle> {
                         final nextMember = <String, dynamic>{
                           'key': RoomKey,
                           'playerOne': {
-                            'userName': "JiDuy",
+                            'userName': user.text,
+                            'image': image.text,
+                            'rank': rank.text,
+                            'highScore': 0,
                           },
                           'playerTwo': {
                             'userName': "",
+                            'image': "",
+                            'rank': "",
+                            'highScore': 0,
                           },
                           'status': false,
                           'statusEnd': false,
@@ -188,13 +203,14 @@ class PlayBattleState extends State<PlayBattle> {
                         };
                         _db.child('battle/$RoomKey').set(nextMember);
                       } else {
-                        print(lstRooms[0]);
                         setState(() {
                           _roomID.text = lstRooms[0];
                         });
-                        _db
-                            .child('battle/${lstRooms[0]}/playerTwo/userName')
-                            .set("hehe");
+                        _db.child('battle/${lstRooms[0]}/playerTwo').update({
+                          'userName': user.text,
+                          'image': image.text,
+                          'rank': rank.text
+                        });
                         _db.child('battle/${lstRooms[0]}/status').set(true);
                       }
                       Navigator.pop(context);
@@ -229,7 +245,7 @@ class PlayBattleState extends State<PlayBattle> {
   @override
   void deactivate() {
     _getRank.cancel();
-    _getStart.cancel();
+    _getUser.cancel();
     super.deactivate();
   }
 }

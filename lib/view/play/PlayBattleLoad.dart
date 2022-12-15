@@ -60,6 +60,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
         userImageOne.text = data['image'].toString();
         frameRankUserOne.text = data['rank'].toString();
         highScoreOne.text = data['highScore'].toString();
+        print(frameRankUserOne.text);
       });
     });
   }
@@ -73,6 +74,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
         userImageTwo.text = data['image'].toString();
         frameRankUserTwo.text = data['rank'].toString();
         highScoreTwo.text = data['highScore'].toString();
+        print(frameRankUserTwo.text);
       });
     });
   }

@@ -19,6 +19,7 @@ class PlayBattleState extends State<PlayBattle> {
   TextEditingController user = TextEditingController();
   TextEditingController rank = TextEditingController();
   TextEditingController image = TextEditingController();
+  TextEditingController starRank = TextEditingController();
   final _rank = TextEditingController();
   final _roomID = TextEditingController();
   final _auth = FirebaseAuth.instance;
@@ -41,6 +42,7 @@ class PlayBattleState extends State<PlayBattle> {
         user.text = data['userName'].toString();
         rank.text = data['frameRank'].toString();
         image.text = data['image'].toString();
+        starRank.text = data['starRank'].toString();
       });
     });
   }
@@ -103,16 +105,41 @@ class PlayBattleState extends State<PlayBattle> {
             ),
             Expanded(
               flex: 3,
-              child: Container(
-                margin: const EdgeInsets.all(30.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(_rank.text == ""
-                        ? "assets/images/rank1.png"
-                        : "assets/images/rank${_rank.text}.png"),
-                    // fit: BoxFit.fill,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Container(
+                      margin: const EdgeInsets.all(30.0),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(_rank.text == ""
+                              ? "assets/images/rank1.png"
+                              : "assets/images/rank${_rank.text}.png"),
+                          // fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: starRank.text != '0' ? 34 : 0,
+                        ),
+                        Text(
+                          starRank.text != '0' ? 'x${starRank.text}' : '',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 28),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(

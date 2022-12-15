@@ -239,15 +239,18 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                           .get();
                       final report =
                           history.children.last.child('report').value;
-
                       final upRankUser = await _database
                           .child('members/${auth.currentUser!.uid}/rank')
                           .get();
+                      final upStarRankUser = await _database
+                          .child('members/${auth.currentUser!.uid}/starRank')
+                          .get();
                       int setRank = int.parse(upRankUser.value.toString());
+                      int starRank = int.parse(upStarRankUser.value.toString());
                       Navigator.pop(context);
                       Timer(
                         const Duration(seconds: 1),
-                        () {
+                        () async {
                           if (setRank > 1 && setRank < 26) {
                             report.toString() == "win"
                                 ? _database
@@ -258,45 +261,55 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                                     .child(
                                         'members/${auth.currentUser!.uid}/rank')
                                     .set(setRank - 1);
-                            if (setRank < 7) {
+                            final rankNow = await _database
+                                .child('members/${auth.currentUser!.uid}/rank')
+                                .get();
+                            Timer(const Duration(seconds: 1), () {
+                              if (int.parse(rankNow.value.toString()) < 7) {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(1);
+                              } else if (int.parse(rankNow.value.toString()) <
+                                  17) {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(2);
+                              } else {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(3);
+                              }
+                            });
+                          } else {
+                            if (report.toString() == "win") {
                               _database
                                   .child(
-                                      'members/${auth.currentUser!.uid}/frameRank')
-                                  .set(1);
-                            } else if (setRank < 17) {
-                              _database
-                                  .child(
-                                      'members/${auth.currentUser!.uid}/frameRank')
-                                  .set(2);
+                                      'members/${auth.currentUser!.uid}/starRank')
+                                  .set(starRank + 1);
                             } else {
-                              _database
-                                  .child(
-                                      'members/${auth.currentUser!.uid}/frameRank')
-                                  .set(3);
+                              starRank != 0
+                                  ? _database
+                                      .child(
+                                          'members/${auth.currentUser!.uid}/starRank')
+                                      .set(starRank - 1)
+                                  : _database
+                                      .child(
+                                          'members/${auth.currentUser!.uid}/rank')
+                                      .set(setRank - 1);
                             }
                           }
                         },
                       );
-                      final isBattle = await _database
-                          .child('battle/${widget.roomId}')
-                          .get();
-                      if (isBattle
-                              .child('playerOne/userName')
-                              .value
-                              .toString()
-                              .isEmpty &&
-                          isBattle
-                              .child('playerTwo/userName')
-                              .value
-                              .toString()
-                              .isEmpty) {
-                        Timer(
-                          const Duration(seconds: 1),
-                          () {
-                            _database.child('battle/${widget.roomId}').remove();
-                          },
-                        );
-                      }
+
+                      Timer(
+                        const Duration(seconds: 10),
+                        () {
+                          _database.child('battle/${widget.roomId}').remove();
+                        },
+                      );
                     },
                     child: Text("Back to rank"),
                   ),

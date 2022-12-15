@@ -57,7 +57,6 @@ class _ChangeRoomState extends State<ChangeRoom> {
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               image: AssetImage("assets/images/FrameTitle.png"),
               fit: BoxFit.cover,

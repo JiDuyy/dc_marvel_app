@@ -2,8 +2,6 @@
 
 import 'dart:async';
 import 'dart:math';
-
-import 'package:dc_marvel_app/view/setting.dart';
 import 'package:dc_marvel_app/view/play/FindBattle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -187,7 +185,7 @@ class PlayBattleState extends State<PlayBattle> {
                         });
                         _db.child('battle/${lstRooms[0]}/status').set(true);
                       }
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           opaque: false,

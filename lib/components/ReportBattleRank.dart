@@ -249,18 +249,20 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                       Timer(
                         const Duration(seconds: 1),
                         () {
-                          if (report.toString() == "win" &&
-                              setRank > 0 &&
-                              setRank < 27) {
-                            _database
-                                .child('members/${auth.currentUser!.uid}/rank')
-                                .set(
-                                    int.parse(upRankUser.value.toString()) + 1);
-                          } else {
-                            _database
-                                .child('members/${auth.currentUser!.uid}/rank')
-                                .set(
-                                    int.parse(upRankUser.value.toString()) - 1);
+                          if (setRank > 1 && setRank < 26) {
+                            report.toString() == "win"
+                                ? _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/rank')
+                                    .set(
+                                        int.parse(upRankUser.value.toString()) +
+                                            1)
+                                : _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/rank')
+                                    .set(
+                                        int.parse(upRankUser.value.toString()) -
+                                            1);
                           }
                         },
                       );

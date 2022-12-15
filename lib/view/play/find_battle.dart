@@ -1,10 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:math';
 
 import 'package:dc_marvel_app/view/setting.dart';
-import 'package:dc_marvel_app/view/test.dart';
+import 'package:dc_marvel_app/view/play/FindBattle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -56,39 +56,6 @@ class PlayBattleState extends State<PlayBattle> {
       });
     });
   }
-
-  // void _getStatus() {
-  //   _getStart = _db.child('battle/${_roomID.text}').onValue.listen(
-  //     (event) {
-  //       final data = event.snapshot.value as dynamic;
-  //       setState(
-  //         () {
-  //           if (data['status'].toString() == 'true') {
-  //             Timer(
-  //               Duration(seconds: 2),
-  //               () {
-  //                 // Navigator.pop(context);
-  //                 Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(builder: (context) => const Setting()),
-  //                 );
-  //               },
-  //             );
-  //           }
-  //           if (data['statusEnd'].toString() == 'true') {
-  //             Navigator.pop(context);
-  //             Timer(
-  //               const Duration(seconds: 1),
-  //               () {
-  //                 _db.child('rooms/${_roomID.text}').remove();
-  //               },
-  //             );
-  //           }
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -165,14 +132,21 @@ class PlayBattleState extends State<PlayBattle> {
                   child: TextButton(
                     onPressed: () async {
                       final snapshot = await _db.child('battle').get();
-                      // print(snapshot.children.length);
+                      final rankPlayger = await _db
+                          .child('members/${_auth.currentUser!.uid}/frameRank')
+                          .get();
                       List lstRooms = [];
                       if (snapshot.children.isNotEmpty) {
                         for (int i = 0; i < snapshot.children.length; i++) {
-                          final a = snapshot.children
+                          final getName = snapshot.children
                               .elementAt(i)
                               .child('playerTwo/userName');
-                          if (a.value == "") {
+                          final getRank = snapshot.children
+                              .elementAt(i)
+                              .child('playerOne/rank');
+                          if (getName.value == "" &&
+                              rankPlayger.value.toString() ==
+                                  getRank.value.toString()) {
                             lstRooms.add(
                                 snapshot.children.elementAt(i).key.toString());
                           }
@@ -214,10 +188,13 @@ class PlayBattleState extends State<PlayBattle> {
                         _db.child('battle/${lstRooms[0]}/status').set(true);
                       }
                       Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyWidget(roomId: _roomID.text),
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              FindBattle(
+                            roomId: _roomID.text,
+                          ),
                         ),
                       );
                     },

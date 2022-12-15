@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../components/ReportBattleRank.dart';
 import 'find_battle.dart';
 
 class PlayBattleGame extends StatefulWidget {
@@ -127,7 +128,11 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
           Navigator.of(context).push(
             PageRouteBuilder(
               opaque: false,
-              pageBuilder: (BuildContext context, _, __) => PlayBattle(),
+              pageBuilder: (BuildContext context, _, __) => ReportBattleRank(
+                highScoreOne: int.parse(highScoreOne.text),
+                highScoreTwo: int.parse(highScoreTwo.text),
+                roomId: widget.roomID.toString(),
+              ),
             ),
           );
           final String report;

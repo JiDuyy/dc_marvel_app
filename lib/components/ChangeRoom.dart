@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -199,6 +200,14 @@ class _ChangeRoomState extends State<ChangeRoom> {
                                 ShowDialogCreateRoom(
                               roomId: roomId.text.toString(),
                             ),
+                          ),
+                        );
+                      } else {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                FrameEx(Ex: "Room ID does not exist"),
                           ),
                         );
                       }

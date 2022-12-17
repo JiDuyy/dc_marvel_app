@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
+import 'dart:math';
 import 'package:dc_marvel_app/components/score_game.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -32,13 +33,14 @@ class _PlayingGameState extends State<PlayingGame> {
   final _database = FirebaseDatabase.instance.ref();
   int num = 0,
       selectOption = 0,
-      _current = 300,
-      _timerStart = 300,
+      _current = 250,
+      _timerStart = 250,
       total = 0,
       point = 0;
   late StreamSubscription _subscription;
   bool trueSelect = false, pause = false;
   late StreamSubscription sub;
+  Set<int> setOfInts = Set();
 
   @override
   // ignore: must_call_super
@@ -62,6 +64,10 @@ class _PlayingGameState extends State<PlayingGame> {
       //fun run to screen playing now
       if (mounted) {
         super.initState();
+        for (int i = 0; setOfInts.length < 4; i++) {
+          setOfInts.add(Random().nextInt(4) + 1);
+        }
+
         num = (widget.chapter - 1) * 10 + 1;
         startTimer();
         _Chapter();
@@ -89,7 +95,7 @@ class _PlayingGameState extends State<PlayingGame> {
   void startTimer() {
     CountdownTimer countDownTimer = CountdownTimer(
       Duration(
-        seconds: 300,
+        seconds: 250,
       ),
       const Duration(seconds: 1),
     );
@@ -121,8 +127,8 @@ class _PlayingGameState extends State<PlayingGame> {
       point = total * 50;
     } else {
       total >= 5
-          ? point = (total * 100 * ((_current + 5) / 300)).ceil()
-          : point = (total * 50 * ((_current + 5) / 300)).ceil();
+          ? point = (total * 100 * ((_current + 5) / 250)).ceil()
+          : point = (total * 50 * ((_current + 5) / 250)).ceil();
     }
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
@@ -189,7 +195,7 @@ class _PlayingGameState extends State<PlayingGame> {
                                 LayoutBuilder(
                                   builder: (context, constraints) => Container(
                                     width:
-                                        constraints.maxWidth * (_current / 300),
+                                        constraints.maxWidth * (_current / 250),
                                     decoration: BoxDecoration(
                                         gradient: const LinearGradient(
                                             begin: Alignment.topLeft,
@@ -314,20 +320,23 @@ class _PlayingGameState extends State<PlayingGame> {
                                 ? null
                                 : () {
                                     setState(() {
-                                      trueSelect = int.parse(data['key']) == 1;
+                                      trueSelect = int.parse(data['key']) ==
+                                          setOfInts.elementAt(0);
                                       selectOption = 5;
                                     });
                                     initState();
                                   },
                             child: Container(
                               color: selectOption == 5
-                                  ? int.parse(data['key']) == 1
+                                  ? int.parse(data['key']) ==
+                                          setOfInts.elementAt(0)
                                       ? Color.fromARGB(255, 9, 216, 231)
                                       : Color.fromARGB(255, 255, 45, 209)
                                   : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'A',
-                                caption: data['1'].toString(),
+                                caption: data['${setOfInts.elementAt(0)}']
+                                    .toString(),
                               ),
                             ),
                           ),
@@ -341,7 +350,8 @@ class _PlayingGameState extends State<PlayingGame> {
                                 ? null
                                 : () {
                                     setState(() {
-                                      trueSelect = int.parse(data['key']) == 2;
+                                      trueSelect = int.parse(data['key']) ==
+                                          setOfInts.elementAt(1);
                                       selectOption = 6;
                                     });
 
@@ -349,13 +359,15 @@ class _PlayingGameState extends State<PlayingGame> {
                                   },
                             child: Container(
                               color: selectOption == 6
-                                  ? int.parse(data['key']) == 2
+                                  ? int.parse(data['key']) ==
+                                          setOfInts.elementAt(1)
                                       ? Color.fromARGB(255, 9, 216, 231)
                                       : Color.fromARGB(255, 255, 45, 209)
                                   : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'B',
-                                caption: data['2'].toString(),
+                                caption: data['${setOfInts.elementAt(1)}']
+                                    .toString(),
                               ),
                             ),
                           ),
@@ -369,7 +381,8 @@ class _PlayingGameState extends State<PlayingGame> {
                                 ? null
                                 : () {
                                     setState(() {
-                                      trueSelect = int.parse(data['key']) == 3;
+                                      trueSelect = int.parse(data['key']) ==
+                                          setOfInts.elementAt(2);
                                       selectOption = 7;
                                     });
 
@@ -378,13 +391,15 @@ class _PlayingGameState extends State<PlayingGame> {
                             child: Container(
                               alignment: Alignment.center,
                               color: selectOption == 7
-                                  ? int.parse(data['key']) == 3
+                                  ? int.parse(data['key']) ==
+                                          setOfInts.elementAt(2)
                                       ? Color.fromARGB(255, 9, 216, 231)
                                       : Color.fromARGB(255, 255, 45, 209)
                                   : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'C',
-                                caption: data['3'].toString(),
+                                caption: data['${setOfInts.elementAt(2)}']
+                                    .toString(),
                               ),
                             ),
                           ),
@@ -398,7 +413,8 @@ class _PlayingGameState extends State<PlayingGame> {
                                 ? null
                                 : () {
                                     setState(() {
-                                      trueSelect = int.parse(data['key']) == 4;
+                                      trueSelect = int.parse(data['key']) ==
+                                          setOfInts.elementAt(3);
                                       selectOption = 8;
                                     });
 
@@ -406,13 +422,15 @@ class _PlayingGameState extends State<PlayingGame> {
                                   },
                             child: Container(
                               color: selectOption == 8
-                                  ? int.parse(data['key']) == 4
+                                  ? int.parse(data['key']) ==
+                                          setOfInts.elementAt(3)
                                       ? Color.fromARGB(255, 9, 216, 231)
                                       : Color.fromARGB(255, 255, 45, 209)
                                   : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'D',
-                                caption: data['4'].toString(),
+                                caption: data['${setOfInts.elementAt(3)}']
+                                    .toString(),
                               ),
                             ),
                           ),

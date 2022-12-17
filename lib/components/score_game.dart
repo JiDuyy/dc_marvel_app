@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,29 @@ class Score_game extends StatefulWidget {
 class _Score_gameState extends State<Score_game> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _useLevel;
+  int chapterCurrent = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userLevel();
+  }
+
+  //Get lever user
+  void _userLevel() {
+    _useLevel =
+        _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      if (mounted) {
+        setState(() {
+          chapterCurrent = data['chapter'];
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -294,7 +319,8 @@ class _Score_gameState extends State<Score_game> {
                                       'level': widget.Lever,
                                       'diamond':
                                           widget.diamond + widget.total * 10,
-                                      'chapter': widget.isWin
+                                      'chapter': widget.isWin &&
+                                              chapterCurrent == widget.chapter
                                           ? ++widget.chapter
                                           : widget.chapter,
                                       'highScore':

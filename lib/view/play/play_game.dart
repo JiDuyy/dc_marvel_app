@@ -36,6 +36,7 @@ class _PlayGameState extends State<PlayGame> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     _userLevel();
@@ -85,18 +86,34 @@ class _PlayGameState extends State<PlayGame> {
                   incomingEffect:
                       WidgetTransitionEffects.incomingSlideInFromTop(),
                   atRestEffect: WidgetRestingEffects.wave(),
-                  child: InkWell(
-                    onTap: (() => Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) =>
-                                const ShowChapterAll(),
+                  child: chapter == 1
+                      ? InkWell(
+                          key: const ValueKey('1'),
+                          onTap: (() => Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      const ShowChapterAll(),
+                                ),
+                              )),
+                          child: const ChapterImage(
+                            path: 'assets/images/Chapter1.png',
                           ),
-                        )),
-                    child: const ChapterImage(
-                      path: 'assets/images/Chapter1.png',
-                    ),
-                  ),
+                        )
+                      : InkWell(
+                          key: ValueKey('$chapter'),
+                          onTap: (() => Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      const ShowChapterAll(),
+                                ),
+                              )),
+                          child: ChapterImage(
+                            path:
+                                'assets/images/Chapter${chapter.toString()}.png',
+                          ),
+                        ),
                 ),
                 WidgetAnimator(
                   incomingEffect:

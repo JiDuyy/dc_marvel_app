@@ -175,7 +175,7 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                       hightScore: hightScore,
                       diamond: diamond,
                       numberChappter: 9,
-                      path: 'assets/images/Chapter10.png',
+                      path: 'assets/images/Chapter9.png',
                     ),
                     ItemChappter(
                       chapter: chapter,
@@ -184,7 +184,7 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                       hightScore: hightScore,
                       diamond: diamond,
                       numberChappter: 10,
-                      path: 'assets/images/Chapter11.png',
+                      path: 'assets/images/Chapter10.png',
                     ),
                   ],
                 ),
@@ -197,4 +197,3 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
     );
   }
 }
-

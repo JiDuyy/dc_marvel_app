@@ -1,5 +1,5 @@
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
-
 import '../view/play/playing_now.dart';
 
 class ChapterImage extends StatefulWidget {
@@ -42,7 +42,6 @@ class ItemChappter extends StatelessWidget {
       required this.numberChappter,
       required this.path})
       : super(key: key);
-
   final int chapter;
   final int level;
   final int exp;
@@ -90,7 +89,7 @@ class ItemChappter extends StatelessWidget {
                 ? Colors.black.withOpacity(.6)
                 : Colors.black.withOpacity(.0),
             child: chapter < numberChappter
-                ? Image(
+                ? const Image(
                     image: AssetImage('assets/images/iconLockinChapter.png'),
                   )
                 : Container(),

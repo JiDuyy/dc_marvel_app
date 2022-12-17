@@ -4,6 +4,7 @@ import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import '../view/play/PlayBattleLoad.dart';
 import 'PlayerRoom.dart';
 
 class ReportBattle extends StatefulWidget {
@@ -86,7 +87,8 @@ class _ReportBattleState extends State<ReportBattle> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PlayingBattle(
+                      builder: (context) => PlayBattleGame(
+                        urlRef: 'rooms',
                         roomID: widget.roomId,
                       ),
                     ),
@@ -121,7 +123,6 @@ class _ReportBattleState extends State<ReportBattle> {
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               image: AssetImage("assets/images/FrameTitle.png"),
               fit: BoxFit.cover,
@@ -136,9 +137,11 @@ class _ReportBattleState extends State<ReportBattle> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: IconButton(
-                        onPressed: () => _database
-                            .child('rooms/${widget.roomId}/statusEnd')
-                            .set(true),
+                        onPressed: () {
+                          _database
+                              .child('rooms/${widget.roomId}/statusEnd')
+                              .set(true);
+                        },
                         icon: Icon(Icons.logout),
                         color: Colors.white,
                       ),

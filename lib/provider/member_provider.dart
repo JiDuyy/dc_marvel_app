@@ -37,5 +37,4 @@ class MemberProvider extends ChangeNotifier {
     super.dispose();
   }
 
- 
 }

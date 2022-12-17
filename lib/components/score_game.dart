@@ -2,6 +2,8 @@
 
 import 'dart:async';
 
+import 'package:dc_marvel_app/view/play/play_game.dart';
+import 'package:dc_marvel_app/view/play/playing_now.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -320,7 +322,9 @@ class _Score_gameState extends State<Score_game> {
                                       'diamond':
                                           widget.diamond + widget.total * 10,
                                       'chapter': widget.isWin &&
-                                              chapterCurrent == widget.chapter
+                                              chapterCurrent ==
+                                                  widget.chapter &&
+                                              widget.chapter < 10
                                           ? ++widget.chapter
                                           : widget.chapter,
                                       'highScore':
@@ -370,7 +374,7 @@ class _Score_gameState extends State<Score_game> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              child: const InkWell()),
+                              child: InkWell()),
                         ),
                         const Spacer()
                       ],

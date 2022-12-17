@@ -111,7 +111,7 @@ class _PlayGameState extends State<PlayGame> {
                               )),
                           child: ChapterImage(
                             path:
-                                'assets/images/Chapter${chapter.toString()}.png',
+                                'assets/images/Chapter$chapter.png',
                           ),
                         ),
                 ),

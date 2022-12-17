@@ -33,14 +33,16 @@ class _PlayingGameState extends State<PlayingGame> {
   final _database = FirebaseDatabase.instance.ref();
   int num = 0,
       selectOption = 0,
-      _current = 250,
-      _timerStart = 250,
+      _current = 240,
+      _timerStart = 240,
       total = 0,
-      point = 0;
+      point = 0,
+      count = 0,
+      countHelp = 0;
   late StreamSubscription _subscription;
   bool trueSelect = false, pause = false;
   late StreamSubscription sub;
-  Set<int> setOfInts = Set();
+  Set<int> setOfInts = {}, setHelp = {};
 
   @override
   // ignore: must_call_super
@@ -48,18 +50,18 @@ class _PlayingGameState extends State<PlayingGame> {
     if (selectOption != 0) {
       //Set time to next when user tap to the awser
       Timer(Duration(milliseconds: 500), () async {
-        if (num <= (widget.chapter * 10)) {
+        if (num < widget.chapter * 10) {
           num++;
-          if (trueSelect) {
-            ++total;
-          }
         }
+        if (trueSelect) ++total;
+        count++;
         // _Chapter();
         selectOption = 1;
-        if (num == widget.chapter * 10 + 1) {
-          Score();
-        }
+        if (num == widget.chapter * 10 && count == 10) Score();
       });
+
+      //Reset SetHelp
+      if (setHelp.isNotEmpty) setHelp.clear();
     } else {
       //fun run to screen playing now
       if (mounted) {
@@ -95,7 +97,7 @@ class _PlayingGameState extends State<PlayingGame> {
   void startTimer() {
     CountdownTimer countDownTimer = CountdownTimer(
       Duration(
-        seconds: 250,
+        seconds: 240,
       ),
       const Duration(seconds: 1),
     );
@@ -127,8 +129,8 @@ class _PlayingGameState extends State<PlayingGame> {
       point = total * 50;
     } else {
       total >= 5
-          ? point = (total * 100 * ((_current + 5) / 250)).ceil()
-          : point = (total * 50 * ((_current + 5) / 250)).ceil();
+          ? point = (total * 100 * ((_current + 5) / 240)).ceil()
+          : point = (total * 50 * ((_current + 5) / 240)).ceil();
     }
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
@@ -141,7 +143,7 @@ class _PlayingGameState extends State<PlayingGame> {
             total: total,
             chapter: widget.chapter,
             hightscore: widget.hightScore,
-            time: 300 - _current,
+            time: 240 - _current,
             quantiHammer: 5,
             quantiSpider: 5,
             quantiBat: 5,
@@ -195,7 +197,7 @@ class _PlayingGameState extends State<PlayingGame> {
                                 LayoutBuilder(
                                   builder: (context, constraints) => Container(
                                     width:
-                                        constraints.maxWidth * (_current / 250),
+                                        constraints.maxWidth * (_current / 240),
                                     decoration: BoxDecoration(
                                         gradient: const LinearGradient(
                                             begin: Alignment.topLeft,
@@ -327,12 +329,15 @@ class _PlayingGameState extends State<PlayingGame> {
                                     initState();
                                   },
                             child: Container(
-                              color: selectOption == 5
-                                  ? int.parse(data['key']) ==
-                                          setOfInts.elementAt(0)
-                                      ? Color.fromARGB(255, 9, 216, 231)
-                                      : Color.fromARGB(255, 255, 45, 209)
-                                  : Color.fromARGB(0, 255, 45, 209),
+                              color: setHelp.isNotEmpty &&
+                                      setHelp.contains(setOfInts.elementAt(0))
+                                  ? Color.fromARGB(255, 255, 45, 209)
+                                  : selectOption == 5
+                                      ? int.parse(data['key']) ==
+                                              setOfInts.elementAt(0)
+                                          ? Color.fromARGB(255, 9, 216, 231)
+                                          : Color.fromARGB(255, 255, 45, 209)
+                                      : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'A',
                                 caption: data['${setOfInts.elementAt(0)}']
@@ -358,12 +363,15 @@ class _PlayingGameState extends State<PlayingGame> {
                                     initState();
                                   },
                             child: Container(
-                              color: selectOption == 6
-                                  ? int.parse(data['key']) ==
-                                          setOfInts.elementAt(1)
-                                      ? Color.fromARGB(255, 9, 216, 231)
-                                      : Color.fromARGB(255, 255, 45, 209)
-                                  : Color.fromARGB(0, 255, 45, 209),
+                              color: setHelp.isNotEmpty &&
+                                      setHelp.contains(setOfInts.elementAt(1))
+                                  ? Color.fromARGB(255, 255, 45, 209)
+                                  : selectOption == 6
+                                      ? int.parse(data['key']) ==
+                                              setOfInts.elementAt(1)
+                                          ? Color.fromARGB(255, 9, 216, 231)
+                                          : Color.fromARGB(255, 255, 45, 209)
+                                      : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'B',
                                 caption: data['${setOfInts.elementAt(1)}']
@@ -390,12 +398,15 @@ class _PlayingGameState extends State<PlayingGame> {
                                   },
                             child: Container(
                               alignment: Alignment.center,
-                              color: selectOption == 7
-                                  ? int.parse(data['key']) ==
-                                          setOfInts.elementAt(2)
-                                      ? Color.fromARGB(255, 9, 216, 231)
-                                      : Color.fromARGB(255, 255, 45, 209)
-                                  : Color.fromARGB(0, 255, 45, 209),
+                              color: setHelp.isNotEmpty &&
+                                      setHelp.contains(setOfInts.elementAt(2))
+                                  ? Color.fromARGB(255, 255, 45, 209)
+                                  : selectOption == 7
+                                      ? int.parse(data['key']) ==
+                                              setOfInts.elementAt(2)
+                                          ? Color.fromARGB(255, 9, 216, 231)
+                                          : Color.fromARGB(255, 255, 45, 209)
+                                      : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'C',
                                 caption: data['${setOfInts.elementAt(2)}']
@@ -421,12 +432,15 @@ class _PlayingGameState extends State<PlayingGame> {
                                     initState();
                                   },
                             child: Container(
-                              color: selectOption == 8
-                                  ? int.parse(data['key']) ==
-                                          setOfInts.elementAt(3)
-                                      ? Color.fromARGB(255, 9, 216, 231)
-                                      : Color.fromARGB(255, 255, 45, 209)
-                                  : Color.fromARGB(0, 255, 45, 209),
+                              color: setHelp.isNotEmpty &&
+                                      setHelp.contains(setOfInts.elementAt(3))
+                                  ? Color.fromARGB(255, 255, 45, 209)
+                                  : selectOption == 8
+                                      ? int.parse(data['key']) ==
+                                              setOfInts.elementAt(3)
+                                          ? Color.fromARGB(255, 9, 216, 231)
+                                          : Color.fromARGB(255, 255, 45, 209)
+                                      : Color.fromARGB(0, 255, 45, 209),
                               child: Answer(
                                 title: 'D',
                                 caption: data['${setOfInts.elementAt(3)}']
@@ -451,14 +465,91 @@ class _PlayingGameState extends State<PlayingGame> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon_helper(
-                              url: 'assets/images/icon_hammer.png', items: 5),
-                          Icon_helper(
-                              url: 'assets/images/icon_spider.png', items: 5),
-                          Icon_helper(
-                              url: 'assets/images/icon_bat.png', items: 5),
-                          Icon_helper(
-                              url: 'assets/images/icons_khien.png', items: 5),
+                          InkWell(
+                            onTap: countHelp >= 4
+                                ? null
+                                : () async {
+                                    countHelp++;
+                                    if (_current <= 120) {
+                                      setState(() {
+                                        pause = true;
+                                        _timerStart = _current + 6;
+                                      });
+                                      sub.cancel();
+                                      startTimer();
+                                    }
+                                  },
+                            child: Icon_helper(
+                                url: 'assets/images/icon_hammer.png', items: 5),
+                          ),
+                          InkWell(
+                            onTap: countHelp >= 4
+                                ? null
+                                : () {
+                                    countHelp++;
+                                    if (setHelp.isNotEmpty) setHelp.clear();
+                                    setState(() {
+                                      for (int i = 0; setHelp.length < 2; i++) {
+                                        var rd = Random().nextInt(3) + 1;
+                                        if (setOfInts.elementAt(rd) !=
+                                            int.parse(data['key'])) {
+                                          setHelp.add(setOfInts.elementAt(rd));
+                                        }
+                                      }
+                                    });
+                                  },
+                            child: Icon_helper(
+                                url: 'assets/images/icon_spider.png', items: 5),
+                          ),
+                          InkWell(
+                            onTap: countHelp >= 4
+                                ? null
+                                : (() {
+                                    countHelp++;
+                                    setState(() {
+                                      Timer(Duration(milliseconds: 500),
+                                          () async {
+                                        if (num < widget.chapter * 10) {
+                                          ++num;
+                                        }
+                                        ++total;
+                                        count++;
+
+                                        if (num == widget.chapter * 10 &&
+                                            count == 10) {
+                                          Score();
+                                        }
+                                      });
+                                    });
+                                  }),
+                            child: Icon_helper(
+                                url: 'assets/images/icon_bat.png', items: 5),
+                          ),
+                          InkWell(
+                            onTap: countHelp >= 4
+                                ? null
+                                : () async {
+                                    countHelp++;
+
+                                    setState(() {
+                                      pause = true;
+                                      _timerStart = _current;
+                                    });
+                                    if (pause) {
+                                      sub.pause();
+                                    }
+                                    Timer(Duration(seconds: 10), () async {
+                                      pause = false;
+                                      if (!pause) {
+                                        sub.cancel();
+                                        sub.resume();
+                                        startTimer();
+                                      }
+                                    });
+                                  },
+                            child: Icon_helper(
+                                url: 'assets/images/icons_khien.png', items: 5),
+                          ),
                         ],
                       ),
                     ),

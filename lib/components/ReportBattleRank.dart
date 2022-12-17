@@ -79,22 +79,6 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
         final data = event.snapshot.value as dynamic;
         setState(
           () {
-            if (data['status'].toString() == 'true') {
-              Timer(
-                Duration(seconds: 1),
-                () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlayingBattle(
-                        roomID: widget.roomId,
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
             if (data['statusEnd'].toString() == 'true') {
               Navigator.pop(context);
               Timer(

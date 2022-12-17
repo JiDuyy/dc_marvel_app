@@ -4,17 +4,17 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dc_marvel_app/components/AnswerBattle.dart';
-import 'package:dc_marvel_app/components/ReportBattle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../components/ReportBattle.dart';
 import '../../components/ReportBattleRank.dart';
-import 'find_battle.dart';
 
 class PlayBattleGame extends StatefulWidget {
-  const PlayBattleGame({super.key, required this.roomID});
+  const PlayBattleGame({super.key, required this.roomID, required this.urlRef});
   final String roomID;
+  final String urlRef;
 
   @override
   State<PlayBattleGame> createState() => _PlayBattleGameState();
@@ -53,8 +53,10 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
   }
 
   void _getPlayerOne() {
-    _getRoomPlayerOne =
-        _db.child('battle/${widget.roomID}/playerOne').onValue.listen((event) {
+    _getRoomPlayerOne = _db
+        .child('${widget.urlRef}/${widget.roomID}/playerOne')
+        .onValue
+        .listen((event) {
       final data = event.snapshot.value as dynamic;
       setState(() {
         userOne.text = data['userName'].toString();
@@ -67,8 +69,10 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
   }
 
   void _getPlayerTwo() {
-    _getRoomPlayerTwo =
-        _db.child('battle/${widget.roomID}/playerTwo').onValue.listen((event) {
+    _getRoomPlayerTwo = _db
+        .child('${widget.urlRef}/${widget.roomID}/playerTwo')
+        .onValue
+        .listen((event) {
       final data = event.snapshot.value as dynamic;
       setState(() {
         userTwo.text = data['userName'].toString();
@@ -112,10 +116,10 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
 
         snapshot.value == userOne.text
             ? _db
-                .child('battle/${widget.roomID}/playerOne/highScore')
+                .child('${widget.urlRef}/${widget.roomID}/playerOne/highScore')
                 .set(ScoreOne)
             : _db
-                .child('battle/${widget.roomID}/playerTwo/highScore')
+                .child('${widget.urlRef}/${widget.roomID}/playerTwo/highScore')
                 .set(ScoreTwo);
 
         _activeAnswer = 0;
@@ -123,18 +127,30 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
         ++EndNextQuestion;
         if (EndNextQuestion == 11) {
           timer.cancel();
-          _db.child('battle/${widget.roomID}/status').set(false);
+          _db.child('${widget.urlRef}/${widget.roomID}/status').set(false);
+          final getRoom = await _db.child('battle/${widget.roomID}').get();
           Navigator.pop(context);
           Navigator.of(context).push(
             PageRouteBuilder(
               opaque: false,
-              pageBuilder: (BuildContext context, _, __) => ReportBattleRank(
-                highScoreOne: int.parse(highScoreOne.text),
-                highScoreTwo: int.parse(highScoreTwo.text),
-                roomId: widget.roomID.toString(),
-              ),
+              pageBuilder: (BuildContext context, _, __) {
+                if (getRoom.children.isNotEmpty) {
+                  return ReportBattleRank(
+                    highScoreOne: int.parse(highScoreOne.text),
+                    highScoreTwo: int.parse(highScoreTwo.text),
+                    roomId: widget.roomID.toString(),
+                  );
+                } else {
+                  return ReportBattle(
+                    highScoreOne: int.parse(highScoreOne.text),
+                    highScoreTwo: int.parse(highScoreTwo.text),
+                    roomId: widget.roomID.toString(),
+                  );
+                }
+              },
             ),
           );
+
           final String report;
           if ((int.parse(highScoreOne.text) > int.parse(highScoreTwo.text) &&
                   snapshot.value == userOne.text) ||
@@ -147,6 +163,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
 
           DateTime dateToday = DateTime.now();
           String date = dateToday.toString().substring(0, 19);
+          if (widget.urlRef == 'battle') {}
 
           final nextHistory = <String, dynamic>{
             'playerOne': {
@@ -161,6 +178,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
               'rank': frameRankUserTwo.text,
               'highScore': highScoreTwo.text,
             },
+            'battle': widget.urlRef == 'battle' ? 'rank' : 'normal',
             'report': report,
             'time': date,
           };
@@ -172,8 +190,12 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
               .catchError((error) => print('You got an error $error'));
 
           Timer.periodic(Duration(seconds: 2), (timer) {
-            _db.child('battle/${widget.roomID}/playerOne/highScore').set(0);
-            _db.child('battle/${widget.roomID}/playerTwo/highScore').set(0);
+            _db
+                .child('${widget.urlRef}/${widget.roomID}/playerOne/highScore')
+                .set(0);
+            _db
+                .child('${widget.urlRef}/${widget.roomID}/playerTwo/highScore')
+                .set(0);
             timer.cancel();
           });
         }

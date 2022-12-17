@@ -67,8 +67,8 @@ class _FindBattleState extends State<FindBattle> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          PlayBattleGame(roomID: widget.roomId),
+                      builder: (context) => PlayBattleGame(
+                          urlRef: 'battle', roomID: widget.roomId),
                     ),
                   );
                 },

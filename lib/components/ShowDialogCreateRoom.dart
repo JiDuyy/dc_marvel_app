@@ -4,6 +4,7 @@ import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import '../view/play/PlayBattleLoad.dart';
 import 'PlayerRoom.dart';
 
 class ShowDialogCreateRoom extends StatefulWidget {
@@ -80,7 +81,8 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PlayingBattle(
+                      builder: (context) => PlayBattleGame(
+                        urlRef: 'rooms',
                         roomID: widget.roomId,
                       ),
                     ),
@@ -130,9 +132,52 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: IconButton(
-                        onPressed: () => _database
-                            .child('rooms/${widget.roomId}/statusEnd')
-                            .set(true),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          final getPlayerTwo = await _database
+                              .child(
+                                  'members/${auth.currentUser!.uid}/userName')
+                              .get();
+                          // print(getPlayerTwo.value.toString());
+
+                          if (userTwo.text == getPlayerTwo.value.toString()) {
+                            Timer(
+                              const Duration(milliseconds: 100),
+                              () {
+                                _database
+                                    .child('rooms/${widget.roomId}/playerTwo')
+                                    .update({
+                                  'userName': "",
+                                  'image': "",
+                                  'rank': ""
+                                });
+                              },
+                            );
+                          } else {
+                            Timer(
+                              const Duration(milliseconds: 100),
+                              () {
+                                _database
+                                    .child('rooms/${widget.roomId}/playerTwo')
+                                    .update({
+                                  'userName': "",
+                                  'image': "",
+                                  'rank': ""
+                                });
+                                _database
+                                    .child('rooms/${widget.roomId}/playerOne')
+                                    .update({
+                                  'userName': userTwo.text,
+                                  'image': userImageTwo.text,
+                                  'rank': frameRankUserTwo.text
+                                });
+                              },
+                            );
+                          }
+                          // _database
+                          //     .child('rooms/${widget.roomId}/statusEnd')
+                          //     .set(true);
+                        },
                         icon: Icon(Icons.logout),
                         color: Colors.white,
                       ),

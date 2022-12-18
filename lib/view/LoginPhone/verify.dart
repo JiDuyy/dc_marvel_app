@@ -116,25 +116,32 @@ class _VerifyState extends State<Verify> {
                       PhoneAuthCredential credential =
                           PhoneAuthProvider.credential(
                               verificationId: LoginPhone.verify, smsCode: pin);
-                      // Sign the user in (or link) with the credential
-
                       await auth.signInWithCredential(credential);
                       final snapshot = await _db
                           .child(
                               'members/${FirebaseAuth.instance.currentUser!.uid}/userName')
                           .get();
+                      final newUserName = await _db.child('members').get();
                       if (!snapshot.exists) {
                         final nextMember = <String, dynamic>{
                           'userID': auth.currentUser!.uid,
                           'phone': auth.currentUser!.phoneNumber,
-                          'userName': "user name",
+                          'userName': "player${newUserName.children.length}",
                           'level': 1,
                           'exp': 0,
+                          'frameRank': 1,
+                          'starRank': 0,
                           'chapter': 1,
                           'highScore': 0,
                           'rank': 1,
                           'diamond': 0,
                           'image': "1",
+                          'help': {
+                            'bat': 0,
+                            'shield': 0,
+                            'spider': 0,
+                            'thor': 0,
+                          },
                           'time': DateTime.now().millisecondsSinceEpoch,
                         };
                         _db

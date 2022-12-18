@@ -86,6 +86,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                         final nextMember = <String, dynamic>{
                           'key': RoomKey,
                           'playerOne': {
+                            'key': true,
                             'userName': user.text,
                             'image': image.text,
                             'rank': frameRank.text,
@@ -172,26 +173,39 @@ class _ChangeRoomState extends State<ChangeRoom> {
                       ),
                     ),
                     onPressed: () async {
-                      final snapshot =
+                      final getRoom =
                           await _db.child('rooms/${roomId.text}/key').get();
+                      final getPlayerTwo = await _db
+                          .child('rooms/${roomId.text}/playerTwo/userName')
+                          .get();
 
-                      if (roomId.text.isNotEmpty && snapshot.exists) {
-                        _db.child('rooms/${roomId.text}/playerTwo').update({
-                          'userName': user.text,
-                          'image': image.text,
-                          'rank': frameRank.text
-                        });
+                      if (roomId.text.isNotEmpty && getRoom.exists) {
+                        if (getPlayerTwo.value.toString() == "") {
+                          _db.child('rooms/${roomId.text}/playerTwo').update({
+                            'userName': user.text,
+                            'image': image.text,
+                            'rank': frameRank.text
+                          });
 
-                        Navigator.pop(context);
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) =>
-                                ShowDialogCreateRoom(
-                              roomId: roomId.text.toString(),
+                          Navigator.pop(context);
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  ShowDialogCreateRoom(
+                                roomId: roomId.text.toString(),
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "Room is full"),
+                            ),
+                          );
+                        }
                       } else {
                         Navigator.of(context).push(
                           PageRouteBuilder(

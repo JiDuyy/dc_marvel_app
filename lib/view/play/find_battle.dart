@@ -104,7 +104,7 @@ class PlayBattleState extends State<PlayBattle> {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 5,
               child: Column(
                 children: [
                   Expanded(
@@ -113,32 +113,44 @@ class PlayBattleState extends State<PlayBattle> {
                       margin: const EdgeInsets.all(30.0),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(_rank.text == ""
-                              ? "assets/images/rank1.png"
-                              : "assets/images/rank${_rank.text}.png"),
+                          image: AssetImage(
+                            _rank.text == ""
+                                ? "assets/images/rank1.png"
+                                : "assets/images/rank${_rank.text}.png",
+                          ),
                           // fit: BoxFit.fill,
                         ),
                       ),
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                          size: starRank.text != '0' ? 34 : 0,
-                        ),
-                        Text(
-                          starRank.text != '0' ? 'x${starRank.text}' : '',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 28),
-                        ),
-                      ],
-                    ),
-                  ),
+                      flex: 3,
+                      child: starRank.text != '0'
+                          ? Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/FrameStar.png'),
+                                  // fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 24,
+                                  ),
+                                  Text(
+                                    'x${starRank.text}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container()),
                 ],
               ),
             ),

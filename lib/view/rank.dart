@@ -59,18 +59,28 @@ class _RankState extends State<Rank> {
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
               child: FirebaseAnimatedList(
-                  reverse: true,
-                  query: _db.orderByChild('rank'),
+                  query: _db.orderByChild('starRank'),
+                  sort: (a, b) => (b
+                      .child('starRank')
+                      .value
+                      .toString()
+                      .compareTo(a.child('starRank').value.toString())),
                   itemBuilder: (context, snapshot, animation, index) {
                     return FrameRank(
-                      frame: 'assets/images/FrameGold.png',
+                      frame: index == 0
+                          ? 'assets/images/FrameGold.png'
+                          : index == 1
+                              ? 'assets/images/FrameSiver.png'
+                              : index == 2
+                                  ? 'assets/images/FrameCopper.png'
+                                  : 'assets/images/FrameNormal.png',
                       frameRank:
                           'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
                       pathAvatar:
                           'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
-                      rank: '1',
+                      rank: '${index += 1}',
                       userName: snapshot.child('userName').value.toString(),
-                      pointRank: snapshot.child('highScore').value.toString(),
+                      pointRank: snapshot.child('starRank').value.toString(),
                     );
                   }),
             ),

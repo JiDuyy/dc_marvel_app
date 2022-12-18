@@ -53,7 +53,7 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(.9),
       body: InkWell(
-        onDoubleTap: () => Navigator.pop(context),
+        onTap: () => Navigator.pop(context),
         child: Column(
           children: [
             Expanded(
@@ -87,7 +87,7 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () {
+                      onDoubleTap: () {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             opaque: false,
@@ -186,11 +186,20 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                       numberChappter: 10,
                       path: 'assets/images/Chapter10.png',
                     ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/tubecontinue.gif'),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                    )
                   ],
                 ),
               ),
             ),
-            const Spacer()
           ],
         ),
       ),

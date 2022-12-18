@@ -53,7 +53,7 @@ class ItemChappter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: chapter < numberChappter
+      onDoubleTap: chapter < numberChappter
           ? null
           : () {
               Navigator.of(context).push(
@@ -74,6 +74,7 @@ class ItemChappter extends StatelessWidget {
             margin: EdgeInsets.only(
               left: MediaQuery.of(context).size.width / 20,
               top: MediaQuery.of(context).size.height / 40,
+              bottom: MediaQuery.of(context).size.height / 7,
             ),
             width: MediaQuery.of(context).size.width / 1.1,
             decoration: BoxDecoration(
@@ -83,6 +84,8 @@ class ItemChappter extends StatelessWidget {
             ),
           ),
           Container(
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height / 30),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             color: chapter < numberChappter

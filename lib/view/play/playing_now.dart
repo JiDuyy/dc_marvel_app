@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
 import 'dart:math';
+import 'package:dc_marvel_app/components/AnimationHelper.dart';
 import 'package:dc_marvel_app/components/score_game.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -28,9 +29,13 @@ class PlayingGame extends StatefulWidget {
 }
 
 class _PlayingGameState extends State<PlayingGame> {
-  TextEditingController chaptertitle = TextEditingController();
   final auth = FirebaseAuth.instance;
   final _database = FirebaseDatabase.instance.ref();
+  late StreamSubscription _subscription, _subTimer;
+  var lsHelp = [];
+  TextEditingController chaptertitle = TextEditingController();
+  bool trueSelect = false, pause = false;
+  Set<int> setOfInts = {}, setHelp = {};
   int num = 0,
       selectOption = 0,
       _current = 240,
@@ -39,10 +44,6 @@ class _PlayingGameState extends State<PlayingGame> {
       point = 0,
       count = 0,
       countHelp = 0;
-  late StreamSubscription _subscription;
-  bool trueSelect = false, pause = false;
-  late StreamSubscription sub;
-  Set<int> setOfInts = {}, setHelp = {};
 
   @override
   // ignore: must_call_super
@@ -50,14 +51,13 @@ class _PlayingGameState extends State<PlayingGame> {
     if (selectOption != 0) {
       //Set time to next when user tap to the awser
       Timer(Duration(milliseconds: 500), () async {
-        if (num < widget.chapter * 10) {
-          num++;
-        }
+        if (num < widget.chapter * 10) num++;
+
         if (trueSelect) ++total;
         count++;
         // _Chapter();
         selectOption = 1;
-        if (num == widget.chapter * 10 && count == 10) Score();
+        if (num == widget.chapter * 10 && count == 10) _pushScore();
       });
 
       //Reset SetHelp
@@ -71,8 +71,9 @@ class _PlayingGameState extends State<PlayingGame> {
         }
 
         num = (widget.chapter - 1) * 10 + 1;
-        startTimer();
+        _startTimer();
         _Chapter();
+        _getHelper();
       }
     }
   }
@@ -93,38 +94,80 @@ class _PlayingGameState extends State<PlayingGame> {
     });
   }
 
+  bool _selectOptions() {
+    if (selectOption == 5 ||
+        selectOption == 6 ||
+        selectOption == 7 ||
+        selectOption == 8) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+//get Item Helper from database realtime
+  void _getHelper() async {
+    final subHelp =
+        await _database.child('members/${auth.currentUser!.uid}/help').get();
+    if (subHelp.exists) {
+      // ignore: avoid_function_literals_in_foreach_calls
+      subHelp.children.forEach((DataSnapshot dataSnapshot) {
+        lsHelp.add(dataSnapshot.value);
+      });
+    } else {
+      print('No data available.');
+    }
+  }
+
+//update item help when it is used
+  void _updateItemHelp() {
+    if (_database.child('members').child(auth.currentUser!.uid).key != null) {
+      final bat = <String, dynamic>{
+        'help': {
+          'bat': lsHelp[0],
+          'shield': lsHelp[1],
+          'spider': lsHelp[2],
+          'thor': lsHelp[3],
+        },
+      };
+      _database
+          .child('members/${auth.currentUser!.uid}')
+          .update(bat)
+          .then((_) => print('update Spider successful'))
+          .catchError((error) => print('You got an error $error'));
+    }
+  }
+
 //set timer
-  void startTimer() {
+  void _startTimer() {
     CountdownTimer countDownTimer = CountdownTimer(
       Duration(
         seconds: 240,
       ),
       const Duration(seconds: 1),
     );
-    sub = countDownTimer.listen(null);
-    sub.onData((duration) {
+    _subTimer = countDownTimer.listen(null);
+    _subTimer.onData((duration) {
       if (mounted) {
         setState(() {
           _current =
               int.parse((_timerStart - duration.elapsed.inSeconds).toString());
-          if (_current == 0) {
-            Score();
-          }
+          if (_current == 0) _pushScore();
         });
       }
     });
 
-    if (num == widget.chapter * 10 + 1) {
-      sub.cancel();
-    }
-    sub.onDone(() {
+    if (num == widget.chapter * 10) _subTimer.cancel();
+
+    _subTimer.onDone(() {
       // ignore: avoid_print
       print("Done");
-      sub.cancel();
+      _subTimer.cancel();
     });
   }
 
-  void Score() {
+  // ignore: non_constant_identifier_names
+  void _pushScore() {
     if (_current <= 150) {
       point = total * 50;
     } else {
@@ -144,10 +187,10 @@ class _PlayingGameState extends State<PlayingGame> {
             chapter: widget.chapter,
             hightscore: widget.hightScore,
             time: 240 - _current,
-            quantiHammer: 5,
-            quantiSpider: 5,
-            quantiBat: 5,
-            quantiShield: 5)));
+            quantiHammer: lsHelp[3],
+            quantiSpider: lsHelp[1],
+            quantiBat: lsHelp[0],
+            quantiShield: lsHelp[2])));
   }
 
   @override
@@ -167,9 +210,6 @@ class _PlayingGameState extends State<PlayingGame> {
         child: StreamBuilder(
           stream: _database.child('questions/$num').onValue,
           builder: ((context, snapshot) {
-            if (num == 0) {
-              return CircularProgressIndicator();
-            }
             if (snapshot.hasData && snapshot.data != null) {
               final data = Map<String, dynamic>.from(
                 Map<String, dynamic>.from((snapshot.data as DatabaseEvent)
@@ -236,7 +276,7 @@ class _PlayingGameState extends State<PlayingGame> {
                                 _timerStart = _current;
                               });
                               if (pause) {
-                                sub.pause();
+                                _subTimer.pause();
                               }
                               pause = await Navigator.of(context).push(
                                         PageRouteBuilder(
@@ -251,9 +291,9 @@ class _PlayingGameState extends State<PlayingGame> {
                                   : pause = false;
 
                               if (!pause) {
-                                sub.cancel();
-                                sub.resume();
-                                startTimer();
+                                _subTimer.cancel();
+                                _subTimer.resume();
+                                _startTimer();
                               }
                             },
                             child: Container(
@@ -315,10 +355,7 @@ class _PlayingGameState extends State<PlayingGame> {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: (selectOption == 5 ||
-                                    selectOption == 6 ||
-                                    selectOption == 7 ||
-                                    selectOption == 8)
+                            onTap: _selectOptions()
                                 ? null
                                 : () {
                                     setState(() {
@@ -348,10 +385,7 @@ class _PlayingGameState extends State<PlayingGame> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: (selectOption == 5 ||
-                                    selectOption == 6 ||
-                                    selectOption == 7 ||
-                                    selectOption == 8)
+                            onTap: _selectOptions()
                                 ? null
                                 : () {
                                     setState(() {
@@ -382,10 +416,7 @@ class _PlayingGameState extends State<PlayingGame> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: (selectOption == 5 ||
-                                    selectOption == 6 ||
-                                    selectOption == 7 ||
-                                    selectOption == 8)
+                            onTap: _selectOptions()
                                 ? null
                                 : () {
                                     setState(() {
@@ -417,10 +448,7 @@ class _PlayingGameState extends State<PlayingGame> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: (selectOption == 5 ||
-                                    selectOption == 6 ||
-                                    selectOption == 7 ||
-                                    selectOption == 8)
+                            onTap: _selectOptions()
                                 ? null
                                 : () {
                                     setState(() {
@@ -469,86 +497,135 @@ class _PlayingGameState extends State<PlayingGame> {
                             onTap: countHelp >= 4
                                 ? null
                                 : () async {
-                                    countHelp++;
-                                    if (_current <= 120) {
+                                    if (_current <= 440 && lsHelp[3] > 0) {
+                                      countHelp++;
                                       setState(() {
+                                        lsHelp[3] -= 1;
                                         pause = true;
                                         _timerStart = _current + 6;
                                       });
-                                      sub.cancel();
-                                      startTimer();
+
+                                      _updateItemHelp();
+
+                                      Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                          opaque: false,
+                                          pageBuilder:
+                                              (BuildContext context, _, __) =>
+                                                  HammerAnimation(),
+                                        ),
+                                      );
+                                      _subTimer.cancel();
+                                      _startTimer();
                                     }
                                   },
                             child: Icon_helper(
-                                url: 'assets/images/icon_hammer.png', items: 5),
+                                url: 'assets/images/icon_hammer.png',
+                                items: lsHelp[3]),
                           ),
                           InkWell(
                             onTap: countHelp >= 4
                                 ? null
                                 : () {
-                                    countHelp++;
-                                    if (setHelp.isNotEmpty) setHelp.clear();
-                                    setState(() {
-                                      for (int i = 0; setHelp.length < 2; i++) {
-                                        var rd = Random().nextInt(3) + 1;
-                                        if (setOfInts.elementAt(rd) !=
-                                            int.parse(data['key'])) {
-                                          setHelp.add(setOfInts.elementAt(rd));
+                                    if (lsHelp[2] > 0) {
+                                      countHelp++;
+                                      lsHelp[2] -= 1;
+                                      if (setHelp.isNotEmpty) setHelp.clear();
+                                      setState(() {
+                                        for (int i = 0;
+                                            setHelp.length < 2;
+                                            i++) {
+                                          var rd = Random().nextInt(3) + 1;
+                                          if (setOfInts.elementAt(rd) !=
+                                              int.parse(data['key'])) {
+                                            setHelp
+                                                .add(setOfInts.elementAt(rd));
+                                          }
                                         }
-                                      }
-                                    });
+                                      });
+
+                                      _updateItemHelp();
+                                    }
                                   },
                             child: Icon_helper(
-                                url: 'assets/images/icon_spider.png', items: 5),
+                                url: 'assets/images/icon_spider.png',
+                                items: lsHelp[2]),
                           ),
                           InkWell(
                             onTap: countHelp >= 4
                                 ? null
-                                : (() {
-                                    countHelp++;
-                                    setState(() {
-                                      Timer(Duration(milliseconds: 500),
-                                          () async {
-                                        if (num < widget.chapter * 10) {
-                                          ++num;
-                                        }
-                                        ++total;
-                                        count++;
+                                : () {
+                                    if (lsHelp[0] > 0) {
+                                      if (setHelp.isNotEmpty) setHelp.clear();
 
-                                        if (num == widget.chapter * 10 &&
-                                            count == 10) {
-                                          Score();
-                                        }
+                                      lsHelp[0] -= 1;
+                                      countHelp++;
+                                      setState(() {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            opaque: false,
+                                            pageBuilder:
+                                                (BuildContext context, _, __) =>
+                                                    BatAniMation(),
+                                          ),
+                                        );
+                                        Timer(Duration(milliseconds: 500),
+                                            () async {
+                                          if (num < widget.chapter * 10) ++num;
+
+                                          ++total;
+                                          count++;
+
+                                          if (num == widget.chapter * 10 &&
+                                              count == 10) {
+                                            _pushScore();
+                                          }
+                                        });
                                       });
-                                    });
-                                  }),
+                                      _updateItemHelp();
+                                    }
+                                  },
                             child: Icon_helper(
-                                url: 'assets/images/icon_bat.png', items: 5),
+                                url: 'assets/images/icon_bat.png',
+                                items: lsHelp[0]),
                           ),
                           InkWell(
                             onTap: countHelp >= 4
                                 ? null
                                 : () async {
-                                    countHelp++;
+                                    if (lsHelp[1] > 0) {
+                                      lsHelp[1] -= 1;
+                                      countHelp++;
 
-                                    setState(() {
-                                      pause = true;
-                                      _timerStart = _current;
-                                    });
-                                    if (pause) {
-                                      sub.pause();
+                                      setState(() {
+                                        pause = true;
+                                        _timerStart = _current;
+                                      });
+                                      if (pause) _subTimer.pause();
+
+                                      Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                          opaque: false,
+                                          pageBuilder:
+                                              (BuildContext context, _, __) =>
+                                                  TimeRunHelp(),
+                                        ),
+                                      );
+                                      Timer(Duration(seconds: 10), () async {
+                                        pause = false;
+                                        if (!pause) {
+                                          _subTimer.cancel();
+                                          _subTimer.resume();
+                                          _startTimer();
+                                        }
+                                      });
+
+                                      _updateItemHelp();
                                     }
-                                    Timer(Duration(seconds: 10), () async {
-                                      pause = false;
-                                      if (!pause) {
-                                        sub.cancel();
-                                        sub.resume();
-                                        startTimer();
-                                      }
-                                    });
                                   },
                             child: Icon_helper(
-                                url: 'assets/images/icons_khien.png', items: 5),
+                                url: 'assets/images/icons_khien.png',
+                                items: lsHelp[1]),
                           ),
                         ],
                       ),
@@ -557,7 +634,11 @@ class _PlayingGameState extends State<PlayingGame> {
                 ],
               );
             }
-            return CircularProgressIndicator();
+            return Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width,
+                child: CircularProgressIndicator());
           }),
         ),
       ),
@@ -566,8 +647,8 @@ class _PlayingGameState extends State<PlayingGame> {
 
   @override
   void deactivate() {
+    _subTimer.cancel();
     _subscription.cancel();
-
     super.deactivate();
   }
 }

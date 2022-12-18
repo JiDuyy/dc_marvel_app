@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 import 'dart:async';
-import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import '../view/play/find_battle.dart';
 import 'PlayerRoom.dart';
 
 class ReportBattleRank extends StatefulWidget {
@@ -235,7 +233,7 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                       Timer(
                         const Duration(seconds: 1),
                         () async {
-                          if (setRank > 1 && setRank < 26) {
+                          if (setRank > 1 && setRank < 27) {
                             report.toString() == "win"
                                 ? _database
                                     .child(
@@ -260,11 +258,17 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                                     .child(
                                         'members/${auth.currentUser!.uid}/frameRank')
                                     .set(2);
-                              } else {
+                              } else if (int.parse(rankNow.value.toString()) <
+                                  27) {
                                 _database
                                     .child(
                                         'members/${auth.currentUser!.uid}/frameRank')
                                     .set(3);
+                              } else {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(4);
                               }
                             });
                           } else {
@@ -289,7 +293,7 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                       );
 
                       Timer(
-                        const Duration(seconds: 10),
+                        const Duration(minutes: 1),
                         () {
                           _database.child('battle/${widget.roomId}').remove();
                         },

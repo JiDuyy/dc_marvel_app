@@ -1,4 +1,7 @@
 import 'package:dc_marvel_app/components/FrameHistory.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -10,6 +13,8 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,123 +24,76 @@ class _HistoryState extends State<History> {
         children: [
           Expanded(
             flex: 3,
-            child: Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/FrameTitle.png'),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'History',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
+            child: Stack(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/FrameTitle.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'History',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Container(
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(top: 10, right: 10),
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.logout),
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
             flex: 18,
-            child: SingleChildScrollView(
-              child: WidgetAnimator(
-                incomingEffect:
-                    WidgetTransitionEffects.incomingSlideInFromLeft(),
-                child: Column(
-                  children: const [
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconwin.png',
-                      time: '12 hours',
-                      point: '300',
-                      point2: '200',
-                    ),
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconlose.png',
-                      time: '1 day',
-                      point: '300',
-                      point2: '200',
-                    ),
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconwin.png',
-                      time: '1 day',
-                      point: '300',
-                      point2: '200',
-                    ),
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconwin.png',
-                      time: '2 day',
-                      point: '300',
-                      point2: '200',
-                    ),
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconwin.png',
-                      time: '2 day',
-                      point: '300',
-                      point2: '200',
-                    ),
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconwin.png',
-                      time: '2 day',
-                      point: '300',
-                      point2: '200',
-                    ),
-                    FrameHistory(
-                      framehistory: 'assets/images/FrameSiver.png',
-                      avatar: 'assets/images/IconLevel.png',
-                      item: 'assets/images/iconwin.png',
-                      time: '2 day',
-                      point: '300',
-                      point2: '200',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: (() {
-                      Navigator.pop(context);
-                    }),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 5,
-                      height: MediaQuery.of(context).size.width / 5,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/backhome.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: FirebaseAnimatedList(
+                  query: _db.child('historys/${_auth.currentUser!.uid}'),
+                  sort: (a, b) => (b.key!.compareTo(a.key!)),
+                  itemBuilder: (context, snapshot, animation, index) {
+                    return FrameHistory(
+                      framehistory: 'assets/images/FrameSiver.png',
+                      item: snapshot.child('report').value.toString() == 'win'
+                          ? 'assets/images/iconwin.png'
+                          : 'assets/images/iconlose.png',
+                      time: snapshot.child('time').value.toString(),
+                      point1: snapshot
+                          .child('playerOne/highScore')
+                          .value
+                          .toString(),
+                      point2: snapshot
+                          .child('playerTwo/highScore')
+                          .value
+                          .toString(),
+                      avatarOne:
+                          snapshot.child('playerOne/image').value.toString(),
+                      avatarTwo:
+                          snapshot.child('playerTwo/image').value.toString(),
+                      frameRankOne:
+                          snapshot.child('playerOne/rank').value.toString(),
+                      frameRankTwo:
+                          snapshot.child('playerTwo/rank').value.toString(),
+                      battle: snapshot.child('battle').value.toString(),
+                    );
+                  }),
             ),
-          )
+          ),
         ],
       ),
     );

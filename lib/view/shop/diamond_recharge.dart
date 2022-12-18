@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/view/shop/pay.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -55,22 +56,44 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Expanded(
-                    child: BorderShop(
-                        quantity: '+15 Diamonds',
-                        path: 'assets/images/IconDiamondOne.png',
-                        price: '1',
-                        text: '',
-                        pathPrice: 'assets/images/IconDollar.png'),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                const PayDiamond(),
+                          ),
+                        );
+                      },
+                      child: const BorderShop(
+                          quantity: '+15 Diamonds',
+                          path: 'assets/images/IconDiamondOne.png',
+                          price: '1',
+                          text: '',
+                          pathPrice: 'assets/images/IconDollar.png'),
+                    ),
                   ),
                   Expanded(
-                    child: BorderShop(
-                        quantity: '+150 Diamonds',
-                        path: 'assets/images/IconDiamondTwo.png',
-                        price: '10',
-                        text: '',
-                        pathPrice: 'assets/images/IconDollar.png'),
+                    child: InkWell(
+                      onTap: (() {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                const PayDiamond(),
+                          ),
+                        );
+                      }),
+                      child: const BorderShop(
+                          quantity: '+150 Diamonds',
+                          path: 'assets/images/IconDiamondTwo.png',
+                          price: '10',
+                          text: '',
+                          pathPrice: 'assets/images/IconDollar.png'),
+                    ),
                   ),
                 ],
               ),
@@ -83,22 +106,44 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                   WidgetTransitionEffects.incomingSlideInFromRight(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Expanded(
-                    child: BorderShop(
-                        quantity: '+1500 Diamonds',
-                        path: 'assets/images/IconDiamondThree.png',
-                        price: '100',
-                        text: '',
-                        pathPrice: 'assets/images/IconDollar.png'),
+                    child: InkWell(
+                      onTap: (() {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                const PayDiamond(),
+                          ),
+                        );
+                      }),
+                      child: const BorderShop(
+                          quantity: '+1500 Diamonds',
+                          path: 'assets/images/IconDiamondThree.png',
+                          price: '100',
+                          text: '',
+                          pathPrice: 'assets/images/IconDollar.png'),
+                    ),
                   ),
                   Expanded(
-                    child: BorderShop(
-                        quantity: '+15000 Diamonds',
-                        path: 'assets/images/IconDiamondFour.png',
-                        price: '1000',
-                        text: '',
-                        pathPrice: 'assets/images/IconDollar.png'),
+                    child: InkWell(
+                      onTap: (() {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                const PayDiamond(),
+                          ),
+                        );
+                      }),
+                      child: const BorderShop(
+                          quantity: '+15000 Diamonds',
+                          path: 'assets/images/IconDiamondFour.png',
+                          price: '1000',
+                          text: '',
+                          pathPrice: 'assets/images/IconDollar.png'),
+                    ),
                   ),
                 ],
               ),

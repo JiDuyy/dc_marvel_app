@@ -82,7 +82,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
                       ],
                     ),
                     TabAppBarCustom(
-                      title: '8/20',
+                      title: data['energy'].toString() + '/20',
                       urlOne: "assets/images/IconSet.png",
                       urlTwo: 'assets/images/IconAdd.png',
                       color: Colors.green,

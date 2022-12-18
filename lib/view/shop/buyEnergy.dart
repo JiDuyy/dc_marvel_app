@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../../components/BorderStore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+import '../../components/FrameEx.dart';
 
 class BuyEnergy extends StatefulWidget {
   const BuyEnergy({super.key});
@@ -11,6 +17,30 @@ class BuyEnergy extends StatefulWidget {
 }
 
 class _BuyEnergyState extends State<BuyEnergy> {
+  final auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  int diamond = 0;
+  int energy = 0;
+  late StreamSubscription _get;
+  @override
+  void initState() {
+    super.initState();
+    _getenergy();
+  }
+
+  void _getenergy() {
+    _get =
+        _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      if (mounted) {
+        setState(() {
+          diamond = data['diamond'];
+          energy = data['energy'];
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,13 +79,30 @@ class _BuyEnergyState extends State<BuyEnergy> {
           ),
           Expanded(
             flex: 6,
-            child: WidgetAnimator(
-              incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Expanded(
-                    child: BorderShop(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      if (diamond >= 50) {
+                        diamond -= 50;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/diamond')
+                            .set(diamond);
+                        energy += 5;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/energy')
+                            .set(energy);
+                      }else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FrameEx(
+                                            Ex: 'Diamonds are not enough')));
+                              }
+                    },
+                    child: const BorderShop(
                       quantity: '+5 Energy',
                       path: 'assets/images/IconSet.png',
                       price: '50',
@@ -63,8 +110,28 @@ class _BuyEnergyState extends State<BuyEnergy> {
                       pathPrice: 'assets/images/IconDiamond.png',
                     ),
                   ),
-                  Expanded(
-                    child: BorderShop(
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      if (diamond >= 100) {
+                        diamond -= 100;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/diamond')
+                            .set(diamond);
+                        energy += 10;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/energy')
+                            .set(energy);
+                      }else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FrameEx(
+                                            Ex: 'Diamonds are not enough')));
+                              }
+                    },
+                    child: const BorderShop(
                       quantity: '+10 Energy',
                       path: 'assets/images/IconEnergyOne.png',
                       price: '100',
@@ -72,36 +139,73 @@ class _BuyEnergyState extends State<BuyEnergy> {
                       pathPrice: 'assets/images/IconDiamond.png',
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Expanded(
             flex: 6,
-            child: WidgetAnimator(
-              incomingEffect:
-                  WidgetTransitionEffects.incomingSlideInFromRight(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Expanded(
-                    child: BorderShop(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      if (diamond >= 150) {
+                        diamond -= 150;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/diamond')
+                            .set(diamond);
+                        energy += 15;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/energy')
+                            .set(energy);
+                      }else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FrameEx(
+                                            Ex: 'Diamonds are not enough')));
+                              }
+                    },
+                    child:const BorderShop(
                         quantity: '+15 Energy',
                         path: 'assets/images/IconEnergyTwo.png',
                         price: '150',
                         text: '',
                         pathPrice: 'assets/images/IconDiamond.png'),
                   ),
-                  Expanded(
-                    child: BorderShop(
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      if (diamond >= 200) {
+                        diamond -= 200;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/diamond')
+                            .set(diamond);
+                        energy += 20;
+                        _db
+                            .child('members/${auth.currentUser!.uid}/energy')
+                            .set(energy);
+                      }
+                      else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FrameEx(
+                                            Ex: 'Diamonds are not enough')));
+                              }
+                    },
+                    child: const BorderShop(
                         quantity: '+20 Energys',
                         path: 'assets/images/IconEnergyThree.png',
                         price: '200',
                         text: '',
                         pathPrice: 'assets/images/IconDiamond.png'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const Spacer(
@@ -110,5 +214,12 @@ class _BuyEnergyState extends State<BuyEnergy> {
         ],
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _get.cancel();
+
+    super.deactivate();
   }
 }

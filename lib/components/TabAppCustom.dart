@@ -1,6 +1,10 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class TabAppBarCustom extends StatefulWidget {
   const TabAppBarCustom(
@@ -23,69 +27,86 @@ class TabAppBarCustom extends StatefulWidget {
 }
 
 class _TabAppBarCustomState extends State<TabAppBarCustom> {
+  final auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            // width: 75,
-            width: MediaQuery.of(context).size.width / 6,
-            height: 15,
-            color: Colors.black,
-            child: Stack(
+    return StreamBuilder(
+        stream: _db.child('members/${auth.currentUser!.uid}').onValue,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            final data = Map<String, dynamic>.from(
+              Map<String, dynamic>.from((snapshot.data as DatabaseEvent)
+                  .snapshot
+                  .value as Map<dynamic, dynamic>),
+            );
+
+            return Stack(
               children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    // width: 75,
+                    width: MediaQuery.of(context).size.width / 6,
+                    height: 15,
+                    color: Colors.black,
+                    child: Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            width: 50 *
+                                (double.parse(data['energy'].toString()) / 20),
+                            color: widget.color,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.title,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
                     width: 30,
-                    color: widget.color,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(widget.urlOne),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
                 Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    widget.title,
-                    style: const TextStyle(color: Colors.white),
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(widget.urlTwo),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        widget.pageController.jumpToPage(widget.jumpToPage);
+                      },
+                    ),
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.urlOne),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.urlTwo),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: InkWell(
-              onTap: () {
-                widget.pageController.jumpToPage(widget.jumpToPage);
-              },
-            ),
-          ),
-        ),
-      ],
-    );
+            );
+          }
+          return CircularProgressIndicator();
+        });
   }
 }

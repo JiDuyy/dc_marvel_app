@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 import 'dart:async';
+import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -16,6 +17,7 @@ class ShowDialogCreateRoom extends StatefulWidget {
 }
 
 class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
+  TextEditingController keyUser = TextEditingController();
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
@@ -29,7 +31,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   late StreamSubscription _subscription;
   late StreamSubscription _getRoom;
   late StreamSubscription _getStart;
-  // late StreamSubscription _getEnd;
+  late StreamSubscription _getKeyUser;
 
   @override
   void initState() {
@@ -37,6 +39,19 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
     _getPlayerTwo();
     _getPlayerOne();
     _getStatus();
+    _getUserKey();
+  }
+
+  void _getUserKey() {
+    _getKeyUser = _database
+        .child('members/${auth.currentUser!.uid}')
+        .onValue
+        .listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        keyUser.text = data['userName'].toString();
+      });
+    });
   }
 
   void _getPlayerTwo() {
@@ -138,8 +153,6 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                               .child(
                                   'members/${auth.currentUser!.uid}/userName')
                               .get();
-                          // print(getPlayerTwo.value.toString());
-
                           if (userTwo.text == getPlayerTwo.value.toString()) {
                             Timer(
                               const Duration(milliseconds: 100),
@@ -174,9 +187,17 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                               },
                             );
                           }
-                          // _database
-                          //     .child('rooms/${widget.roomId}/statusEnd')
-                          //     .set(true);
+                          Timer(const Duration(seconds: 1), () async {
+                            final playerOne = await _database
+                                .child(
+                                    'rooms/${widget.roomId}/playerOne/userName')
+                                .get();
+                            if (playerOne.value.toString() == "") {
+                              _database
+                                  .child('rooms/${widget.roomId}')
+                                  .remove();
+                            }
+                          });
                         },
                         icon: Icon(Icons.logout),
                         color: Colors.white,
@@ -219,12 +240,22 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   children: [
                     Column(
                       children: [
-                        PlayerRoom(
-                          pathFrameRank: frameRankUserOne.text,
-                          size: size,
-                          path: userImageOne.text == ""
-                              ? 'assets/images/iconAddfriend.png'
-                              : 'assets/images/AvatarChibi${userImageOne.text}.jpg',
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            PlayerRoom(
+                              pathFrameRank: frameRankUserOne.text,
+                              size: size,
+                              path: userImageOne.text == ""
+                                  ? 'assets/images/iconAddfriend.png'
+                                  : 'assets/images/AvatarChibi${userImageOne.text}.jpg',
+                            ),
+                            Image.asset(
+                              'assets/images/iconking.png',
+                              width: size.width / 13,
+                              height: size.width / 13,
+                            ),
+                          ],
                         ),
                         Text(
                           userOne.text,
@@ -274,19 +305,36 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                   padding: const EdgeInsets.only(top: 9.0, bottom: 9.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: userOne.text == keyUser.text
+                          ? Colors.red
+                          : Colors.grey,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
                     onPressed: () async {
-                      final snapshot = await _database
-                          .child('rooms/${widget.roomId}/playerTwo/userName')
-                          .get();
-                      if (snapshot.value != "") {
-                        _database
-                            .child('rooms/${widget.roomId}/status')
-                            .set(true);
+                      if (userTwo.text != "") {
+                        if (userOne.text == keyUser.text) {
+                          _database
+                              .child('rooms/${widget.roomId}/status')
+                              .set(true);
+                        } else {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "You are not the room owner"),
+                            ),
+                          );
+                        }
+                      } else {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                FrameEx(Ex: "The room is not full of players"),
+                          ),
+                        );
                       }
                     },
                     child: Text("Play Now"),
@@ -305,7 +353,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
     _subscription.cancel();
     _getRoom.cancel();
     _getStart.cancel();
-    // _getEnd.cancel();
+    _getKeyUser.cancel();
     super.deactivate();
   }
 }

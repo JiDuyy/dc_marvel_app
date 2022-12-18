@@ -86,17 +86,16 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                         flex: 2,
                                         child: Stack(
                                           alignment: Alignment.center,
-                                          fit: StackFit.loose,
                                           children: [
                                             SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.5,
+                                                  3.8,
                                               height: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.5,
+                                                  3.8,
                                               child: Image.asset(
                                                   'assets/images/AvatarChibi${data['image']}.jpg'),
                                             ),
@@ -139,7 +138,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               child: Text(
                                                 data['level'].toString(),
                                                 style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: Colors.black,
                                                   fontSize: 11,
                                                   fontFamily: 'Horizon',
                                                 ),
@@ -149,79 +148,64 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                         ),
                                       ),
                                       Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                        child: Stack(
+                                          alignment: Alignment.center,
                                           children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  150,
-                                              child: TextField(
-                                                  textAlign: TextAlign.center,
-                                                  controller: txtname,
-                                                  readOnly: _isvisible == false
-                                                      ? true
-                                                      : false,
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    label: _isvisible == false
-                                                        ? Padding(
-                                                            padding: EdgeInsets.only(
-                                                                left: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    5.5),
-                                                            child: Align(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              child: Text(
-                                                                data[
-                                                                    'userName'],
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 30,
-                                                                  fontFamily:
-                                                                      'Horizon',
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
+                                            TextField(
+                                                textAlign: TextAlign.center,
+                                                controller: txtname,
+                                                readOnly: _isvisible == false
+                                                    ? true
+                                                    : false,
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  label: _isvisible == false
+                                                      ? Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            data['userName'],
+                                                            style: TextStyle(
+                                                              fontSize: 30,
+                                                              fontFamily:
+                                                                  'Horizon',
+                                                              color:
+                                                                  Colors.white,
                                                             ),
-                                                          )
-                                                        : Text(''),
-                                                  ),
-                                                  onSubmitted: (value) {
-                                                    setState(() {
-                                                      txtname.text = value;
-                                                    });
-                                                  }),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                setState(() {
+                                                          ),
+                                                        )
+                                                      : Text(''),
+                                                ),
+                                                onSubmitted: (value) {
+                                                  setState(() {
+                                                    txtname.text = value;
+                                                  });
+                                                }),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isvisible == false
+                                                        ? _isvisible = true
+                                                        : _isvisible = false;
+                                                  });
+                                                  if (_isvisible == false) {
+                                                    _database
+                                                        .child(
+                                                            'members/${auth.currentUser!.uid}/userName')
+                                                        .set(txtname.text);
+                                                    txtname.clear();
+                                                  }
+                                                },
+                                                icon: Icon(
                                                   _isvisible == false
-                                                      ? _isvisible = true
-                                                      : _isvisible = false;
-                                                });
-                                                if (_isvisible == false) {
-                                                  _database
-                                                      .child(
-                                                          'members/${auth.currentUser!.uid}/userName')
-                                                      .set(txtname.text);
-                                                  txtname.clear();
-                                                }
-                                              },
-                                              icon: Icon(
-                                                _isvisible == false
-                                                    ? Icons.edit
-                                                    : Icons.check,
-                                                color: Colors.white,
+                                                      ? Icons.edit
+                                                      : Icons.check,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
                                           ],

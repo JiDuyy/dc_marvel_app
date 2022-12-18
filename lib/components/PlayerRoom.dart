@@ -28,8 +28,8 @@ class _PlayerRoomState extends State<PlayerRoom> {
             alignment: Alignment.center,
             child: Image(
               image: AssetImage(widget.path),
-              width: widget.size.width / 6,
-              height: widget.size.width / 6,
+              width: widget.size.width / 5.5,
+              height: widget.size.width / 5.5,
             ),
           ),
           Container(
@@ -38,7 +38,7 @@ class _PlayerRoomState extends State<PlayerRoom> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(widget.pathFrameRank.isEmpty
-                    ? "assets/images/FrameRank1.png"
+                    ? "assets/images/FrameRank0.png"
                     : "assets/images/FrameRank${widget.pathFrameRank}.png"),
                 fit: BoxFit.cover,
               ),

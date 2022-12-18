@@ -1,14 +1,12 @@
-// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 import 'dart:async';
-import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import '../view/play/PlayBattleLoad.dart';
 import 'PlayerRoom.dart';
 
-class ReportBattle extends StatefulWidget {
-  const ReportBattle(
+class ReportBattleRank extends StatefulWidget {
+  const ReportBattleRank(
       {super.key,
       required this.roomId,
       required this.highScoreOne,
@@ -18,10 +16,10 @@ class ReportBattle extends StatefulWidget {
   final int highScoreTwo;
 
   @override
-  State<ReportBattle> createState() => _ReportBattleState();
+  State<ReportBattleRank> createState() => _ReportBattleRankState();
 }
 
-class _ReportBattleState extends State<ReportBattle> {
+class _ReportBattleRankState extends State<ReportBattleRank> {
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
@@ -47,7 +45,7 @@ class _ReportBattleState extends State<ReportBattle> {
 
   void _getPlayerTwo() {
     _subscription = _database
-        .child('rooms/${widget.roomId}/playerTwo')
+        .child('battle/${widget.roomId}/playerTwo')
         .onValue
         .listen((event) {
       final data = event.snapshot.value as dynamic;
@@ -61,7 +59,7 @@ class _ReportBattleState extends State<ReportBattle> {
 
   void _getPlayerOne() {
     _getRoom = _database
-        .child('rooms/${widget.roomId}/playerOne')
+        .child('battle/${widget.roomId}/playerOne')
         .onValue
         .listen((event) {
       final data = event.snapshot.value as dynamic;
@@ -74,34 +72,17 @@ class _ReportBattleState extends State<ReportBattle> {
   }
 
   void _getStatus() {
-    _getStart = _database.child('rooms/${widget.roomId}').onValue.listen(
+    _getStart = _database.child('battle/${widget.roomId}').onValue.listen(
       (event) {
         final data = event.snapshot.value as dynamic;
         setState(
           () {
-            if (data['status'].toString() == 'true') {
-              Timer(
-                Duration(seconds: 1),
-                () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlayBattleGame(
-                        urlRef: 'rooms',
-                        roomID: widget.roomId,
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
             if (data['statusEnd'].toString() == 'true') {
               Navigator.pop(context);
               Timer(
                 const Duration(seconds: 1),
                 () {
-                  _database.child('rooms/${widget.roomId}').remove();
+                  _database.child('battle/${widget.roomId}').remove();
                 },
               );
             }
@@ -125,54 +106,24 @@ class _ReportBattleState extends State<ReportBattle> {
             color: Colors.white,
             image: DecorationImage(
               image: AssetImage("assets/images/FrameTitle.png"),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           child: Column(
             children: [
               Expanded(
                 flex: 1,
-                child: Row(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        onPressed: () {
-                          _database
-                              .child('rooms/${widget.roomId}/statusEnd')
-                              .set(true);
-                        },
-                        icon: Icon(Icons.logout),
-                        color: Colors.white,
-                      ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'REPORT BATTLE RANK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      letterSpacing: 2.0,
+                      fontWeight: FontWeight.w500,
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'CREATE ROOM',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              letterSpacing: 2.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'ID: ${widget.roomId}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              letterSpacing: 2.0,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               Expanded(
@@ -265,19 +216,90 @@ class _ReportBattleState extends State<ReportBattle> {
                       ),
                     ),
                     onPressed: () async {
-                      final snapshot = await _database
-                          .child('rooms/${widget.roomId}/playerTwo/userName')
+                      final history = await _database
+                          .child('historys/${auth.currentUser!.uid}')
                           .get();
-                      if (snapshot.value != "") {
-                        _database
-                            .child('rooms/${widget.roomId}/status')
-                            .set(true);
-                      }
-                      _database
-                          .child('rooms/${widget.roomId}/status')
-                          .set(true);
+                      final report =
+                          history.children.last.child('report').value;
+                      final upRankUser = await _database
+                          .child('members/${auth.currentUser!.uid}/rank')
+                          .get();
+                      final upStarRankUser = await _database
+                          .child('members/${auth.currentUser!.uid}/starRank')
+                          .get();
+                      int setRank = int.parse(upRankUser.value.toString());
+                      int starRank = int.parse(upStarRankUser.value.toString());
+                      Navigator.pop(context);
+                      Timer(
+                        const Duration(seconds: 1),
+                        () async {
+                          if (setRank > 1 && setRank < 27) {
+                            report.toString() == "win"
+                                ? _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/rank')
+                                    .set(setRank + 1)
+                                : _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/rank')
+                                    .set(setRank - 1);
+                            final rankNow = await _database
+                                .child('members/${auth.currentUser!.uid}/rank')
+                                .get();
+                            Timer(const Duration(seconds: 1), () {
+                              if (int.parse(rankNow.value.toString()) < 7) {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(1);
+                              } else if (int.parse(rankNow.value.toString()) <
+                                  17) {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(2);
+                              } else if (int.parse(rankNow.value.toString()) <
+                                  27) {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(3);
+                              } else {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(4);
+                              }
+                            });
+                          } else {
+                            if (report.toString() == "win") {
+                              _database
+                                  .child(
+                                      'members/${auth.currentUser!.uid}/starRank')
+                                  .set(starRank + 1);
+                            } else {
+                              starRank != 0
+                                  ? _database
+                                      .child(
+                                          'members/${auth.currentUser!.uid}/starRank')
+                                      .set(starRank - 1)
+                                  : _database
+                                      .child(
+                                          'members/${auth.currentUser!.uid}/rank')
+                                      .set(setRank - 1);
+                            }
+                          }
+                        },
+                      );
+
+                      Timer(
+                        const Duration(minutes: 1),
+                        () {
+                          _database.child('battle/${widget.roomId}').remove();
+                        },
+                      );
                     },
-                    child: Text("Play Now"),
+                    child: Text("Back to rank"),
                   ),
                 ),
               ),

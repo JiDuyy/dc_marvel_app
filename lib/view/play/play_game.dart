@@ -160,7 +160,7 @@ class _PlayGameState extends State<PlayGame> {
                             PageRouteBuilder(
                               opaque: false,
                               pageBuilder: (BuildContext context, _, __) =>
-                                  const Find_battle(),
+                                  const PlayBattle(),
                             ),
                           );
                         },

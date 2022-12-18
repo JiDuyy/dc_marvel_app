@@ -1,109 +1,157 @@
-import 'package:dc_marvel_app/components/card_player.dart';
-import 'package:flutter/material.dart';
-import '../../components/ButtonBattleCustom.dart';
-import '../../components/PlayBattle.dart';
-import 'playing_battle.dart';
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 
-class Find_battle extends StatefulWidget {
-  const Find_battle({super.key});
+import 'dart:async';
+import 'dart:math';
+import 'package:dc_marvel_app/view/play/FindBattle.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+
+class PlayBattle extends StatefulWidget {
+  const PlayBattle({super.key});
 
   @override
-  State<Find_battle> createState() => _Find_battleState();
+  State<PlayBattle> createState() => PlayBattleState();
 }
 
-class _Find_battleState extends State<Find_battle> {
+class PlayBattleState extends State<PlayBattle> {
+  TextEditingController roomId = TextEditingController();
+  TextEditingController user = TextEditingController();
+  TextEditingController rank = TextEditingController();
+  TextEditingController image = TextEditingController();
+  TextEditingController starRank = TextEditingController();
+  final _rank = TextEditingController();
+  final _roomID = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _getRank, _getUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getRank();
+    // _getStatus();
+    _getPlayger();
+  }
+
+  void _getPlayger() {
+    _getUser =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        user.text = data['userName'].toString();
+        rank.text = data['frameRank'].toString();
+        image.text = data['image'].toString();
+        starRank.text = data['starRank'].toString();
+      });
+    });
+  }
+
+  void getRank() {
+    _getRank =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        _rank.text = data['rank'].toString();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(.9),
-      body: Container(
+      body: SizedBox(
         // padding: const EdgeInsets.all(15),
         width: double.infinity,
         height: double.infinity,
         child: Column(
           children: [
             Expanded(
-              flex: 2,
-              child: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.only(top: 10, bottom: 10),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/FrameTitle.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                child: const Text(
-                  "Play Battle",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontFamily: 'Horizon',
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 8,
-              child: Column(
+              flex: 1,
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Card_player_wFind(
-                        url: 'assets/images/Avatar.jpg',
-                        Name: 'JiDuy',
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/FrameTitle.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    child: const Text(
+                      'Battle',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                        fontFamily: 'Horizon',
                       ),
                     ),
                   ),
-                  // ignore: prefer_const_literals_to_create_immutables
-                  Expanded(
-                    child: Column(
-                      children: const [
-                        Expanded(
-                          child: Image(
-                            image: AssetImage('assets/images/vsbattle.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Card_player_wFind(
-                        url: 'assets/images/Avatar.jpg',
-                        Name: 'KDY',
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        Icons.logout_rounded,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
             Expanded(
-              child: Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  width: size.width / 8,
-                  height: size.width / 8,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (BuildContext context, _, __) =>
-                              const showDialogPlayBattle(),
+              flex: 5,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Container(
+                      margin: const EdgeInsets.all(30.0),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            _rank.text == ""
+                                ? "assets/images/rank1.png"
+                                : "assets/images/rank${_rank.text}.png",
+                          ),
+                          // fit: BoxFit.fill,
                         ),
-                      );
-                    },
-                    child: const ButtonBattleCustom(
-                      title: '',
-                      url: "assets/images/icon_cacel.png",
-                      fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
+                  Expanded(
+                      flex: 3,
+                      child: starRank.text != '0'
+                          ? Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/FrameStar.png'),
+                                  // fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 24,
+                                  ),
+                                  Text(
+                                    'x${starRank.text}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container()),
+                ],
               ),
             ),
             Expanded(
@@ -119,14 +167,73 @@ class _Find_battleState extends State<Find_battle> {
                     ),
                   ),
                   child: TextButton(
-                    onPressed: () => {
-                      Navigator.pop(context),
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PlayingBattle(roomID: '',),
+                    onPressed: () async {
+                      final snapshot = await _db.child('battle').get();
+                      final rankPlayger = await _db
+                          .child('members/${_auth.currentUser!.uid}/frameRank')
+                          .get();
+                      List lstRooms = [];
+                      if (snapshot.children.isNotEmpty) {
+                        for (int i = 0; i < snapshot.children.length; i++) {
+                          final getName = snapshot.children
+                              .elementAt(i)
+                              .child('playerTwo/userName');
+                          final getRank = snapshot.children
+                              .elementAt(i)
+                              .child('playerOne/rank');
+                          if (getName.value == "" &&
+                              rankPlayger.value.toString() ==
+                                  getRank.value.toString()) {
+                            lstRooms.add(
+                                snapshot.children.elementAt(i).key.toString());
+                          }
+                        }
+                      }
+                      if (lstRooms.isEmpty) {
+                        var RoomKey = Random().nextInt(8999) + 1000;
+                        setState(() {
+                          _roomID.text = RoomKey.toString();
+                        });
+                        final nextMember = <String, dynamic>{
+                          'key': RoomKey,
+                          'playerOne': {
+                            'userName': user.text,
+                            'image': image.text,
+                            'rank': rank.text,
+                            'highScore': 0,
+                          },
+                          'playerTwo': {
+                            'userName': "",
+                            'image': "",
+                            'rank': "",
+                            'highScore': 0,
+                          },
+                          'status': false,
+                          'statusEnd': false,
+                          'time': DateTime.now().millisecondsSinceEpoch,
+                        };
+                        _db.child('battle/$RoomKey').set(nextMember);
+                      } else {
+                        setState(() {
+                          _roomID.text = lstRooms[0];
+                        });
+                        _db.child('battle/${lstRooms[0]}/playerTwo').update({
+                          'userName': user.text,
+                          'image': image.text,
+                          'rank': rank.text
+                        });
+                        _db.child('battle/${lstRooms[0]}/status').set(true);
+                      }
+                      // Navigator.pop(context);
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              FindBattle(
+                            roomId: _roomID.text,
+                          ),
                         ),
-                      ),
+                      );
                     },
                     child: const Center(
                       child: Text(
@@ -143,12 +250,16 @@ class _Find_battleState extends State<Find_battle> {
                 ),
               ),
             ),
-            const Spacer(
-              flex: 1,
-            )
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _getRank.cancel();
+    _getUser.cancel();
+    super.deactivate();
   }
 }

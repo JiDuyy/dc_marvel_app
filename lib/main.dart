@@ -3,7 +3,6 @@
 import 'package:dc_marvel_app/view/LoginPhone/login_phone.dart';
 import 'package:dc_marvel_app/view/LoginPhone/verify.dart';
 import 'package:dc_marvel_app/view/page_main.dart';
-import 'package:dc_marvel_app/view/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: MyWidget(),
       initialRoute:
           FirebaseAuth.instance.currentUser == null ? 'phone' : 'home',
       routes: {

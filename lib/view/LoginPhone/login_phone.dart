@@ -137,7 +137,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                   height: 45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
+                      backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),

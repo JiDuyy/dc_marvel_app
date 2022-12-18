@@ -6,17 +6,25 @@ class FrameHistory extends StatefulWidget {
   const FrameHistory(
       {super.key,
       required this.framehistory,
-      required this.avatar,
       required this.item,
       required this.time,
-      required this.point,
-      required this.point2});
+      required this.point1,
+      required this.point2,
+      required this.avatarOne,
+      required this.avatarTwo,
+      required this.frameRankOne,
+      required this.frameRankTwo,
+      required this.battle});
   final framehistory;
-  final avatar;
   final item;
   final time;
-  final String point;
+  final String battle;
+  final String point1;
   final String point2;
+  final String avatarOne;
+  final String avatarTwo;
+  final String frameRankOne;
+  final String frameRankTwo;
   @override
   State<FrameHistory> createState() => _FrameHistoryState();
 }
@@ -49,15 +57,16 @@ class _FrameHistoryState extends State<FrameHistory> {
                         SizedBox(
                           width: 28,
                           height: 28,
-                          child: Image.asset(widget.avatar),
+                          child: Image.asset(
+                              'assets/images/AvatarChibi${widget.avatarOne}.jpg'),
                         ),
                         Container(
                           width: 40,
                           height: 40,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/BorderAvatar.png"),
+                              image: AssetImage(
+                                  "assets/images/FrameRank${widget.frameRankOne}.png"),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -65,7 +74,7 @@ class _FrameHistoryState extends State<FrameHistory> {
                       ],
                     ),
                     Text(
-                      widget.point,
+                      widget.point1,
                       // ignore: prefer_const_constructors
                       style: TextStyle(
                           fontSize: 10,
@@ -78,10 +87,8 @@ class _FrameHistoryState extends State<FrameHistory> {
               const SizedBox(
                 width: 5,
               ),
-              Container(
-                child: const Image(
-                  image: AssetImage('assets/images/vsbattle.png'),
-                ),
+              const Image(
+                image: AssetImage('assets/images/vsbattle.png'),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 10, top: 5),
@@ -93,15 +100,16 @@ class _FrameHistoryState extends State<FrameHistory> {
                         SizedBox(
                           width: 28,
                           height: 28,
-                          child: Image.asset(widget.avatar),
+                          child: Image.asset(
+                              'assets/images/AvatarChibi${widget.avatarTwo}.jpg'),
                         ),
                         Container(
                           width: 40,
                           height: 40,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/BorderAvatar.png"),
+                              image: AssetImage(
+                                  "assets/images/FrameRank${widget.frameRankTwo}.png"),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -120,6 +128,7 @@ class _FrameHistoryState extends State<FrameHistory> {
               ),
             ],
           ),
+          Text(widget.battle),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class ChangeRoom extends StatefulWidget {
 class _ChangeRoomState extends State<ChangeRoom> {
   TextEditingController roomId = TextEditingController();
   TextEditingController user = TextEditingController();
+  TextEditingController frameRank = TextEditingController();
   TextEditingController rank = TextEditingController();
   TextEditingController image = TextEditingController();
   final _db = FirebaseDatabase.instance.ref();
@@ -37,6 +39,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
       final data = event.snapshot.value as dynamic;
       setState(() {
         user.text = data['userName'].toString();
+        frameRank.text = data['frameRank'].toString();
         rank.text = data['rank'].toString();
         image.text = data['image'].toString();
       });
@@ -54,7 +57,6 @@ class _ChangeRoomState extends State<ChangeRoom> {
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               image: AssetImage("assets/images/FrameTitle.png"),
               fit: BoxFit.cover,
@@ -84,9 +86,10 @@ class _ChangeRoomState extends State<ChangeRoom> {
                         final nextMember = <String, dynamic>{
                           'key': RoomKey,
                           'playerOne': {
+                            'key': true,
                             'userName': user.text,
                             'image': image.text,
-                            'rank': rank.text,
+                            'rank': frameRank.text,
                             'highScore': 0,
                           },
                           'playerTwo': {
@@ -170,23 +173,45 @@ class _ChangeRoomState extends State<ChangeRoom> {
                       ),
                     ),
                     onPressed: () async {
-                      final snapshot =
+                      final getRoom =
                           await _db.child('rooms/${roomId.text}/key').get();
-                      if (roomId.text.isNotEmpty && snapshot.exists) {
-                        _db.child('rooms/${roomId.text}/playerTwo').update({
-                          'userName': user.text,
-                          'image': image.text,
-                          'rank': rank.text
-                        });
+                      final getPlayerTwo = await _db
+                          .child('rooms/${roomId.text}/playerTwo/userName')
+                          .get();
 
-                        Navigator.pop(context);
+                      if (roomId.text.isNotEmpty && getRoom.exists) {
+                        if (getPlayerTwo.value.toString() == "") {
+                          _db.child('rooms/${roomId.text}/playerTwo').update({
+                            'userName': user.text,
+                            'image': image.text,
+                            'rank': frameRank.text
+                          });
+
+                          Navigator.pop(context);
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  ShowDialogCreateRoom(
+                                roomId: roomId.text.toString(),
+                              ),
+                            ),
+                          );
+                        } else {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "Room is full"),
+                            ),
+                          );
+                        }
+                      } else {
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) =>
-                                ShowDialogCreateRoom(
-                              roomId: roomId.text.toString(),
-                            ),
+                                FrameEx(Ex: "Room ID does not exist"),
                           ),
                         );
                       }

@@ -17,12 +17,14 @@ class PlayingEven extends StatefulWidget {
       required this.diamond,
       required this.exp,
       required this.hightScore,
-      required this.chapter});
+      required this.chapter,
+      required this.energy});
   int level;
   int diamond;
   int exp;
   int hightScore;
   int chapter;
+  int energy;
   @override
   State<PlayingEven> createState() => _PlayingEvenState();
 }

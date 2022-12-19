@@ -31,6 +31,33 @@ class _FrameEvenState extends State<FrameEven> {
   int chapter = 1;
   int exp = 0;
   int diamond = 0;
+  int energy = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _userLevel();
+  }
+
+  //Get lever user
+  void _userLevel() {
+    _useLevel =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      if (mounted) {
+        setState(() {
+          level = data['level'];
+          hightScore = data['highScore'];
+          chapter = data['chapter'];
+          exp = data['exp'];
+          diamond = data['diamond'];
+          energy = data['energy'];
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -91,9 +118,16 @@ class _FrameEvenState extends State<FrameEven> {
             flex: 2,
             child: InkWell(
               onTap: () {
-                Navigator.push(context, 
-                MaterialPageRoute(
-                  builder: (context)=>PlayingEven(level: 1, diamond: 0, exp: 0, hightScore: 0, chapter: 1)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlayingEven(
+                            level: 1,
+                            diamond: 0,
+                            exp: 0,
+                            hightScore: 0,
+                            chapter: 1,
+                            energy: 0)));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width / 2,
@@ -133,5 +167,12 @@ class _FrameEvenState extends State<FrameEven> {
         ],
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _useLevel.cancel();
+
+    super.deactivate();
   }
 }

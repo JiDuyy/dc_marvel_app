@@ -130,6 +130,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                       ),
                     ),
                   );
+                  _database.child('rooms/${widget.roomId}/status').set(false);
                   _database
                       .child('rooms/${widget.roomId}/playerTwo/statusStart')
                       .set(false);

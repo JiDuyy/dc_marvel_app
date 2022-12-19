@@ -64,7 +64,9 @@ class _HistoryState extends State<History> {
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
               child: FirebaseAnimatedList(
-                  query: _db.child('historys/${_auth.currentUser!.uid}'),
+                  query: _db
+                      .child('historys/${_auth.currentUser!.uid}')
+                      .limitToLast(20),
                   sort: (a, b) => (b.key!.compareTo(a.key!)),
                   itemBuilder: (context, snapshot, animation, index) {
                     return FrameHistory(
@@ -93,8 +95,6 @@ class _HistoryState extends State<History> {
                     );
                   }),
             ),
-           
-
           ),
         ],
       ),

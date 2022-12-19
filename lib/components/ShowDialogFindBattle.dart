@@ -104,6 +104,9 @@ class _ShowDialogFindBattleState extends State<ShowDialogFindBattle> {
         });
       } else {
         Navigator.pop(context);
+        Timer.periodic(const Duration(seconds: 2), (timer) async {
+          _database.child('battle/${widget.roomId}').remove();
+        });
         timer.cancel();
       }
     });
@@ -171,7 +174,7 @@ class _ShowDialogFindBattleState extends State<ShowDialogFindBattle> {
                       child: Container(
                         width: 100,
                         height: 100,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/vsbattle.png"),
                             fit: BoxFit.cover,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../view/play/playing_now.dart';
 import 'ChapterImage.dart';
@@ -101,8 +102,12 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                           ),
                         );
                       },
-                      child: const ChapterImage(
-                        path: 'assets/images/Chapter1.png',
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height / 7),
+                        child: const ChapterImage(
+                          path: 'assets/images/Chapter1.png',
+                        ),
                       ),
                     ),
                     ItemChappter(
@@ -187,6 +192,9 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                       path: 'assets/images/Chapter10.png',
                     ),
                     Container(
+                      alignment: Alignment.topRight,
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.width / 2),
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/tubecontinue.gif'),
@@ -195,6 +203,19 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                       ),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
+                      child: WidgetAnimator(
+                        incomingEffect:
+                            WidgetTransitionEffects.incomingSlideInFromLeft(),
+                        atRestEffect: WidgetRestingEffects.wave(),
+                        child: const Text(
+                          'To be continue...',
+                          style: TextStyle(
+                              fontFamily: 'Horizon',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.cyan),
+                        ),
+                      ),
                     )
                   ],
                 ),

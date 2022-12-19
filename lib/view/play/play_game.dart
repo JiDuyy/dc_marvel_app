@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dc_marvel_app/components/ChangeRoom.dart';
+import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
 import 'package:dc_marvel_app/components/showChapterAll.dart';
 import 'package:dc_marvel_app/view/play/find_battle.dart';
@@ -33,6 +34,7 @@ class _PlayGameState extends State<PlayGame> {
   int chapter = 1;
   int exp = 0;
   int diamond = 0;
+  int energy = 0;
 
   @override
   void initState() {
@@ -54,6 +56,7 @@ class _PlayGameState extends State<PlayGame> {
           chapter = data['chapter'];
           exp = data['exp'];
           diamond = data['diamond'];
+          energy = data['energy'];
         });
       }
     });
@@ -110,8 +113,7 @@ class _PlayGameState extends State<PlayGame> {
                                 ),
                               )),
                           child: ChapterImage(
-                            path:
-                                'assets/images/Chapter$chapter.png',
+                            path: 'assets/images/Chapter$chapter.png',
                           ),
                         ),
                 ),
@@ -179,18 +181,42 @@ class _PlayGameState extends State<PlayGame> {
                           WidgetTransitionEffects.incomingSlideInFromBottom(),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  PlayingGame(
-                                      level: level,
-                                      exp: exp,
-                                      hightScore: hightScore,
-                                      chapter: chapter,
-                                      diamond: diamond),
-                            ),
-                          );
+                          if (energy > 1) {
+                            if (_db
+                                    .child('members')
+                                    .child(_auth.currentUser!.uid)
+                                    .key !=
+                                null) {
+                              final energy1 = <String, dynamic>{
+                                'energy': energy -= 2
+                              };
+                              _db
+                                  .child('members/${_auth.currentUser!.uid}')
+                                  .update(energy1)
+                                  .then(
+                                      (_) => print('update Spider successful'))
+                                  .catchError((error) =>
+                                      print('You got an error $error'));
+                            }
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    PlayingGame(
+                                        level: level,
+                                        exp: exp,
+                                        hightScore: hightScore,
+                                        chapter: chapter,
+                                        diamond: diamond),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const FrameEx(
+                                        Ex: 'Energy is not enought')));
+                          }
                         },
                         child: const ButtonBattleCustom(
                           title: 'PLAY NOW',

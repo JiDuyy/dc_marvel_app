@@ -260,10 +260,11 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                   ),
                                                   Expanded(
                                                     child: Column(
-                                                      children: const [
+                                                      children: [
                                                         Expanded(
                                                           child: Text(
-                                                            '10',
+                                                            data['chapter']
+                                                                .toString(),
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .white,
@@ -301,7 +302,8 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               x: 1,
                                             ),
                                             infoProfle(
-                                                Url: 'assets/images/RankKC.png',
+                                                Url:
+                                                    "assets/images/rank${data['rank']}.png",
                                                 x: 5),
                                             Expanded(
                                               flex: 2,

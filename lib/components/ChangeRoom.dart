@@ -185,7 +185,8 @@ class _ChangeRoomState extends State<ChangeRoom> {
                             'userName': user.text,
                             'image': image.text,
                             'rank': frameRank.text,
-                            'statusClose': false
+                            'statusClose': false,
+                            'statusStart': true
                           });
 
                           Navigator.pop(context);

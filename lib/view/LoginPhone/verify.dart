@@ -143,6 +143,7 @@ class _VerifyState extends State<Verify> {
                             'spider': 0,
                             'thor': 0,
                           },
+                          'statusInvite': false,
                           'time': DateTime.now().millisecondsSinceEpoch,
                         };
                         _db

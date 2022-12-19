@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ShowDialogSetting extends StatefulWidget {
   const ShowDialogSetting({super.key});
@@ -13,6 +16,36 @@ class ShowDialogSetting extends StatefulWidget {
 class _ShowDialogSettingState extends State<ShowDialogSetting> {
   final _controller = ValueNotifier<bool>(true);
   final _controllerTwo = ValueNotifier<bool>(true);
+  AudioPlayer isplay = AudioPlayer();
+  AudioCache audioCache = AudioCache();
+  PlayerState playerState = PlayerState.paused;
+  @override
+  void initState() {
+    super.initState();
+    isplay.onPlayerStateChanged.listen((PlayerState s) {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isplay.release();
+    isplay.dispose();
+  }
+
+  playMusic() async {
+    await isplay.play(AssetSource('musics/nhacnen2.mp3'));
+  }
+
+  pauseMusic() async {
+    await isplay.pause();
+  }
+
+  void play() {
+    if (_controller == true) {
+      playMusic();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +90,13 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
                         'assets/images/IconMusic.png',
                         height: 50,
                       ),
+                      // ElevatedButton(
+                      //     onPressed: () {
+                      //       playerState == PlayerState.playing
+                      //           ? pauseMusic()
+                      //           : playMusic();
+                      //     },
+                      //     child: Text('data')),
                       AdvancedSwitch(
                         activeColor: Colors.blue,
                         inactiveColor: Colors.orange,
@@ -66,7 +106,7 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(8),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

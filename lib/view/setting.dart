@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -13,6 +14,7 @@ class Setting extends StatefulWidget {
 class _SettingState extends State<Setting> {
   final _controller = ValueNotifier<bool>(true);
   final _controllerTwo = ValueNotifier<bool>(true);
+  final player = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,7 @@ class _SettingState extends State<Setting> {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(8),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

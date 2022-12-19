@@ -124,7 +124,7 @@ class _FrameExInviteState extends State<FrameExInvite> {
                           'statusStart': true
                         });
 
-                        Navigator.pop(context);
+                       // Navigator.pop(context);
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             opaque: false,

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dc_marvel_app/view/play/play_even.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'BonusFrameItem.dart';
 
 class FrameEven extends StatefulWidget {
@@ -20,6 +23,14 @@ class FrameEven extends StatefulWidget {
 }
 
 class _FrameEvenState extends State<FrameEven> {
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _useLevel;
+  int level = 1;
+  int hightScore = 0;
+  int chapter = 1;
+  int exp = 0;
+  int diamond = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,7 +93,7 @@ class _FrameEvenState extends State<FrameEven> {
               onTap: () {
                 Navigator.push(context, 
                 MaterialPageRoute(
-                  builder: (context)=>PlayingEven(level: 1, diamond: 1, exp: 1, hightScore: 1, chapter: 1)));
+                  builder: (context)=>PlayingEven(level: 1, diamond: 0, exp: 0, hightScore: 0, chapter: 1)));
               },
               child: Container(
                 width: MediaQuery.of(context).size.width / 2,

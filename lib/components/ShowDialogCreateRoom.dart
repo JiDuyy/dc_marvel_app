@@ -92,21 +92,15 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
         final data = event.snapshot.value as dynamic;
         setState(
           () {
-            if (data['statusClose'].toString() == 'true') {
-              Timer(
-                const Duration(milliseconds: 300),
-                () {
-                  if (keyUser.text == userTwo.text) {
-                    Navigator.pop(context);
-                    _database.child('rooms/${widget.roomId}/playerTwo').update({
-                      'userName': "",
-                      'image': "",
-                      'rank': "",
-                      'statusClose': false
-                    });
-                  }
-                },
-              );
+            if (data['statusClose'].toString() == 'true' &&
+                keyUser.text == userTwo.text) {
+              Navigator.pop(context);
+              _database.child('rooms/${widget.roomId}/playerTwo').update({
+                'userName': "",
+                'image': "",
+                'rank': "",
+                'statusClose': false
+              });
             }
           },
         );
@@ -156,7 +150,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(.8),
+      backgroundColor: Colors.black.withOpacity(.6),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -332,9 +326,10 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                                               'rooms/${widget.roomId}/playerTwo/statusClose')
                                           .set(true);
                                     },
-                                    child: Icon(
-                                      Icons.close,
-                                      color: Colors.red,
+                                    child: Image.asset(
+                                      'assets/images/IconClose.png',
+                                      width: MediaQuery.of(context).size.width /
+                                          20,
                                     ),
                                   )
                                 : Container(),

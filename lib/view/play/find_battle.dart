@@ -124,33 +124,34 @@ class PlayBattleState extends State<PlayBattle> {
                     ),
                   ),
                   Expanded(
-                      flex: 3,
-                      child: starRank.text != '0'
-                          ? Container(
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/FrameStar.png'),
-                                  // fit: BoxFit.fill,
+                    flex: 3,
+                    child: starRank.text != '0'
+                        ? Container(
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/FrameStar.png'),
+                                // fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.yellow,
+                                  size: 24,
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 24,
-                                  ),
-                                  Text(
-                                    'x${starRank.text}',
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Container()),
+                                Text(
+                                  'x${starRank.text}',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                  ),
                 ],
               ),
             ),
@@ -201,12 +202,14 @@ class PlayBattleState extends State<PlayBattle> {
                             'image': image.text,
                             'rank': rank.text,
                             'highScore': 0,
+                            'status': false
                           },
                           'playerTwo': {
                             'userName': "",
                             'image': "",
                             'rank': "",
                             'highScore': 0,
+                            'status': false
                           },
                           'status': false,
                           'statusEnd': false,

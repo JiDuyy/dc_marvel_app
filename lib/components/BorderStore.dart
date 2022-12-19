@@ -70,36 +70,25 @@ class _BorderShopState extends State<BorderShop> {
             ),
             Expanded(
               flex: 3,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false,
-                      pageBuilder: (BuildContext context, _, __) =>
-                          const PayDiamond(),
+              child: Container(
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height / 70),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      widget.pathPrice,
+                      width: 30,
                     ),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height / 70),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        widget.pathPrice,
-                        width: 30,
+                    Text(
+                      widget.price,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        widget.price,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

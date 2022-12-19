@@ -16,7 +16,6 @@ class Rank extends StatefulWidget {
 
 class _RankState extends State<Rank> {
   final _db = FirebaseDatabase.instance.ref().child('members');
-  final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {

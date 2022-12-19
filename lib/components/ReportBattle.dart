@@ -24,6 +24,7 @@ class ReportBattle extends StatefulWidget {
 }
 
 class _ReportBattleState extends State<ReportBattle> {
+  TextEditingController keyUser = TextEditingController();
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
@@ -36,12 +37,26 @@ class _ReportBattleState extends State<ReportBattle> {
   final _database = FirebaseDatabase.instance.ref();
   late StreamSubscription _subscription;
   late StreamSubscription _getRoom;
+  late StreamSubscription _getKeyUser;
 
   @override
   void initState() {
     super.initState();
     _getPlayerTwo();
     _getPlayerOne();
+    _getUserKey();
+  }
+
+  void _getUserKey() {
+    _getKeyUser = _database
+        .child('members/${auth.currentUser!.uid}')
+        .onValue
+        .listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        keyUser.text = data['userName'].toString();
+      });
+    });
   }
 
   void _getPlayerTwo() {
@@ -181,6 +196,12 @@ class _ReportBattleState extends State<ReportBattle> {
                       ),
                     ),
                     onPressed: () async {
+                      if (keyUser.text == userTwo.text) {
+                        _database
+                            .child(
+                                'rooms/${widget.roomId}/playerTwo/statusStart')
+                            .set(true);
+                      }
                       Navigator.pop(context);
                       Navigator.of(context).push(
                         PageRouteBuilder(
@@ -207,6 +228,7 @@ class _ReportBattleState extends State<ReportBattle> {
   void deactivate() {
     _subscription.cancel();
     _getRoom.cancel();
+    _getKeyUser.cancel();
     super.deactivate();
   }
 }

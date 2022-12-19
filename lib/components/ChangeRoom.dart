@@ -186,7 +186,7 @@ class _ChangeRoomState extends State<ChangeRoom> {
                             'image': image.text,
                             'rank': frameRank.text,
                             'statusClose': false,
-                            'statusStart': false
+                            'statusStart': true
                           });
 
                           Navigator.pop(context);

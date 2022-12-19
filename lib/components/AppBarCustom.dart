@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
+
 import 'package:dc_marvel_app/components/TabAppCustom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -15,7 +17,53 @@ class AppBarCustom extends StatefulWidget {
 
 class _AppBarCustomState extends State<AppBarCustom> {
   final auth = FirebaseAuth.instance;
-  final _database = FirebaseDatabase.instance.ref();
+  final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription get;
+  int energy = 0;
+  Timer? _timer;
+  int start = 6;
+
+  @override
+  void initState() {
+    super.initState();
+    _getenergy();
+
+    starttimer();
+  }
+
+  void _getenergy() {
+    get = _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      if (mounted) {
+        setState(() {
+          energy = data['energy'];
+        });
+      }
+    });
+  }
+
+  void starttimer() {
+
+      if (energy < 20) {
+        _timer = Timer.periodic(
+          const Duration(seconds: 1),
+          (timer) {
+            if (energy == 20) timer.cancel();
+            if (start == 0) {
+              setState(() {
+                timer.cancel();
+              });
+              energy += 1;
+              _db.child('members/${auth.currentUser!.uid}/energy').set(energy);
+            } else {
+              setState(() {
+                start--;
+              });
+            }
+          },
+        );
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +78,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
       child: SafeArea(
         child: Center(
           child: StreamBuilder(
-            stream: _database.child('members/${auth.currentUser!.uid}').onValue,
+            stream: _db.child('members/${auth.currentUser!.uid}').onValue,
             builder: ((context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
                 final data = Map<String, dynamic>.from(
@@ -70,7 +118,8 @@ class _AppBarCustomState extends State<AppBarCustom> {
                                     Image.asset('assets/images/IconLevel.png'),
                               ),
                               Text(
-                                data['level'].toString(),
+                                //data['level'].toString(),
+                                "$start",
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -106,5 +155,12 @@ class _AppBarCustomState extends State<AppBarCustom> {
         ),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    get.cancel();
+    _timer!.cancel();
+    super.deactivate();
   }
 }

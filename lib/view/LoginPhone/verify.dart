@@ -132,7 +132,9 @@ class _VerifyState extends State<Verify> {
                           'frameRank': 1,
                           'starRank': 0,
                           'chapter': 1,
-                          'highScore': 0,
+                          'highScoreChapter': {
+                            '1': 0,
+                          },
                           'rank': 1,
                           'diamond': 0,
                           'image': "1",

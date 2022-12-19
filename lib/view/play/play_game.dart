@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:dc_marvel_app/components/ChangeRoom.dart';
 import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
+import 'package:dc_marvel_app/components/ShowDialogFindBattle.dart';
 import 'package:dc_marvel_app/components/showChapterAll.dart';
 import 'package:dc_marvel_app/view/play/find_battle.dart';
 import 'package:dc_marvel_app/view/play/playing_now.dart';

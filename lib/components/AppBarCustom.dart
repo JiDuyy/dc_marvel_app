@@ -21,7 +21,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
   late StreamSubscription get;
   int energy = 0;
   Timer? _timer;
-  int start = 6;
+  int start = 60;
 
   @override
   void initState() {
@@ -43,26 +43,23 @@ class _AppBarCustomState extends State<AppBarCustom> {
   }
 
   void starttimer() {
-
-      if (energy < 20) {
-        _timer = Timer.periodic(
-          const Duration(seconds: 1),
-          (timer) {
-            if (energy == 20) timer.cancel();
-            if (start == 0) {
-              setState(() {
-                timer.cancel();
-              });
-              energy += 1;
-              _db.child('members/${auth.currentUser!.uid}/energy').set(energy);
-            } else {
-              setState(() {
-                start--;
-              });
-            }
-          },
-        );
-      }
+    _timer = Timer.periodic(
+      Duration(seconds: 1),
+      (timer) async {
+        if (start != 0) {
+          setState(() {
+            --start;
+          });
+        } else {
+          start = 60;
+          if (energy < 20) {
+            energy += 1;
+            _db.child('members/${auth.currentUser!.uid}/energy').set(energy);
+            // if (energy == 19) timer.cancel();
+          }
+        }
+      },
+    );
   }
 
   @override
@@ -118,8 +115,8 @@ class _AppBarCustomState extends State<AppBarCustom> {
                                     Image.asset('assets/images/IconLevel.png'),
                               ),
                               Text(
-                                //data['level'].toString(),
-                                "$start",
+                                data['level'].toString(),
+                                //"$start",
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -160,7 +157,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   void deactivate() {
     get.cancel();
-    _timer!.cancel();
+
     super.deactivate();
   }
 }

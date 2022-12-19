@@ -22,18 +22,34 @@ class _InviteFriendState extends State<InviteFriend> {
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.width / 1.5,
           padding: const EdgeInsets.all(10.0),
-          child: FirebaseAnimatedList(
-              query: _db.child('friends/${_auth.currentUser!.uid}'),
-              itemBuilder: (context, snapshot, animation, index) {
-                return FrameInvateFriend(
-                  frameRank: snapshot.child('frameRank').value.toString(),
-                  pathAvatar: snapshot.child('image').value.toString(),
-                  userName: snapshot.child('userName').value.toString(),
-                  pathFriend: snapshot.key.toString(), roomId: widget.roomId,
-                );
-              }),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: FirebaseAnimatedList(
+                    query: _db.child('friends/${_auth.currentUser!.uid}'),
+                    itemBuilder: (context, snapshot, animation, index) {
+                      return FrameInvateFriend(
+                        frameRank: snapshot.child('frameRank').value.toString(),
+                        pathAvatar: snapshot.child('image').value.toString(),
+                        userName: snapshot.child('userName').value.toString(),
+                        pathFriend: snapshot.key.toString(),
+                        roomId: widget.roomId,
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -85,6 +85,7 @@ class _FrameInvateFriendState extends State<FrameInvateFriend> {
             margin: const EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
+                
                 _db
                     .child('members/${widget.pathFriend}')
                     .update({'statusInvite': true, 'roomId': widget.roomId});

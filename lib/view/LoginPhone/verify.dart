@@ -136,6 +136,7 @@ class _VerifyState extends State<Verify> {
                           'rank': 1,
                           'diamond': 0,
                           'image': "1",
+                          'energy': 20,
                           'help': {
                             'bat': 0,
                             'shield': 0,

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, no_leading_underscores_for_local_identifiers
 import 'dart:async';
 import 'package:dc_marvel_app/components/FrameEx.dart';
-import 'package:dc_marvel_app/view/play/playing_battle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,7 @@ class ShowDialogCreateRoom extends StatefulWidget {
 
 class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   TextEditingController keyUser = TextEditingController();
+  TextEditingController statusClose = TextEditingController();
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
@@ -32,6 +32,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   late StreamSubscription _getRoom;
   late StreamSubscription _getStart;
   late StreamSubscription _getKeyUser;
+  late StreamSubscription _getStatusClose;
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
     _getPlayerOne();
     _getStatus();
     _getUserKey();
+    _getCloseStatus();
   }
 
   void _getUserKey() {
@@ -64,6 +66,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
         userTwo.text = data['userName'].toString();
         userImageTwo.text = data['image'].toString();
         frameRankUserTwo.text = data['rank'].toString();
+        statusClose.text = data['statusClose'].toString();
       });
     });
   }
@@ -80,6 +83,35 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
         frameRankUserOne.text = data['rank'].toString();
       });
     });
+  }
+
+  void _getCloseStatus() {
+    _getStatusClose =
+        _database.child('rooms/${widget.roomId}/playerTwo').onValue.listen(
+      (event) {
+        final data = event.snapshot.value as dynamic;
+        setState(
+          () {
+            if (data['statusClose'].toString() == 'true') {
+              Timer(
+                const Duration(milliseconds: 300),
+                () {
+                  if (keyUser.text == userTwo.text) {
+                    Navigator.pop(context);
+                    _database.child('rooms/${widget.roomId}/playerTwo').update({
+                      'userName': "",
+                      'image': "",
+                      'rank': "",
+                      'statusClose': false
+                    });
+                  }
+                },
+              );
+            }
+          },
+        );
+      },
+    );
   }
 
   void _getStatus() {
@@ -175,7 +207,8 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                                     .update({
                                   'userName': "",
                                   'image': "",
-                                  'rank': ""
+                                  'rank': "",
+                                  'statusClose': false
                                 });
                                 _database
                                     .child('rooms/${widget.roomId}/playerOne')
@@ -281,12 +314,31 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                     ),
                     Column(
                       children: [
-                        PlayerRoom(
-                          size: size,
-                          path: userImageTwo.text == ""
-                              ? 'assets/images/iconAddfriend.png'
-                              : 'assets/images/AvatarChibi${userImageTwo.text}.jpg',
-                          pathFrameRank: frameRankUserTwo.text,
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            PlayerRoom(
+                              size: size,
+                              path: userImageTwo.text == ""
+                                  ? 'assets/images/iconAddfriend.png'
+                                  : 'assets/images/AvatarChibi${userImageTwo.text}.jpg',
+                              pathFrameRank: frameRankUserTwo.text,
+                            ),
+                            userOne.text == keyUser.text && userTwo.text != ""
+                                ? InkWell(
+                                    onTap: () {
+                                      _database
+                                          .child(
+                                              'rooms/${widget.roomId}/playerTwo/statusClose')
+                                          .set(true);
+                                    },
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Container(),
+                          ],
                         ),
                         Text(
                           userTwo.text,
@@ -354,6 +406,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
     _getRoom.cancel();
     _getStart.cancel();
     _getKeyUser.cancel();
+    _getStatusClose.cancel();
     super.deactivate();
   }
 }

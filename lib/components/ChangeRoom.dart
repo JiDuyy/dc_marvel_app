@@ -184,7 +184,8 @@ class _ChangeRoomState extends State<ChangeRoom> {
                           _db.child('rooms/${roomId.text}/playerTwo').update({
                             'userName': user.text,
                             'image': image.text,
-                            'rank': frameRank.text
+                            'rank': frameRank.text,
+                            'statusClose': false
                           });
 
                           Navigator.pop(context);

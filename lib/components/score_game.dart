@@ -318,6 +318,22 @@ class _Score_gameState extends State<Score_game> {
                                           .child(auth.currentUser!.uid)
                                           .key !=
                                       null) {
+                                    if (widget.isWin &&
+                                        chapterCurrent == widget.chapter &&
+                                        widget.chapter < 10) {
+                                      final highScChapter = <String, dynamic>{
+                                        '${widget.chapter + 1}': 0
+                                      };
+                                      _db
+                                          .child(
+                                              'members/${auth.currentUser!.uid}/highScoreChapter')
+                                          .update(highScChapter)
+                                          .then((_) => print(
+                                              'update highScore successful'))
+                                          .catchError((error) =>
+                                              print('You got an error $error'));
+                                    }
+
                                     if (widget.hightscore < widget.Score) {
                                       final highScChapter = <String, dynamic>{
                                         '${widget.chapter}': widget.Score
@@ -352,22 +368,6 @@ class _Score_gameState extends State<Score_game> {
                                         .then((_) => print('update successful'))
                                         .catchError((error) =>
                                             print('You got an error $error'));
-
-                                    if (widget.isWin &&
-                                        chapterCurrent == widget.chapter &&
-                                        widget.chapter < 10) {
-                                      final highScChapter = <String, dynamic>{
-                                        '${widget.chapter}': 0
-                                      };
-                                      _db
-                                          .child(
-                                              'members/${auth.currentUser!.uid}/highScoreChapter')
-                                          .update(highScChapter)
-                                          .then((_) => print(
-                                              'update highScore successful'))
-                                          .catchError((error) =>
-                                              print('You got an error $error'));
-                                    }
                                   }
 
                                   Navigator.popUntil(

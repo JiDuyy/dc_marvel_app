@@ -39,10 +39,10 @@ class _FrameExInviteState extends State<FrameExInvite> {
         _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
       setState(() {
-        roomId.text = data['roomId'].value.toString();
-        userName.text = data['userName'].value.toString();
-        userImage.text = data['image'].value.toString();
-        userFrameRank.text = data['frameRank'].value.toString();
+        roomId.text = data['roomId'].toString();
+        userName.text = data['userName'].toString();
+        userImage.text = data['image'].toString();
+        userFrameRank.text = data['frameRank'].toString();
       });
     });
   }
@@ -130,7 +130,7 @@ class _FrameExInviteState extends State<FrameExInvite> {
                             opaque: false,
                             pageBuilder: (BuildContext context, _, __) =>
                                 ShowDialogCreateRoom(
-                              roomId: roomId.toString(),
+                              roomId: roomId.text.toString(),
                             ),
                           ),
                         );

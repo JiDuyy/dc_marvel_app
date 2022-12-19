@@ -53,7 +53,8 @@ class _Score_gameState extends State<Score_game> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // TODO: implement initState\
+
     super.initState();
     _userLevel();
   }
@@ -63,6 +64,7 @@ class _Score_gameState extends State<Score_game> {
     _useLevel =
         _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
+
       if (mounted) {
         setState(() {
           chapterCurrent = data['chapter'];
@@ -316,7 +318,21 @@ class _Score_gameState extends State<Score_game> {
                                           .child(auth.currentUser!.uid)
                                           .key !=
                                       null) {
-                                    final nextMember = <String, dynamic>{
+                                    if (widget.hightscore < widget.Score) {
+                                      final highScChapter = <String, dynamic>{
+                                        '${widget.chapter}': widget.Score
+                                      };
+                                      _db
+                                          .child(
+                                              'members/${auth.currentUser!.uid}/highScoreChapter')
+                                          .update(highScChapter)
+                                          .then((_) => print(
+                                              'update highScore successful'))
+                                          .catchError((error) =>
+                                              print('You got an error $error'));
+                                    }
+
+                                    final Score = <String, dynamic>{
                                       'exp': widget.exp,
                                       'level': widget.Lever,
                                       'diamond':
@@ -327,18 +343,31 @@ class _Score_gameState extends State<Score_game> {
                                               widget.chapter < 10
                                           ? ++widget.chapter
                                           : widget.chapter,
-                                      'highScore':
-                                          widget.Score > widget.hightscore
-                                              ? widget.Score
-                                              : widget.hightscore,
                                     };
+
                                     _db
                                         .child(
                                             'members/${auth.currentUser!.uid}')
-                                        .update(nextMember)
+                                        .update(Score)
                                         .then((_) => print('update successful'))
                                         .catchError((error) =>
                                             print('You got an error $error'));
+
+                                    if (widget.isWin &&
+                                        chapterCurrent == widget.chapter &&
+                                        widget.chapter < 10) {
+                                      final highScChapter = <String, dynamic>{
+                                        '${widget.chapter}': 0
+                                      };
+                                      _db
+                                          .child(
+                                              'members/${auth.currentUser!.uid}/highScoreChapter')
+                                          .update(highScChapter)
+                                          .then((_) => print(
+                                              'update highScore successful'))
+                                          .catchError((error) =>
+                                              print('You got an error $error'));
+                                    }
                                   }
 
                                   Navigator.popUntil(

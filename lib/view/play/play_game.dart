@@ -30,7 +30,7 @@ class _PlayGameState extends State<PlayGame> {
   final _db = FirebaseDatabase.instance.ref();
   late StreamSubscription _useLevel;
   int level = 1;
-  int hightScore = 0;
+  var hightScore;
   int chapter = 1;
   int exp = 0;
   int diamond = 0;
@@ -49,14 +49,16 @@ class _PlayGameState extends State<PlayGame> {
     _useLevel =
         _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
+      final hSc =
+          event.snapshot.child('highScoreChapter').value as List<dynamic>;
       if (mounted) {
         setState(() {
           level = data['level'];
-          hightScore = data['highScore'];
           chapter = data['chapter'];
           exp = data['exp'];
           diamond = data['diamond'];
           energy = data['energy'];
+          hightScore = hSc[chapter];
         });
       }
     });

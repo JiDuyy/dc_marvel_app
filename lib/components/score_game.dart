@@ -1,5 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:async';
+
+import 'package:dc_marvel_app/view/play/play_game.dart';
+import 'package:dc_marvel_app/view/play/playing_now.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +48,31 @@ class Score_game extends StatefulWidget {
 class _Score_gameState extends State<Score_game> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _useLevel;
+  int chapterCurrent = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState\
+
+    super.initState();
+    _userLevel();
+  }
+
+  //Get lever user
+  void _userLevel() {
+    _useLevel =
+        _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+
+      if (mounted) {
+        setState(() {
+          chapterCurrent = data['chapter'];
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -289,23 +318,53 @@ class _Score_gameState extends State<Score_game> {
                                           .child(auth.currentUser!.uid)
                                           .key !=
                                       null) {
-                                    final nextMember = <String, dynamic>{
+                                    if (widget.isWin &&
+                                        chapterCurrent == widget.chapter &&
+                                        widget.chapter < 10) {
+                                      final highScChapter = <String, dynamic>{
+                                        '${widget.chapter + 1}': 0
+                                      };
+                                      _db
+                                          .child(
+                                              'members/${auth.currentUser!.uid}/highScoreChapter')
+                                          .update(highScChapter)
+                                          .then((_) => print(
+                                              'update highScore successful'))
+                                          .catchError((error) =>
+                                              print('You got an error $error'));
+                                    }
+
+                                    if (widget.hightscore < widget.Score) {
+                                      final highScChapter = <String, dynamic>{
+                                        '${widget.chapter}': widget.Score
+                                      };
+                                      _db
+                                          .child(
+                                              'members/${auth.currentUser!.uid}/highScoreChapter')
+                                          .update(highScChapter)
+                                          .then((_) => print(
+                                              'update highScore successful'))
+                                          .catchError((error) =>
+                                              print('You got an error $error'));
+                                    }
+
+                                    final Score = <String, dynamic>{
                                       'exp': widget.exp,
                                       'level': widget.Lever,
                                       'diamond':
                                           widget.diamond + widget.total * 10,
-                                      'chapter': widget.isWin
+                                      'chapter': widget.isWin &&
+                                              chapterCurrent ==
+                                                  widget.chapter &&
+                                              widget.chapter < 10
                                           ? ++widget.chapter
                                           : widget.chapter,
-                                      'highScore':
-                                          widget.Score > widget.hightscore
-                                              ? widget.Score
-                                              : widget.hightscore,
                                     };
+
                                     _db
                                         .child(
                                             'members/${auth.currentUser!.uid}')
-                                        .update(nextMember)
+                                        .update(Score)
                                         .then((_) => print('update successful'))
                                         .catchError((error) =>
                                             print('You got an error $error'));
@@ -344,7 +403,7 @@ class _Score_gameState extends State<Score_game> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              child: const InkWell()),
+                              child: InkWell()),
                         ),
                         const Spacer()
                       ],

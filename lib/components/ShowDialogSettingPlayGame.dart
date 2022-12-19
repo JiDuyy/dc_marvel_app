@@ -15,9 +15,9 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(.8),
+      backgroundColor: Colors.black.withOpacity(.95),
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height / 30,
@@ -79,7 +79,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, false);
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
@@ -99,13 +99,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PageMain(),
-                        ),
-                      );
+                      Navigator.popUntil(context, ModalRoute.withName('home'));
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),

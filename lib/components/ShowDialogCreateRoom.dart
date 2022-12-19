@@ -18,6 +18,7 @@ class ShowDialogCreateRoom extends StatefulWidget {
 class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   TextEditingController keyUser = TextEditingController();
   TextEditingController statusClose = TextEditingController();
+  TextEditingController statusPlayerTowStart = TextEditingController();
   TextEditingController userTwo = TextEditingController();
   TextEditingController userOne = TextEditingController();
   TextEditingController status = TextEditingController();
@@ -67,6 +68,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
         userImageTwo.text = data['image'].toString();
         frameRankUserTwo.text = data['rank'].toString();
         statusClose.text = data['statusClose'].toString();
+        statusPlayerTowStart.text = data['statusStart'].toString();
       });
     });
   }
@@ -128,6 +130,9 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                       ),
                     ),
                   );
+                  _database
+                      .child('rooms/${widget.roomId}/playerTwo/statusStart')
+                      .set(false);
                 },
               );
             }
@@ -362,9 +367,20 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
                     onPressed: () async {
                       if (userTwo.text != "") {
                         if (userOne.text == keyUser.text) {
-                          _database
-                              .child('rooms/${widget.roomId}/status')
-                              .set(true);
+                          if (statusPlayerTowStart.text == "true") {
+                            _database
+                                .child('rooms/${widget.roomId}/status')
+                                .set(true);
+                          } else {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    FrameEx(
+                                        Ex: "Players who are still summarizing cannot start"),
+                              ),
+                            );
+                          }
                         } else {
                           Navigator.of(context).push(
                             PageRouteBuilder(

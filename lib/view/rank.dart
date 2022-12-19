@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -60,11 +62,11 @@ class _RankState extends State<Rank> {
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
               child: FirebaseAnimatedList(
                   query: _db.orderByChild('starRank'),
-                  sort: (a, b) => (b
-                      .child('starRank')
-                      .value
-                      .toString()
-                      .compareTo(a.child('starRank').value.toString())),
+                  // sort: (a, b) => b
+                  //     .child('starRank')
+                  //     .value
+                  //     .toString()
+                  //     .compareTo(a.child('starRank').value.toString()),
                   itemBuilder: (context, snapshot, animation, index) {
                     return FrameRank(
                       frame: index == 0

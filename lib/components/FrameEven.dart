@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'BonusFrameItem.dart';
+import 'FrameEx.dart';
 
 class FrameEven extends StatefulWidget {
   const FrameEven({
@@ -35,6 +36,7 @@ class _FrameEvenState extends State<FrameEven> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     _userLevel();
@@ -45,14 +47,16 @@ class _FrameEvenState extends State<FrameEven> {
     _useLevel =
         _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
+      final hSc =
+          event.snapshot.child('highScoreChapter').value as List<dynamic>;
       if (mounted) {
         setState(() {
           level = data['level'];
-          hightScore = data['highScore'];
           chapter = data['chapter'];
           exp = data['exp'];
           diamond = data['diamond'];
           energy = data['energy'];
+          hightScore = hSc[chapter];
         });
       }
     });
@@ -118,16 +122,34 @@ class _FrameEvenState extends State<FrameEven> {
             flex: 2,
             child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PlayingEven(
-                            level: 1,
-                            diamond: 0,
-                            exp: 0,
-                            hightScore: 0,
-                            chapter: 1,
-                            energy: 0)));
+                if (energy > 1) {
+                  if (_db.child('members').child(_auth.currentUser!.uid).key !=
+                      null) {
+                    final energy1 = <String, dynamic>{'energy': energy -= 5};
+                    _db
+                        .child('members/${_auth.currentUser!.uid}')
+                        .update(energy1)
+                        .then((_) => print('update Spider successful'))
+                        .catchError(
+                            (error) => print('You got an error $error'));
+                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlayingEven(
+                              level: level,
+                              diamond: diamond,
+                              exp: exp,
+                              hightScore: hightScore,
+                              chapter: 11,
+                             )));
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const FrameEx(Ex: 'Energy is not enought')));
+                }
               },
               child: Container(
                 width: MediaQuery.of(context).size.width / 2,

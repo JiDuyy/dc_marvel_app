@@ -55,6 +55,10 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                       .snapshot
                                       .value as Map<dynamic, dynamic>),
                             );
+                            final data1 = (snapshot.data as DatabaseEvent)
+                                .snapshot
+                                .child('highScoreChapter')
+                                .value as List<dynamic>;
                             return Column(
                               children: [
                                 Expanded(
@@ -234,7 +238,8 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                       children: [
                                                         Expanded(
                                                           child: Text(
-                                                            data['highScore']
+                                                            data1[data[
+                                                                    'chapter']]
                                                                 .toString(),
                                                             style: TextStyle(
                                                                 color: Colors
@@ -275,7 +280,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                                         ),
                                                         Expanded(
                                                           child: Text(
-                                                            'Gate',
+                                                            'Chapter',
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .white,

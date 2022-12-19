@@ -61,12 +61,10 @@ class _RankState extends State<Rank> {
             child: WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
               child: FirebaseAnimatedList(
-                  query: _db.orderByChild('starRank'),
-                  // sort: (a, b) => b
-                  //     .child('starRank')
-                  //     .value
-                  //     .toString()
-                  //     .compareTo(a.child('starRank').value.toString()),
+                  query: _db.orderByChild('starRank').limitToLast(100),
+                  sort: (a, b) =>
+                      int.parse(b.child('starRank').value.toString()).compareTo(
+                          int.parse(a.child('starRank').value.toString())),
                   itemBuilder: (context, snapshot, animation, index) {
                     return FrameRank(
                       frame: index == 0

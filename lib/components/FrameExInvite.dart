@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import 'FrameEx.dart';
 import 'ShowDialogCreateRoom.dart';
@@ -49,110 +50,116 @@ class _FrameExInviteState extends State<FrameExInvite> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width - 50,
-        height: MediaQuery.of(context).size.height / 4,
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: const DecorationImage(
-            image: AssetImage("assets/images/frameEx.png"),
-          ),
-        ),
-        child: Column(
-          children: [
-            const Expanded(
-              child: Text(
-                'Notify',
-                style: TextStyle(color: Colors.white, fontSize: 22),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: WidgetAnimator(
+          incomingEffect: WidgetTransitionEffects.incomingScaleDown(),
+          child: Container(
+            width: MediaQuery.of(context).size.width - 50,
+            height: MediaQuery.of(context).size.height / 4,
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: const DecorationImage(
+                image: AssetImage("assets/images/frameEx.png"),
               ),
             ),
-            const Expanded(
-              flex: 4,
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                const Expanded(
                   child: Text(
-                    'The player invites you to the match',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
+                    'Notify',
+                    style: TextStyle(color: Colors.white, fontSize: 22),
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
+                const Expanded(
+                  flex: 4,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        'The player invites you to the match',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
-                    onPressed: () {
-                      _db
-                          .child(
-                              'members/${_auth.currentUser!.uid}/statusInvite')
-                          .set(false);
-                    },
-                    child: const Text('Disagree'),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        onPressed: () {
+                          _db
+                              .child(
+                                  'members/${_auth.currentUser!.uid}/statusInvite')
+                              .set(false);
+                        },
+                        child: const Text('Disagree'),
                       ),
-                    ),
-                    onPressed: () async {
-                      final getPlayerTwo = await _db
-                          .child('rooms/${roomId.text}/playerTwo/userName')
-                          .get();
-
-                      if (getPlayerTwo.value.toString() == "") {
-                        _db.child('rooms/${roomId.text}/playerTwo').update({
-                          'userName': userName.text,
-                          'image': userImage.text,
-                          'rank': userFrameRank.text,
-                          'statusClose': false,
-                          'statusStart': true
-                        });
-
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) =>
-                                ShowDialogCreateRoom(
-                              roomId: roomId.text.toString(),
-                            ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                        );
-                      } else {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) =>
-                                const FrameEx(Ex: "Room is full"),
-                          ),
-                        );
-                      }
-                      _db
-                          .child(
-                              'members/${_auth.currentUser!.uid}/statusInvite')
-                          .set(false);
-                    },
-                    child: const Text('Agree'),
+                        ),
+                        onPressed: () async {
+                          final getPlayerTwo = await _db
+                              .child('rooms/${roomId.text}/playerTwo/userName')
+                              .get();
+
+                          if (getPlayerTwo.value.toString() == "") {
+                            _db.child('rooms/${roomId.text}/playerTwo').update({
+                              'userName': userName.text,
+                              'image': userImage.text,
+                              'rank': userFrameRank.text,
+                              'statusClose': false,
+                              'statusStart': true
+                            });
+
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    ShowDialogCreateRoom(
+                                  roomId: roomId.text.toString(),
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    const FrameEx(Ex: "Room is full"),
+                              ),
+                            );
+                          }
+                          _db
+                              .child(
+                                  'members/${_auth.currentUser!.uid}/statusInvite')
+                              .set(false);
+                        },
+                        child: const Text('Agree'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

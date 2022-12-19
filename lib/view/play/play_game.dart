@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dc_marvel_app/components/ChangeRoom.dart';
+import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
 import 'package:dc_marvel_app/components/showChapterAll.dart';
 import 'package:dc_marvel_app/view/play/find_battle.dart';
@@ -29,13 +30,15 @@ class _PlayGameState extends State<PlayGame> {
   final _db = FirebaseDatabase.instance.ref();
   late StreamSubscription _useLevel;
   int level = 1;
-  int hightScore = 0;
+  var hightScore;
   int chapter = 1;
   int exp = 0;
   int diamond = 0;
+  int energy = 0;
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     _userLevel();
@@ -46,13 +49,16 @@ class _PlayGameState extends State<PlayGame> {
     _useLevel =
         _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
+      final hSc =
+          event.snapshot.child('highScoreChapter').value as List<dynamic>;
       if (mounted) {
         setState(() {
           level = data['level'];
-          hightScore = data['highScore'];
           chapter = data['chapter'];
           exp = data['exp'];
           diamond = data['diamond'];
+          energy = data['energy'];
+          hightScore = hSc[chapter];
         });
       }
     });
@@ -85,18 +91,33 @@ class _PlayGameState extends State<PlayGame> {
                   incomingEffect:
                       WidgetTransitionEffects.incomingSlideInFromTop(),
                   atRestEffect: WidgetRestingEffects.wave(),
-                  child: InkWell(
-                    onTap: (() => Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) =>
-                                const ShowChapterAll(),
+                  child: chapter == 1
+                      ? InkWell(
+                          key: const ValueKey('1'),
+                          onTap: (() => Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      const ShowChapterAll(),
+                                ),
+                              )),
+                          child: const ChapterImage(
+                            path: 'assets/images/Chapter1.png',
                           ),
-                        )),
-                    child: const ChapterImage(
-                      path: 'assets/images/Chapter1.png',
-                    ),
-                  ),
+                        )
+                      : InkWell(
+                          key: ValueKey('$chapter'),
+                          onTap: (() => Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  pageBuilder: (BuildContext context, _, __) =>
+                                      const ShowChapterAll(),
+                                ),
+                              )),
+                          child: ChapterImage(
+                            path: 'assets/images/Chapter$chapter.png',
+                          ),
+                        ),
                 ),
                 WidgetAnimator(
                   incomingEffect:
@@ -162,18 +183,42 @@ class _PlayGameState extends State<PlayGame> {
                           WidgetTransitionEffects.incomingSlideInFromBottom(),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  PlayingGame(
-                                      level: level,
-                                      exp: exp,
-                                      hightScore: hightScore,
-                                      chapter: chapter,
-                                      diamond: diamond),
-                            ),
-                          );
+                          if (energy > 1) {
+                            if (_db
+                                    .child('members')
+                                    .child(_auth.currentUser!.uid)
+                                    .key !=
+                                null) {
+                              final energy1 = <String, dynamic>{
+                                'energy': energy -= 2
+                              };
+                              _db
+                                  .child('members/${_auth.currentUser!.uid}')
+                                  .update(energy1)
+                                  .then(
+                                      (_) => print('update Spider successful'))
+                                  .catchError((error) =>
+                                      print('You got an error $error'));
+                            }
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (BuildContext context, _, __) =>
+                                    PlayingGame(
+                                        level: level,
+                                        exp: exp,
+                                        hightScore: hightScore,
+                                        chapter: chapter,
+                                        diamond: diamond),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const FrameEx(
+                                        Ex: 'Energy is not enought')));
+                          }
                         },
                         child: const ButtonBattleCustom(
                           title: 'PLAY NOW',

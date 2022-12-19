@@ -73,9 +73,7 @@ class _PageMainState extends State<PageMain> {
               children: pages,
               // onPageChanged: onPageChanged,
             ),
-            statusInvite.text == "true"
-                ? FrameExInvite()
-                : Container()
+            statusInvite.text == "true" ? const FrameExInvite() : Container()
           ],
         ),
         bottomNavigationBar:

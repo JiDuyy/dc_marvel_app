@@ -1,3 +1,4 @@
+import 'package:dc_marvel_app/view/play/play_even.dart';
 import 'package:flutter/material.dart';
 
 import 'BonusFrameItem.dart';
@@ -77,23 +78,30 @@ class _FrameEvenState extends State<FrameEven> {
           ),
           Expanded(
             flex: 2,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/ButonSetting.png'),
-                  fit: BoxFit.fill,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, 
+                MaterialPageRoute(
+                  builder: (context)=>PlayingEven(level: 1, diamond: 1, exp: 1, hightScore: 1, chapter: 1)));
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width / 2,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/ButonSetting.png'),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              child: const Center(
-                child: Text(
-                  'PLAY',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.5,
-                    fontFamily: 'Horizon',
-                    color: Colors.white,
+                child: const Center(
+                  child: Text(
+                    'PLAY',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.5,
+                      fontFamily: 'Horizon',
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

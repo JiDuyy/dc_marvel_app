@@ -1,11 +1,9 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:dc_marvel_app/components/AppBarProfile.dart';
 import 'package:dc_marvel_app/components/FrameNotify.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
-
-import '../../components/FrameFriend.dart';
-import '../../components/InfoProfile.dart';
 
 class Notify extends StatefulWidget {
   const Notify({super.key});
@@ -15,6 +13,8 @@ class Notify extends StatefulWidget {
 }
 
 class _NotifyState extends State<Notify> {
+  final _db = FirebaseDatabase.instance.ref().child('friends');
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +26,8 @@ class _NotifyState extends State<Notify> {
             Expanded(
               flex: 4,
               child: Container(
-                margin: EdgeInsets.all(15),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.all(15),
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage('assets/images/profile_background.png'),
                   fit: BoxFit.fill,
@@ -42,7 +42,7 @@ class _NotifyState extends State<Notify> {
                           margin: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width / 2.8,
                               top: MediaQuery.of(context).size.width / 50),
-                          child: Text(
+                          child: const Text(
                             'Notify',
                             style: TextStyle(
                               color: Colors.white,
@@ -55,43 +55,47 @@ class _NotifyState extends State<Notify> {
                     ),
                     Expanded(
                       flex: 7,
-                      child: SingleChildScrollView(
-                        child: WidgetAnimator(
-                          incomingEffect:
-                              WidgetTransitionEffects.incomingSlideInFromLeft(),
-                          child: Column(
-                            children: const [
-                              FrameNotify(
-                                frameRank: 'assets/images/notify.png',
-                                pathAvatar: 'assets/images/IconLevel.png',
-                                userName: "kdy",
-                                Time: '10:00',
-                                Notication: 'kdy is ready to be battle!',
-                              ),
-                              FrameNotify(
-                                frameRank: 'assets/images/notify.png',
-                                pathAvatar: 'assets/images/IconLevel.png',
-                                userName: "kdy",
-                                Time: '10:00',
-                                Notication: 'kdy is ready to be battle!',
-                              ),
-                              FrameNotify(
-                                frameRank: 'assets/images/notify.png',
-                                pathAvatar: 'assets/images/IconLevel.png',
-                                userName: "kdy",
-                                Time: '10:00',
-                                Notication: 'kdy is ready to be battle!',
-                              ),
-                              FrameNotify(
-                                frameRank: 'assets/images/notify.png',
-                                pathAvatar: 'assets/images/IconLevel.png',
-                                userName: "kdy",
-                                Time: '10:00',
-                                Notication: 'kdy is ready to be battle!',
-                              ),
-                            ],
-                          ),
-                        ),
+                      child: WidgetAnimator(
+                        incomingEffect:
+                            WidgetTransitionEffects.incomingSlideInFromLeft(),
+                        child: FirebaseAnimatedList(
+                            query: _db
+                                .child(_auth.currentUser!.uid)
+                                .orderByChild('statusAdd')
+                                .limitToLast(100),
+                            sort: (a, b) => b
+                                .child('statusAdd')
+                                .value
+                                .toString()
+                                .compareTo(
+                                    a.child('statusAdd').value.toString()),
+                            itemBuilder: (context, snapshot, animation, index) {
+                              if (int.parse(snapshot
+                                      .child('statusAdd')
+                                      .value
+                                      .toString()) ==
+                                  0) {
+                                return FrameNotify(
+                                  idUser: snapshot.key.toString(),
+                                  frameRank:
+                                      'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
+                                  pathAvatar:
+                                      'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
+                                  userName: snapshot
+                                      .child('userName')
+                                      .value
+                                      .toString(),
+                                  Time: snapshot
+                                      .child('timeAdd')
+                                      .value
+                                      .toString(),
+                                  Notication:
+                                      '${snapshot.child('userName').value.toString()} sent a friend request',
+                                );
+                              } else {
+                                return Container();
+                              }
+                            }),
                       ),
                     ),
                     Expanded(

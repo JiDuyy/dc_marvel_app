@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -10,13 +14,28 @@ class FrameEx extends StatefulWidget {
 }
 
 class _FrameExState extends State<FrameEx> {
+  final _db = FirebaseDatabase.instance.ref().child('members');
+  final _auth = FirebaseAuth.instance;
+  late Timer time;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    time = Timer(Duration(seconds: 5), () {
+      Navigator.pop(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.7),
       body: Center(
         child: InkWell(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            time.cancel();
+            Navigator.pop(context);
+          },
           child: WidgetAnimator(
             incomingEffect: WidgetTransitionEffects.incomingScaleDown(),
             child: Container(

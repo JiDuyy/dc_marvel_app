@@ -13,12 +13,13 @@ class FrameEven extends StatefulWidget {
     required this.pathItemOne,
     required this.pathItemTwo,
     required this.pathFrame,
+    
   }) : super(key: key);
 
   final String pathFrame;
   final String pathItemOne;
   final String pathItemTwo;
-
+  
   @override
   State<FrameEven> createState() => _FrameEvenState();
 }
@@ -33,7 +34,10 @@ class _FrameEvenState extends State<FrameEven> {
   int exp = 0;
   int diamond = 0;
   int energy = 0;
-
+  int thor = 0;
+  int spider = 0;
+  int bat = 0;
+  int shiled = 0;
   @override
   void initState() {
     // ignore: todo
@@ -52,7 +56,6 @@ class _FrameEvenState extends State<FrameEven> {
       if (mounted) {
         setState(() {
           level = data['level'];
-          chapter = data['chapter'];
           exp = data['exp'];
           diamond = data['diamond'];
           energy = data['energy'];
@@ -133,16 +136,19 @@ class _FrameEvenState extends State<FrameEven> {
                         .catchError(
                             (error) => print('You got an error $error'));
                   }
-                  Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PlayingEven(
-                              level: level,
-                              diamond: diamond,
-                              exp: exp,
-                              hightScore: hightScore,
-                              chapter: 11,
-                             )));
+                        builder: (context) => PlayingEven(
+                          level: level,
+                          diamond: diamond,
+                          exp: exp,
+                          hightScore: hightScore,
+                          energy: energy,
+                          //chapter: 11,
+                        ),
+                      ),
+                    );
                 } else {
                   Navigator.push(
                       context,

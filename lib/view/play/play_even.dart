@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:dc_marvel_app/components/AnimationHelper.dart';
-import 'package:dc_marvel_app/components/score_game.dart';
+import 'package:dc_marvel_app/components/Score_event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -12,18 +12,21 @@ import '../../components/Icon_helper.dart';
 import '../../components/ShowDialogSettingPlayGame.dart';
 
 class PlayingEven extends StatefulWidget {
-  PlayingEven(
-      {super.key,
-      required this.level,
-      required this.diamond,
-      required this.exp,
-      required this.hightScore,
-      required this.chapter});
+  PlayingEven({
+    super.key,
+    required this.level,
+    required this.diamond,
+    required this.exp,
+    required this.hightScore,
+    required this.energy,
+    //required this.chapter
+  });
   int level;
   int diamond;
   int exp;
   int hightScore;
-  int chapter;
+  int energy;
+  //int chapter;
   @override
   State<PlayingEven> createState() => _PlayingEvenState();
 }
@@ -36,10 +39,10 @@ class _PlayingEvenState extends State<PlayingEven> {
   TextEditingController chaptertitle = TextEditingController();
   bool trueSelect = false, pause = false;
   Set<int> setOfInts = {}, setHelp = {};
-  int num = 101,
+  int num = 100,
       selectOption = 0,
-      _current = 30,
-      _timerStart = 30,
+      _current = 60,
+      _timerStart = 60,
       total = 0,
       point = 0,
       count = 0,
@@ -49,28 +52,21 @@ class _PlayingEvenState extends State<PlayingEven> {
   // ignore: must_call_super
   void initState() {
     if (selectOption != 0) {
-      //Set time to next when user tap to the awser
       Timer(Duration(milliseconds: 500), () async {
-        //if (num < widget.chapter * 10) num++;
-
+        if (num < 110) num++;
         if (trueSelect) ++total;
         count++;
-        // _Chapter();
         selectOption = 1;
-        if ( count == 10) _pushScore();
+        if (num == 110 && count == 10) _pushScore();
       });
-
-      //Reset SetHelp
       if (setHelp.isNotEmpty) setHelp.clear();
     } else {
-      //fun run to screen playing now
       if (mounted) {
         super.initState();
         for (int i = 0; setOfInts.length < 4; i++) {
           setOfInts.add(Random().nextInt(4) + 1);
         }
-
-        num = 11;
+        num = 101;
         _startTimer();
         _Chapter();
         _getHelper();
@@ -78,7 +74,7 @@ class _PlayingEvenState extends State<PlayingEven> {
     }
   }
 
-  //Get chapter in firebase
+  //Get chapter in firebase 
   // ignore: non_constant_identifier_names
   void _Chapter() {
     _subscription = _database
@@ -88,7 +84,7 @@ class _PlayingEvenState extends State<PlayingEven> {
       final data = event.snapshot.value as dynamic;
       if (mounted) {
         setState(() {
-          chaptertitle.text = 'Chapter ${data['id']}: ${data['title']} ';
+          chaptertitle.text = '${data['title']} ';
         });
       }
     });
@@ -142,7 +138,7 @@ class _PlayingEvenState extends State<PlayingEven> {
   void _startTimer() {
     CountdownTimer countDownTimer = CountdownTimer(
       Duration(
-        seconds: 30,
+        seconds: 60,
       ),
       const Duration(seconds: 1),
     );
@@ -156,43 +152,39 @@ class _PlayingEvenState extends State<PlayingEven> {
         });
       }
     });
-
-    if (num == widget.chapter * 10) _subTimer.cancel();
-
+    if (num == 110) _subTimer.cancel();
     _subTimer.onDone(() {
       // ignore: avoid_print
       print("Done");
       _subTimer.cancel();
     });
   }
-
-  // ignore: non_constant_identifier_names
   void _pushScore() {
     if (_current <= 20) {
       point = total * 50;
     } else {
       total >= 5
-          ? point = (total * 100 * ((_current + 5) / 30)).ceil()
-          : point = (total * 50 * ((_current + 5) / 30)).ceil();
+          ? point = (total * 100 * ((_current + 5) / 60)).ceil()
+          : point = (total * 50 * ((_current + 5) / 60)).ceil();
     }
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Score_game(
+        builder: (BuildContext context) => Score_event(
             isWin: total >= 7,
             Lever: widget.level,
             exp: widget.exp,
             Score: point,
             diamond: widget.diamond,
             total: total,
-            chapter: widget.chapter,
+            energy: widget.energy,
+            //  chapter: widget.chapter,
             hightscore: widget.hightScore,
-            time: 30 - _current,
+            time: 60 - _current,
             quantiHammer: lsHelp[3],
             quantiSpider: lsHelp[1],
             quantiBat: lsHelp[0],
             quantiShield: lsHelp[2])));
   }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -237,7 +229,7 @@ class _PlayingEvenState extends State<PlayingEven> {
                                 LayoutBuilder(
                                   builder: (context, constraints) => Container(
                                     width:
-                                        constraints.maxWidth * (_current / 30),
+                                        constraints.maxWidth * (_current / 60),
                                     decoration: BoxDecoration(
                                         gradient: const LinearGradient(
                                             begin: Alignment.topLeft,
@@ -571,13 +563,12 @@ class _PlayingEvenState extends State<PlayingEven> {
                                         );
                                         Timer(Duration(milliseconds: 500),
                                             () async {
-                                          if (num < widget.chapter * 10) ++num;
+                                          if (num < 110) ++num;
 
                                           ++total;
                                           count++;
 
-                                          if (num == widget.chapter * 10 &&
-                                              count == 10) {
+                                          if (num == 110 && count == 10) {
                                             _pushScore();
                                           }
                                         });

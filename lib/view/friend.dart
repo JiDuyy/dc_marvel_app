@@ -78,17 +78,11 @@ class _FriendState extends State<Friend> {
                             snapshot.child('statusAdd').value.toString()) ==
                         2) {
                       return FrameFriend(
-                        frameRank: snapshot
-                                      .child('frameRank')
-                                      .value
-                                      .toString(),
+                        idUser: snapshot.key.toString(),
+                        frameRank: snapshot.child('frameRank').value.toString(),
                         pathAvatar: snapshot.child('image').value.toString(),
-                        userName: snapshot
-                                      .child('userName')
-                                      .value
-                                      .toString(),
+                        userName: snapshot.child('userName').value.toString(),
                       );
-                    
                     } else {
                       return Container();
                     }

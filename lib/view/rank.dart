@@ -104,23 +104,25 @@ class _RankState extends State<Rank> {
                       });
                     }
                     return InkWell(
-                      onTap: myIndex == index + 1
+                      onTap: userName.text ==
+                              snapshot.child('userName').value.toString()
                           ? null
                           : () {
                               Navigator.of(context).push(PageRouteBuilder(
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
                                     InfoFriend(
-                                  url:
-                                      'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
+                                  url: snapshot.child('image').value.toString(),
                                   urlRank:
-                                      "assets/images/rank${snapshot.child('rank').value.toString()}.png",
+                                      snapshot.child('rank').value.toString(),
                                   userName: snapshot
                                       .child('userName')
                                       .value
                                       .toString(),
-                                  frameRank:
-                                      'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
+                                  frameRank: snapshot
+                                      .child('frameRank')
+                                      .value
+                                      .toString(),
                                   chapter: snapshot
                                       .child('chapter')
                                       .value

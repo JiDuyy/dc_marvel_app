@@ -181,12 +181,12 @@ class _FrameNotifyState extends State<FrameNotify> {
 
                               if (snapshot.exists) {
                                 final addFriend = <String, dynamic>{
-                                  widget.idUser: {'statusAdd': 2}
+                                  'statusAdd': 2
                                 };
                                 _db
                                     .child(
-                                        'friends/${auth.currentUser!.uid}/statusAdd')
-                                    .set(addFriend)
+                                        'friends/${auth.currentUser!.uid}/${widget.idUser}')
+                                    .update(addFriend)
                                     .then((_) => print('friend has been Acp!'))
                                     .catchError((error) =>
                                         print('You got an error $error'));
@@ -197,14 +197,12 @@ class _FrameNotifyState extends State<FrameNotify> {
 
                                 if (snapshot1.exists) {
                                   final addFriend = <String, dynamic>{
-                                    FirebaseAuth.instance.currentUser!.uid: {
-                                      'statusAdd': 2
-                                    }
+                                    'statusAdd': 2
                                   };
                                   _db
                                       .child(
-                                          'friends/${widget.idUser}/statusAdd')
-                                      .set(addFriend)
+                                          'friends/${widget.idUser}/${FirebaseAuth.instance.currentUser!.uid}')
+                                      .update(addFriend)
                                       .then(
                                           (_) => print('friend has been acp!'))
                                       .catchError((error) =>

@@ -26,8 +26,8 @@ class _NotifyState extends State<Notify> {
             Expanded(
               flex: 4,
               child: Container(
-                margin: EdgeInsets.all(15),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.all(15),
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage('assets/images/profile_background.png'),
                   fit: BoxFit.fill,
@@ -42,7 +42,7 @@ class _NotifyState extends State<Notify> {
                           margin: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width / 2.8,
                               top: MediaQuery.of(context).size.width / 50),
-                          child: Text(
+                          child: const Text(
                             'Notify',
                             style: TextStyle(
                               color: Colors.white,
@@ -77,12 +77,10 @@ class _NotifyState extends State<Notify> {
                                   0) {
                                 return FrameNotify(
                                   idUser: snapshot.key.toString(),
-                                  frameRank: snapshot
-                                      .child('frameRank')
-                                      .value
-                                      .toString(),
+                                  frameRank:
+                                      'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
                                   pathAvatar:
-                                      snapshot.child('image').value.toString(),
+                                      'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
                                   userName: snapshot
                                       .child('userName')
                                       .value

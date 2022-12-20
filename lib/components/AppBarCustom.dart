@@ -23,29 +23,28 @@ class _AppBarCustomState extends State<AppBarCustom> {
   Timer? _timer;
   int start = 60;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _getenergy();
+  @override
+  void initState() {
+    super.initState();
+    _getenergy();
+    // starttimer();
+  }
 
-  //   starttimer();
-  // }
-
-  // void _getenergy() {
-  //   get = _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
-  //     final data = event.snapshot.value as dynamic;
-  //     if (mounted) {
-  //       setState(() {
-  //         energy = data['energy'];
-  //       });
-  //     }
-  //   });
-  // }
+  void _getenergy() {
+    get = _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      if (mounted) {
+        setState(() {
+          energy = data['energy'];
+        });
+      }
+    });
+  }
 
   // void starttimer() {
   //   _timer = Timer.periodic(
-  //     Duration(seconds: 1),
-  //     (timer) async {
+  //     const Duration(seconds: 1),
+  //     (timer) {
   //       if (start != 0) {
   //         setState(() {
   //           --start;
@@ -148,7 +147,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
                   ],
                 );
               }
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }),
           ),
         ),
@@ -156,10 +155,10 @@ class _AppBarCustomState extends State<AppBarCustom> {
     );
   }
 
-  // @override
-  // void deactivate() {
-  //   get.cancel();
-
-  //   super.deactivate();
-  // }
+  @override
+  void deactivate() {
+    get.cancel();
+    _timer?.cancel();
+    super.deactivate();
+  }
 }

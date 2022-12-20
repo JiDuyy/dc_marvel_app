@@ -1,4 +1,7 @@
 import 'package:dc_marvel_app/components/FrameFriend.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
@@ -12,6 +15,8 @@ class Friend extends StatefulWidget {
 }
 
 class _FriendState extends State<Friend> {
+  final _db = FirebaseDatabase.instance.ref().child('friends');
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,85 +61,38 @@ class _FriendState extends State<Friend> {
           ),
           Expanded(
             flex: 12,
-            child: SingleChildScrollView(
-              child: WidgetAnimator(
-                incomingEffect:
-                    WidgetTransitionEffects.incomingSlideInFromLeft(),
-                child: Column(
-                  children: const [
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyyyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "kdy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "kdy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyyyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "Duyyyyyyyy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "kdy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "kdy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "kdy",
-                    ),
-                    FrameFriend(
-                      frameRank: 'assets/images/FrameNormal.png',
-                      pathAvatar: 'assets/images/IconLevel.png',
-                      userName: "kdy",
-                    ),
-                  ],
-                ),
-              ),
+            child: WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(),
+              child: FirebaseAnimatedList(
+                  query: _db
+                      .child(_auth.currentUser!.uid)
+                      .orderByChild('statusAdd')
+                      .limitToLast(100),
+                  sort: (a, b) => b
+                      .child('statusAdd')
+                      .value
+                      .toString()
+                      .compareTo(a.child('statusAdd').value.toString()),
+                  itemBuilder: (context, snapshot, animation, index) {
+                    if (int.parse(
+                            snapshot.child('statusAdd').value.toString()) ==
+                        2) {
+                      return FrameFriend(
+                        frameRank: snapshot
+                                      .child('frameRank')
+                                      .value
+                                      .toString(),
+                        pathAvatar: snapshot.child('image').value.toString(),
+                        userName: snapshot
+                                      .child('userName')
+                                      .value
+                                      .toString(),
+                      );
+                    
+                    } else {
+                      return Container();
+                    }
+                  }),
             ),
           ),
         ],

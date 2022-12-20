@@ -57,36 +57,25 @@ class _FrameRankState extends State<FrameRank> {
             flex: 4,
             child: Row(
               children: [
-                InkWell(
-                  onTap: (() {
-                    Navigator.of(context).push(PageRouteBuilder(
-                      opaque: false,
-                      pageBuilder: (BuildContext context, _, __) => InfoFriend(
-                        url: widget.pathAvatar,
-                        isFriend: false,
-                      ),
-                    ));
-                  }),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      SizedBox(
-                        width: 28,
-                        height: 28,
-                        child: Image.asset(widget.pathAvatar),
-                      ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration:  BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(widget.frameRank),
-                            fit: BoxFit.cover,
-                          ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: Image.asset(widget.pathAvatar),
+                    ),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration:  BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(widget.frameRank),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20),

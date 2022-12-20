@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:dc_marvel_app/view/avatar.dart';
 import 'package:dc_marvel_app/view/history.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:firebase_database/ui/firebase_list.dart';
 import 'package:flutter/material.dart';
 import 'InfoProfile.dart';
 
@@ -309,7 +312,7 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                             infoProfle(
                                                 Url:
                                                     "assets/images/rank${data['rank']}.png",
-                                                x: 5),
+                                                x: data['starRank']),
                                             Expanded(
                                               flex: 2,
                                               child: Column(

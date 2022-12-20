@@ -184,7 +184,8 @@ class _FrameNotifyState extends State<FrameNotify> {
                                   widget.idUser: {'statusAdd': 2}
                                 };
                                 _db
-                                    .child('friends/${auth.currentUser!.uid}')
+                                    .child(
+                                        'friends/${auth.currentUser!.uid}/statusAdd')
                                     .set(addFriend)
                                     .then((_) => print('friend has been Acp!'))
                                     .catchError((error) =>
@@ -201,7 +202,8 @@ class _FrameNotifyState extends State<FrameNotify> {
                                     }
                                   };
                                   _db
-                                      .child('friends/${widget.idUser}')
+                                      .child(
+                                          'friends/${widget.idUser}/statusAdd')
                                       .set(addFriend)
                                       .then(
                                           (_) => print('friend has been acp!'))

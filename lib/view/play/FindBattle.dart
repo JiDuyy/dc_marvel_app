@@ -62,7 +62,7 @@ class _FindBattleState extends State<FindBattle> {
           () {
             if (data['status'].toString() == 'true') {
               Timer(
-                const Duration(seconds: 3),
+                const Duration(seconds: 1),
                 () {
                   Navigator.pop(context);
                   Navigator.of(context).push(PageRouteBuilder(
@@ -70,13 +70,6 @@ class _FindBattleState extends State<FindBattle> {
                     pageBuilder: (BuildContext context, _, __) =>
                         ShowDialogFindBattle(roomId: widget.roomId),
                   ));
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => PlayBattleGame(
-                  //         urlRef: 'battle', roomID: widget.roomId),
-                  //   ),
-                  // );
                 },
               );
             }

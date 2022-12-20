@@ -1,19 +1,39 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dc_marvel_app/components/AppBarProfile.dart';
+import 'package:dc_marvel_app/components/FrameEx.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'InfoProfile.dart';
 
 class InfoFriend extends StatefulWidget {
   String url;
-  bool isFriend;
-  InfoFriend({super.key, required this.url, required this.isFriend});
+  String urlRank;
+  String frameRank;
+  String userName;
+  String chapter;
+  String highScore;
+  String ID;
+  InfoFriend(
+      {super.key,
+      required this.url,
+      required this.urlRank,
+      required this.frameRank,
+      required this.userName,
+      required this.chapter,
+      required this.highScore,
+      required this.ID});
 
   @override
   State<InfoFriend> createState() => _InfoFriendState();
 }
 
 class _InfoFriendState extends State<InfoFriend> {
+  bool friend = false, isAdd = true;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +67,7 @@ class _InfoFriendState extends State<InfoFriend> {
                               incomingEffect: WidgetTransitionEffects
                                   .incomingSlideInFromRight(),
                               child: Text(
-                                widget.isFriend ? 'Friend' : 'Player',
+                                friend ? 'Friend' : 'Player',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
@@ -86,10 +106,9 @@ class _InfoFriendState extends State<InfoFriend> {
                                       height:
                                           MediaQuery.of(context).size.width /
                                               3.2,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/BoderAvatar2.png"),
+                                          image: AssetImage(widget.frameRank),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -103,10 +122,10 @@ class _InfoFriendState extends State<InfoFriend> {
                                       child: const Text(
                                         '2',
                                         style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontFamily: 'Horizon',
-                                        ),
+                                            color: Colors.black,
+                                            fontSize: 11,
+                                            fontFamily: 'Horizon',
+                                            letterSpacing: 2),
                                       ),
                                     )
                                   ],
@@ -121,7 +140,7 @@ class _InfoFriendState extends State<InfoFriend> {
                                   totalRepeatCount: 100,
                                   animatedTexts: [
                                     ColorizeAnimatedText(
-                                      'JIDUY',
+                                      widget.userName,
                                       textStyle: colorizeTextStyle,
                                       colors: colorizeColors,
                                     ),
@@ -137,10 +156,10 @@ class _InfoFriendState extends State<InfoFriend> {
                                       .incomingSlideInFromRight(),
                                   child: Column(
                                     children: [
-                                      const Expanded(
+                                      Expanded(
                                         child: Text(
-                                          'ID : sadfaaalllwe',
-                                          style: TextStyle(
+                                          'ID : ${widget.ID}',
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Horizon',
                                           ),
@@ -152,16 +171,16 @@ class _InfoFriendState extends State<InfoFriend> {
                                             children: [
                                               Expanded(
                                                 child: Column(
-                                                  children: const [
+                                                  children: [
                                                     Expanded(
                                                         child: Text(
-                                                      '300',
-                                                      style: TextStyle(
+                                                      widget.highScore,
+                                                      style: const TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'Horizon',
                                                           fontSize: 20),
                                                     )),
-                                                    Expanded(
+                                                    const Expanded(
                                                         child: Text(
                                                       'Points',
                                                       style: TextStyle(
@@ -174,18 +193,18 @@ class _InfoFriendState extends State<InfoFriend> {
                                               ),
                                               Expanded(
                                                 child: Column(
-                                                  children: const [
+                                                  children: [
                                                     Expanded(
                                                         child: Text(
-                                                      '10',
-                                                      style: TextStyle(
+                                                      widget.chapter,
+                                                      style: const TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'Horizon',
                                                           fontSize: 20),
                                                     )),
-                                                    Expanded(
+                                                    const Expanded(
                                                         child: Text(
-                                                      'Gate',
+                                                      'Chapter',
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontFamily: 'Horizon',
@@ -201,101 +220,245 @@ class _InfoFriendState extends State<InfoFriend> {
                                 )),
                             Expanded(
                                 flex: 2,
-                                child: WidgetAnimator(
-                                  incomingEffect: WidgetTransitionEffects
-                                      .incomingSlideInFromLeft(),
-                                  child: Row(
-                                    children: [
-                                      infoProfle(
-                                        Url: 'assets/images/cup.png',
-                                        x: 1,
-                                      ),
-                                      infoProfle(
-                                          Url: 'assets/images/RankKC.png',
-                                          x: 5),
-                                      Expanded(
-                                        flex: 2,
-                                        child: widget.isFriend
-                                            ? Column(
-                                                children: [
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      onTap: () {},
-                                                      child: SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
-                                                        child: Image.asset(
-                                                            'assets/images/buttonshareProfile.png'),
+                                child: Row(
+                                  children: [
+                                    infoProfle(
+                                      Url: 'assets/images/cup.png',
+                                      x: 1,
+                                    ),
+                                    infoProfle(Url: widget.urlRank, x: 5),
+                                    Expanded(
+                                      flex: 2,
+                                      child: friend
+                                          ? Column(
+                                              children: [
+                                                Expanded(
+                                                  child: InkWell(
+                                                    onTap: () {},
+                                                    child: SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      child: Image.asset(
+                                                          'assets/images/buttonshareProfile.png'),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 5),
+                                                    child: const Text(
+                                                      'Share',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 25,
+                                                        fontFamily: 'Horizon',
                                                       ),
                                                     ),
                                                   ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              top: 5),
-                                                      child: const Text(
-                                                        'Share',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 25,
-                                                          fontFamily: 'Horizon',
-                                                        ),
+                                                ),
+                                              ],
+                                            )
+                                          : Column(
+                                              children: [
+                                                Expanded(
+                                                  child: InkWell(
+                                                    onTap: isAdd
+                                                        ? () async {
+                                                            if (_db
+                                                                    .child(
+                                                                        'members')
+                                                                    .child(auth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .key !=
+                                                                null) {
+                                                              final snapshot =
+                                                                  await _db
+                                                                      .child(
+                                                                          'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
+                                                                      .get();
+
+                                                              if (!snapshot
+                                                                  .exists) {
+                                                                final addFriend =
+                                                                    <String,
+                                                                        dynamic>{
+                                                                  widget.ID: {
+                                                                    'frameRank':
+                                                                        widget
+                                                                            .frameRank,
+                                                                    'image':
+                                                                        widget
+                                                                            .url,
+                                                                    'userName':
+                                                                        widget
+                                                                            .userName,
+                                                                    'timeAdd':
+                                                                        '${DateTime.now()}',
+                                                                    'statusAdd':
+                                                                        1
+                                                                  }
+                                                                };
+                                                                _db
+                                                                    .child(
+                                                                        'friends/${auth.currentUser!.uid}')
+                                                                    .set(
+                                                                        addFriend)
+                                                                    .then((_) =>
+                                                                        print(
+                                                                            'friend has been written!'))
+                                                                    .catchError(
+                                                                        (error) =>
+                                                                            print('You got an error $error'));
+                                                                final snapshot1 =
+                                                                    await _db
+                                                                        .child(
+                                                                            'friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
+                                                                        .get();
+
+                                                                if (!snapshot1
+                                                                    .exists) {
+                                                                  final addFriend = <
+                                                                      String,
+                                                                      dynamic>{
+                                                                    FirebaseAuth
+                                                                        .instance
+                                                                        .currentUser!
+                                                                        .uid: {
+                                                                      'frameRank':
+                                                                          widget
+                                                                              .frameRank,
+                                                                      'image':
+                                                                          widget
+                                                                              .url,
+                                                                      'userName':
+                                                                          widget
+                                                                              .userName,
+                                                                      'timeAdd':
+                                                                          '${DateTime.now()}',
+                                                                      'statusAdd':
+                                                                          0
+                                                                    }
+                                                                  };
+                                                                  _db
+                                                                      .child(
+                                                                          'friends/${widget.ID}')
+                                                                      .set(
+                                                                          addFriend)
+                                                                      .then((_) =>
+                                                                          print(
+                                                                              'friend has been written!'))
+                                                                      .catchError(
+                                                                          (error) =>
+                                                                              print('You got an error $error'));
+                                                                }
+                                                                setState(() {
+                                                                  isAdd = false;
+                                                                });
+                                                                // ignore: use_build_context_synchronously
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                const FrameEx(Ex: 'Sent request')));
+                                                              }
+                                                            }
+                                                          }
+                                                        : () async {
+                                                            if (_db
+                                                                    .child(
+                                                                        'members')
+                                                                    .child(auth
+                                                                        .currentUser!
+                                                                        .uid)
+                                                                    .key !=
+                                                                null) {
+                                                              final snapshot =
+                                                                  await _db
+                                                                      .child(
+                                                                          'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
+                                                                      .get();
+
+                                                              if (snapshot
+                                                                  .exists) {
+                                                                _db
+                                                                    .child(
+                                                                        'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
+                                                                    .remove();
+                                                                final snapshot1 =
+                                                                    await _db
+                                                                        .child(
+                                                                            'friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
+                                                                        .get();
+
+                                                                if (snapshot1
+                                                                    .exists) {
+                                                                  _db
+                                                                      .child(
+                                                                          'friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
+                                                                      .remove();
+                                                                }
+                                                                setState(() {
+                                                                  isAdd = true;
+                                                                });
+                                                                // ignore: use_build_context_synchronously
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                const FrameEx(Ex: 'Sent request is cancel')));
+                                                              }
+                                                            }
+                                                          },
+                                                    child: SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              5,
+                                                      child: Image.asset(isAdd
+                                                          ? 'assets/images/iconAddfriend.png'
+                                                          : 'assets/images/iconMinus.png'),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 5),
+                                                    child: Text(
+                                                      isAdd ? 'Add' : 'Cancel',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 25,
+                                                        fontFamily: 'Horizon',
                                                       ),
                                                     ),
                                                   ),
-                                                ],
-                                              )
-                                            : Column(
-                                                children: [
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      onTap: () {},
-                                                      child: SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
-                                                        child: Image.asset(
-                                                            'assets/images/iconAddfriend.png'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              top: 5),
-                                                      child: const Text(
-                                                        'Add',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 25,
-                                                          fontFamily: 'Horizon',
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                      ),
-                                      const Spacer()
-                                    ],
-                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                    ),
+                                    const Spacer()
+                                  ],
                                 )),
                             Expanded(
                                 child: WidgetAnimator(

@@ -27,9 +27,9 @@ class _FrameFriendState extends State<FrameFriend> {
       margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
       width: double.infinity,
       height: 60,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(widget.frameRank),
+          image: AssetImage('assets/images/FrameNormal.png'),
           fit: BoxFit.fill,
         ),
       ),
@@ -43,22 +43,11 @@ class _FrameFriendState extends State<FrameFriend> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(PageRouteBuilder(
-                        opaque: false,
-                        pageBuilder: (BuildContext context, _, __) =>
-                            //     Score_game(
-                            //   isWin: false,
-                            //   Lever: 2,
-                            //   Score: 123,
-                            //   hightscore: 319,
-                            //   diamond: 13,
-                            //   quantiHammer: 1,
-                            //   quantiBat: 23,
-                            //   quantiSpider: 2,
-                            //   quantiShield: 9,
-                            // ),
-                            InfoFriend(url: widget.pathAvatar, isFriend: true,),
-                      ));
+                      // Navigator.of(context).push(PageRouteBuilder(
+                      //   opaque: false,
+                      //   pageBuilder: (BuildContext context, _, __) =>
+                      //       InfoFriend(url: widget.pathAvatar),
+                      // ));
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -71,10 +60,9 @@ class _FrameFriendState extends State<FrameFriend> {
                         Container(
                           width: 40,
                           height: 40,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             image: DecorationImage(
-                              image:
-                                  AssetImage("assets/images/BorderAvatar.png"),
+                              image: AssetImage(widget.frameRank),
                               fit: BoxFit.cover,
                             ),
                           ),

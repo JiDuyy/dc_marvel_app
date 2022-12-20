@@ -6,6 +6,7 @@ import 'package:dc_marvel_app/view/play/play_game.dart';
 import 'package:dc_marvel_app/view/play/playing_now.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import 'IconHelper.dart';
@@ -403,7 +404,7 @@ class _Score_gameState extends State<Score_game> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              child: InkWell()),
+                              child: const InkWell()),
                         ),
                         const Spacer()
                       ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dc_marvel_app/components/AppBarProfile.dart';
 import 'package:dc_marvel_app/components/FrameEx.dart';
@@ -33,6 +35,36 @@ class _InfoFriendState extends State<InfoFriend> {
   bool friend = false, isAdd = true;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _useLevel;
+  final userName = TextEditingController();
+  final startRank = TextEditingController();
+  final frameRank = TextEditingController();
+  final img = TextEditingController();
+
+  @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    _userLevel();
+  }
+
+  //Get lever user
+  void _userLevel() {
+    _useLevel = _db
+        .child('members/${auth.currentUser!.uid}')
+        .onValue
+        .listen((event) async {
+      final data = event.snapshot.value as dynamic;
+
+      setState(() {
+        userName.text = data['userName'].toString();
+        startRank.text = data['starRank'].toString();
+        frameRank.text = data['frameRank'].toString();
+        img.text = data['image'].toString();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,15 +367,19 @@ class _InfoFriendState extends State<InfoFriend> {
                                                                         .instance
                                                                         .currentUser!
                                                                         .uid: {
-                                                                      'frameRank':
-                                                                          widget
-                                                                              .frameRank,
-                                                                      'image':
-                                                                          widget
-                                                                              .url,
-                                                                      'userName':
-                                                                          widget
-                                                                              .userName,
+                                                                      'frameRank': frameRank.text !=
+                                                                              ''
+                                                                          ? 'assets/images/FrameRank${frameRank.text}.png'
+                                                                          : 'null',
+                                                                      'image': img.text !=
+                                                                              ''
+                                                                          ? 'assets/images/AvatarChibi${img.text}.jpg'
+                                                                          : 'null',
+                                                                      'userName': userName.text !=
+                                                                              ''
+                                                                          ? userName
+                                                                              .text
+                                                                          : 'null',
                                                                       'timeAdd':
                                                                           '${DateTime.now()}',
                                                                       'statusAdd':
@@ -497,5 +533,12 @@ class _InfoFriendState extends State<InfoFriend> {
             const Spacer()
           ],
         ));
+  }
+
+  @override
+  void deactivate() {
+    _useLevel.cancel();
+
+    super.deactivate();
   }
 }

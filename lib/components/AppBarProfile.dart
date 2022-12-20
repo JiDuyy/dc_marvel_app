@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dc_marvel_app/components/ShowDialogFindBattle.dart';
 import 'package:dc_marvel_app/components/ShowDialogPlayProfile.dart';
 import 'package:dc_marvel_app/components/ShowDialogSetting.dart';
 import 'package:firebase_auth/firebase_auth.dart';

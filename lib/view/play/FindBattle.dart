@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/PlayerRoom.dart';
+import '../../components/ShowDialogFindBattle.dart';
 
 class FindBattle extends StatefulWidget {
   const FindBattle({super.key, required this.roomId});
@@ -61,16 +62,14 @@ class _FindBattleState extends State<FindBattle> {
           () {
             if (data['status'].toString() == 'true') {
               Timer(
-                const Duration(seconds: 3),
+                const Duration(seconds: 1),
                 () {
                   Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlayBattleGame(
-                          urlRef: 'battle', roomID: widget.roomId),
-                    ),
-                  );
+                  Navigator.of(context).push(PageRouteBuilder(
+                    opaque: false,
+                    pageBuilder: (BuildContext context, _, __) =>
+                        ShowDialogFindBattle(roomId: widget.roomId),
+                  ));
                 },
               );
             }

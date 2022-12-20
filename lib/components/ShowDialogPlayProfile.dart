@@ -142,10 +142,10 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                               child: Text(
                                                 data['level'].toString(),
                                                 style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 11,
-                                                  fontFamily: 'Horizon',
-                                                ),
+                                                    color: Colors.black,
+                                                    fontSize: 11,
+                                                    fontFamily: 'Horizon',
+                                                    letterSpacing: 2),
                                               ),
                                             ),
                                           ],

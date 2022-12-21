@@ -62,39 +62,27 @@ class _NotifyState extends State<Notify> {
                             query: _db
                                 .child(_auth.currentUser!.uid)
                                 .orderByChild('statusAdd')
-                                .limitToLast(100),
+                                .limitToLast(100)
+                                .equalTo(0),
                             sort: (a, b) => b
-                                .child('statusAdd')
+                                .child('timeAdd')
                                 .value
                                 .toString()
-                                .compareTo(
-                                    a.child('statusAdd').value.toString()),
+                                .compareTo(a.child('timeAdd').value.toString()),
                             itemBuilder: (context, snapshot, animation, index) {
-                              if (int.parse(snapshot
-                                      .child('statusAdd')
-                                      .value
-                                      .toString()) ==
-                                  0) {
-                                return FrameNotify(
-                                  idUser: snapshot.key.toString(),
-                                  frameRank:
-                                      'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
-                                  pathAvatar:
-                                      'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
-                                  userName: snapshot
-                                      .child('userName')
-                                      .value
-                                      .toString(),
-                                  Time: snapshot
-                                      .child('timeAdd')
-                                      .value
-                                      .toString(),
-                                  Notication:
-                                      '${snapshot.child('userName').value.toString()} sent a friend request',
-                                );
-                              } else {
-                                return Container();
-                              }
+                              return FrameNotify(
+                                idUser: snapshot.key.toString(),
+                                frameRank:
+                                    'assets/images/FrameRank${snapshot.child('frameRank').value.toString()}.png',
+                                pathAvatar:
+                                    'assets/images/AvatarChibi${snapshot.child('image').value.toString()}.jpg',
+                                userName:
+                                    snapshot.child('userName').value.toString(),
+                                Time:
+                                    snapshot.child('timeAdd').value.toString(),
+                                Notication:
+                                    '${snapshot.child('userName').value.toString()} sent a friend request',
+                              );
                             }),
                       ),
                     ),

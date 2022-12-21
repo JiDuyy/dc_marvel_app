@@ -130,12 +130,13 @@ class _StoreState extends State<Store> {
                                     .set(thor);
                               } else {
                                 Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: InkWell(
@@ -164,12 +165,13 @@ class _StoreState extends State<Store> {
                                     .set(spider);
                               } else {
                                 Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: BorderShop(
@@ -204,12 +206,13 @@ class _StoreState extends State<Store> {
                                     .set(bat);
                               } else {
                                 Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: BorderShop(
@@ -236,12 +239,13 @@ class _StoreState extends State<Store> {
                                     .set(shield);
                               } else {
                                 Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: BorderShop(

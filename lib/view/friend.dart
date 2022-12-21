@@ -67,25 +67,20 @@ class _FriendState extends State<Friend> {
                   query: _db
                       .child(_auth.currentUser!.uid)
                       .orderByChild('statusAdd')
-                      .limitToLast(100),
+                      .limitToLast(100)
+                      .equalTo(2),
                   sort: (a, b) => b
-                      .child('statusAdd')
+                      .child('timeAdd')
                       .value
                       .toString()
-                      .compareTo(a.child('statusAdd').value.toString()),
+                      .compareTo(a.child('timeAdd').value.toString()),
                   itemBuilder: (context, snapshot, animation, index) {
-                    if (int.parse(
-                            snapshot.child('statusAdd').value.toString()) ==
-                        2) {
-                      return FrameFriend(
-                        idUser: snapshot.key.toString(),
-                        frameRank: snapshot.child('frameRank').value.toString(),
-                        pathAvatar: snapshot.child('image').value.toString(),
-                        userName: snapshot.child('userName').value.toString(),
-                      );
-                    } else {
-                      return Container();
-                    }
+                    return FrameFriend(
+                      idUser: snapshot.key.toString(),
+                      frameRank: snapshot.child('frameRank').value.toString(),
+                      pathAvatar: snapshot.child('image').value.toString(),
+                      userName: snapshot.child('userName').value.toString(),
+                    );
                   }),
             ),
           ),

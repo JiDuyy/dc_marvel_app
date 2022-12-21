@@ -457,7 +457,7 @@ class _InfoFriendState extends State<InfoFriend> {
                                                                           .toString());
                                                                       if (!snapshot
                                                                               .exists ||
-                                                                          int.parse(status.value.toString()) >
+                                                                          int.parse(status.value.toString()) !=
                                                                               2) {
                                                                         final addFriend = <
                                                                             String,

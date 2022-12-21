@@ -134,8 +134,7 @@ class _StoreState extends State<Store> {
                                     opaque: false,
                                     pageBuilder:
                                         (BuildContext context, _, __) =>
-                                            const FrameEx(
-                                                Ex: "Diamonds are not enough"),
+                                            FrameEx(Ex: "Diamond not enough"),
                                   ),
                                 );
                               }
@@ -165,11 +164,14 @@ class _StoreState extends State<Store> {
                                         'members/${auth.currentUser!.uid}/help/spider')
                                     .set(spider);
                               } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: BorderShop(
@@ -203,11 +205,14 @@ class _StoreState extends State<Store> {
                                         'members/${auth.currentUser!.uid}/help/bat')
                                     .set(bat);
                               } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: BorderShop(
@@ -233,11 +238,14 @@ class _StoreState extends State<Store> {
                                         'members/${auth.currentUser!.uid}/help/shield')
                                     .set(shield);
                               } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            FrameEx(Ex: "Diamond not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: BorderShop(

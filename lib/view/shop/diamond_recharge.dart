@@ -69,6 +69,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                         );
                       },
                       child: const BorderShop(
+                        content: '',
                           quantity: '+15 Diamonds',
                           path: 'assets/images/IconDiamondOne.png',
                           price: '1',
@@ -88,6 +89,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                         );
                       }),
                       child: const BorderShop(
+                        content: '',
                           quantity: '+150 Diamonds',
                           path: 'assets/images/IconDiamondTwo.png',
                           price: '10',
@@ -119,6 +121,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                         );
                       }),
                       child: const BorderShop(
+                        content: '',
                           quantity: '+1500 Diamonds',
                           path: 'assets/images/IconDiamondThree.png',
                           price: '100',
@@ -138,6 +141,7 @@ class _DiamondRechargeState extends State<DiamondRecharge> {
                         );
                       }),
                       child: const BorderShop(
+                        content: '',
                           quantity: '+15000 Diamonds',
                           path: 'assets/images/IconDiamondFour.png',
                           price: '1000',

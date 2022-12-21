@@ -33,33 +33,21 @@ class _FrameFriendState extends State<FrameFriend> {
   var hScoreC;
 
   Future<String> loadUser() async {
-    final snapshot = await _db.child('members/${widget.idUser}').get();
-    if (snapshot.exists) {
-      _useLevel =
-          _db.child('members/${widget.idUser}').onValue.listen((event) async {
-        final data = event.snapshot.value as dynamic;
-        final data2 =
-            event.snapshot.child('highScoreChapter').value as List<dynamic>;
-        if (mounted) {
-          setState(() {
-            chapter = data['chapter'].toString();
-            urlRank = data['rank'].toString();
-            hScoreC = data2[int.parse(chapter)];
-          });
-        }
-      });
-      return chapter;
-    } else {
-      _useLevel =
-          _db.child('friends/${widget.idUser}').onValue.listen((event) async {
-        if (mounted) {
-          setState(() {
-            hScoreC = '1';
-          });
-        }
-      });
-      return chapter;
-    }
+    _useLevel =
+        _db.child('members/${widget.idUser}').onValue.listen((event) async {
+      final data = event.snapshot.value as dynamic;
+      final data2 =
+          event.snapshot.child('highScoreChapter').value as List<dynamic>;
+      if (mounted) {
+        setState(() {
+          chapter = data['chapter'].toString();
+          urlRank = data['rank'].toString();
+          hScoreC = data2[int.parse(chapter)];
+        });
+      }
+    });
+
+    return chapter;
   }
 
   @override

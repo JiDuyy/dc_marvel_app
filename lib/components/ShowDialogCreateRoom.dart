@@ -119,7 +119,7 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
         () {
           if (data['status'].toString() == 'true') {
             Timer(
-              Duration(seconds: 2),
+              Duration(seconds: 3),
               () {
                 Navigator.pop(context);
                 Navigator.push(

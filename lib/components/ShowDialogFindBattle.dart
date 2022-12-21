@@ -25,6 +25,7 @@ class _ShowDialogFindBattleState extends State<ShowDialogFindBattle> {
   TextEditingController statusOne = TextEditingController();
   TextEditingController statusTwo = TextEditingController();
   TextEditingController userKey = TextEditingController();
+  bool isReadyGo = false;
 
   int timeDown = 15;
   Timer? _timer;
@@ -208,12 +209,16 @@ class _ShowDialogFindBattleState extends State<ShowDialogFindBattle> {
                   padding: const EdgeInsets.only(top: 9.0, bottom: 9.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor:
+                          isReadyGo == false ? Colors.red : Colors.blueAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
                     onPressed: () {
+                      setState(() {
+                        isReadyGo = true;
+                      });
                       userKey.text == userOne.text
                           ? _database
                               .child('battle/${widget.roomId}/playerOne/status')

@@ -129,11 +129,15 @@ class _StoreState extends State<Store> {
                                         'members/${auth.currentUser!.uid}/help/thor')
                                     .set(thor);
                               } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder:
+                                        (BuildContext context, _, __) =>
+                                            const FrameEx(
+                                                Ex: "Diamonds are not enough"),
+                                  ),
+                                );
                               }
                             }),
                             child: InkWell(

@@ -14,14 +14,12 @@ class FrameEx extends StatefulWidget {
 }
 
 class _FrameExState extends State<FrameEx> {
-  final _db = FirebaseDatabase.instance.ref().child('members');
-  final _auth = FirebaseAuth.instance;
   late Timer time;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    time = Timer(Duration(seconds: 5), () {
+    time = Timer(const Duration(seconds: 5), () {
       Navigator.pop(context);
     });
   }
@@ -29,7 +27,7 @@ class _FrameExState extends State<FrameEx> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.7),
+      backgroundColor: Colors.black.withOpacity(0.6),
       body: Center(
         child: InkWell(
           onTap: () {

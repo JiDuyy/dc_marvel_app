@@ -5,8 +5,6 @@ import 'dart:math';
 
 import 'package:dc_marvel_app/components/ChangeRoom.dart';
 import 'package:dc_marvel_app/components/FrameEx.dart';
-import 'package:dc_marvel_app/components/ShowDialogCreateRoom.dart';
-import 'package:dc_marvel_app/components/ShowDialogFindBattle.dart';
 import 'package:dc_marvel_app/components/showChapterAll.dart';
 import 'package:dc_marvel_app/view/play/find_battle.dart';
 import 'package:dc_marvel_app/view/play/playing_now.dart';
@@ -29,20 +27,24 @@ class PlayGame extends StatefulWidget {
 class _PlayGameState extends State<PlayGame> {
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
-  late StreamSubscription _useLevel;
+  late StreamSubscription _useLevel, _numberAdd;
   int level = 1;
   var hightScore;
   int chapter = 1;
   int exp = 0;
   int diamond = 0;
   int energy = 0;
+  int count = 0;
+  bool isVisible = false;
+  late Future<int> dataFuture;
 
   @override
   void initState() {
     // ignore: todo
-    // TODO: implement initState
-    super.initState();
+    // TODO: implement initStat
+    dataFuture = numberAddF();
     _userLevel();
+    super.initState();
   }
 
   //Get lever user
@@ -63,6 +65,28 @@ class _PlayGameState extends State<PlayGame> {
         });
       }
     });
+  }
+
+  Future<int> numberAddF() async {
+    _db.child('friends').child(_auth.currentUser!.uid).onValue.listen((event) {
+      for (var element in event.snapshot.children) {
+        if (element.child('statusAdd').value.toString().isNotEmpty &&
+            int.parse(element.child('statusAdd').value.toString()) == 0) {
+          if (mounted) {
+            setState(() {
+              isVisible = true;
+            });
+          }
+        } else {
+          if (mounted) {
+            setState(() {
+              isVisible = false;
+            });
+          }
+        }
+      }
+    });
+    return count;
   }
 
   @override
@@ -120,43 +144,59 @@ class _PlayGameState extends State<PlayGame> {
                           ),
                         ),
                 ),
-                WidgetAnimator(
-                  incomingEffect:
-                      WidgetTransitionEffects.incomingSlideInFromRight(),
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    margin: const EdgeInsets.only(top: 5, right: 5),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (BuildContext context, _, __) =>
-                              const Notify(),
-                        ));
-                      },
-                      child: Stack(
-                        children: [
-                          Image(
-                            width: MediaQuery.of(context).size.width / 7,
-                            height: MediaQuery.of(context).size.width / 7,
-                            image:
-                                const AssetImage('assets/images/Icon_bell.png'),
-                            fit: BoxFit.fill,
-                          ),
-                          Visibility(
-                              visible: true,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/iconCircle.png'),
-                                    // fit: BoxFit.cover,
-                                  ),
-                                ),
-                                child: const Text('dasf'),
-                              )),
-                        ],
-                      ),
+                Container(
+                  alignment: Alignment.topRight,
+                  margin: const EdgeInsets.only(top: 5, right: 5),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        isVisible = false;
+                      });
+                      Navigator.of(context).push(PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) =>
+                            const Notify(),
+                      ));
+                    },
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Image(
+                          width: MediaQuery.of(context).size.width / 7,
+                          height: MediaQuery.of(context).size.width / 7,
+                          image:
+                              const AssetImage('assets/images/Icon_bell.png'),
+                          fit: BoxFit.fill,
+                        ),
+                        FutureBuilder(
+                            future: dataFuture,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<int> snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Visibility(
+                                    visible: isVisible,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width /
+                                          25,
+                                      height:
+                                          MediaQuery.of(context).size.width /
+                                              25,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/iconCircle.png'),
+                                          // fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ));
+                              }
+                            })
+                      ],
                     ),
                   ),
                 ),

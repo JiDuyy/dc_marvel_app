@@ -39,13 +39,18 @@ class _InviteFriendState extends State<InviteFriend> {
                 child: FirebaseAnimatedList(
                     query: _db.child('friends/${_auth.currentUser!.uid}'),
                     itemBuilder: (context, snapshot, animation, index) {
-                      return FrameInvateFriend(
-                        frameRank: snapshot.child('frameRank').value.toString(),
-                        pathAvatar: snapshot.child('image').value.toString(),
-                        userName: snapshot.child('userName').value.toString(),
-                        pathFriend: snapshot.key.toString(),
-                        roomId: widget.roomId,
-                      );
+                      if (snapshot.child('statusAdd').value.toString() == "2") {
+                        return FrameInvateFriend(
+                          frameRank:
+                              snapshot.child('frameRank').value.toString(),
+                          pathAvatar: snapshot.child('image').value.toString(),
+                          userName: snapshot.child('userName').value.toString(),
+                          pathFriend: snapshot.key.toString(),
+                          roomId: widget.roomId,
+                        );
+                      } else {
+                        return Container();
+                      }
                     }),
               ),
             ],

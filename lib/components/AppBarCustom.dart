@@ -22,7 +22,6 @@ class _AppBarCustomState extends State<AppBarCustom> {
   int energy = 0;
   Timer? _timer;
   int start = 60;
-
   @override
   void initState() {
     super.initState();
@@ -100,7 +99,11 @@ class _AppBarCustomState extends State<AppBarCustom> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
-                                width: 40,
+                                width: 72 *
+                                    (double.parse(data['exp'].toString()) /
+                                        (double.parse(
+                                                data['level'].toString()) *
+                                            100)),
                                 color: Colors.green,
                               ),
                             ),

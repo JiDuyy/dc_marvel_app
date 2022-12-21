@@ -10,6 +10,7 @@ import 'InfoProfile.dart';
 
 class InfoFriend extends StatefulWidget {
   String url;
+  String starrank;
   String urlRank;
   String frameRank;
   String userName;
@@ -18,6 +19,7 @@ class InfoFriend extends StatefulWidget {
   String ID;
   InfoFriend(
       {super.key,
+      required this.starrank,
       required this.url,
       required this.urlRank,
       required this.frameRank,
@@ -319,7 +321,7 @@ class _InfoFriendState extends State<InfoFriend> {
                                             infoProfle(
                                                 Url:
                                                     'assets/images/rank${widget.urlRank}.png',
-                                                x: int.parse(widget.urlRank)),
+                                                x: int.parse(widget.starrank)),
                                             Expanded(
                                               flex: 2,
                                               child: isFriend

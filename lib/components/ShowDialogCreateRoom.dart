@@ -112,45 +112,45 @@ class _ShowDialogCreateRoomState extends State<ShowDialogCreateRoom> {
   }
 
   void _getStatus() {
-    _getStart = _database.child('rooms/${widget.roomId}').onValue.listen(
-      (event) {
-        final data = event.snapshot.value as dynamic;
-        setState(
-          () {
-            if (data['status'].toString() == 'true') {
-              Timer(
-                Duration(seconds: 1),
-                () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlayBattleGame(
-                        urlRef: 'rooms',
-                        roomID: widget.roomId,
-                      ),
+    _getStart =
+        _database.child('rooms/${widget.roomId}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+
+      setState(
+        () {
+          if (data['status'].toString() == 'true') {
+            Timer(
+              Duration(seconds: 1),
+              () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PlayBattleGame(
+                      urlRef: 'rooms',
+                      roomID: widget.roomId,
                     ),
-                  );
-                  _database.child('rooms/${widget.roomId}/status').set(false);
-                  _database
-                      .child('rooms/${widget.roomId}/playerTwo/statusStart')
-                      .set(false);
-                },
-              );
-            }
-            if (data['statusEnd'].toString() == 'true') {
-              Navigator.pop(context);
-              Timer(
-                const Duration(seconds: 1),
-                () {
-                  _database.child('rooms/${widget.roomId}').remove();
-                },
-              );
-            }
-          },
-        );
-      },
-    );
+                  ),
+                );
+                _database.child('rooms/${widget.roomId}/status').set(false);
+                _database
+                    .child('rooms/${widget.roomId}/playerTwo/statusStart')
+                    .set(false);
+              },
+            );
+          }
+          if (data['statusEnd'].toString() == 'true') {
+            Navigator.pop(context);
+            Timer(
+              const Duration(seconds: 1),
+              () {
+                _database.child('rooms/${widget.roomId}').remove();
+              },
+            );
+          }
+        },
+      );
+    });
   }
 
   @override

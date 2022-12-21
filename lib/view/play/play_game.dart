@@ -134,11 +134,28 @@ class _PlayGameState extends State<PlayGame> {
                               const Notify(),
                         ));
                       },
-                      child: Image(
-                        width: MediaQuery.of(context).size.width / 7,
-                        height: MediaQuery.of(context).size.width / 7,
-                        image: const AssetImage('assets/images/Icon_bell.png'),
-                        fit: BoxFit.fill,
+                      child: Stack(
+                        children: [
+                          Image(
+                            width: MediaQuery.of(context).size.width / 7,
+                            height: MediaQuery.of(context).size.width / 7,
+                            image:
+                                const AssetImage('assets/images/Icon_bell.png'),
+                            fit: BoxFit.fill,
+                          ),
+                          Visibility(
+                              visible: true,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/iconCircle.png'),
+                                    // fit: BoxFit.cover,
+                                  ),
+                                ),
+                                child: const Text('dasf'),
+                              )),
+                        ],
                       ),
                     ),
                   ),

@@ -45,10 +45,6 @@ class _FrameFriendState extends State<FrameFriend> {
         });
       }
     });
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
     return chapter;
   }
 

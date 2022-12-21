@@ -22,12 +22,12 @@ class _AppBarCustomState extends State<AppBarCustom> {
   int energy = 0;
   Timer? _timer;
   int start = 60;
-
   @override
   void initState() {
     super.initState();
     _getenergy();
-    // starttimer();
+
+    starttimer();
   }
 
   void _getenergy() {
@@ -41,27 +41,28 @@ class _AppBarCustomState extends State<AppBarCustom> {
     });
   }
 
-  // void starttimer() {
-  //   _timer = Timer.periodic(
-  //     const Duration(seconds: 1),
-  //     (timer) {
-  //       if (start != 0) {
-  //         setState(() {
-  //           --start;
-  //         });
-  //       } else {
-  //         start = 60;
-  //         if (energy < 20) {
-  //           energy += 1;
-  //           _db.child('members/${auth.currentUser!.uid}/energy').set(energy);
-  //           // if (energy == 19) timer.cancel();
-  //         } else {
-  //           timer.cancel();
-  //         }
-  //       }
-  //     },
-  //   );
-  // }
+  void starttimer() {
+    _timer = Timer.periodic(
+      Duration(seconds: 1),
+      (timer) async {
+        if (start != 0) {
+          setState(() {
+            --start;
+          });
+        } else {
+          start = 60;
+          if (energy < 20) {
+            energy += 1;
+            _db.child('members/${auth.currentUser!.uid}/energy').set(energy);
+            // if (energy == 19) timer.cancel();
+          }
+          // else {
+          //   timer.cancel();
+          // }
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,11 @@ class _AppBarCustomState extends State<AppBarCustom> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
-                                width: 30,
+                                width: 72 *
+                                    (double.parse(data['exp'].toString()) /
+                                        (double.parse(
+                                                data['level'].toString()) *
+                                            100)),
                                 color: Colors.green,
                               ),
                             ),

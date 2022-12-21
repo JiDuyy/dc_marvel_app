@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
+import '../../components/FrameEx.dart';
 import 'login_phone.dart';
 
 class Verify extends StatefulWidget {
@@ -132,7 +133,7 @@ class _VerifyState extends State<Verify> {
                           'frameRank': 1,
                           'starRank': 0,
                           'chapter': 1,
-                          'highScore': 0,
+                          'highScoreChapter': {'1': 0},
                           'rank': 1,
                           'diamond': 0,
                           'image': "1",
@@ -156,7 +157,13 @@ class _VerifyState extends State<Verify> {
                       Navigator.pushNamedAndRemoveUntil(
                           context, "home", (route) => false);
                     } catch (e) {
-                      return print("wrong otp");
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          pageBuilder: (BuildContext context, _, __) =>
+                              FrameEx(Ex: "Invalid OTP code"),
+                        ),
+                      );
                     }
                   },
                 ),

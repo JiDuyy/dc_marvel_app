@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dc_marvel_app/components/AppBarProfile.dart';
-import 'package:dc_marvel_app/components/FrameEx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class InfoFriend extends StatefulWidget {
 }
 
 class _InfoFriendState extends State<InfoFriend> {
-  bool isAdd = true, isFriend = false;
+  bool isAdd = true, isFriend = false, isUnFr = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
   late StreamSubscription _useLevel, _isFriend;
@@ -345,10 +344,23 @@ class _InfoFriendState extends State<InfoFriend> {
 
                                                                 if (snapshot
                                                                     .exists) {
+                                                                  final addFriend = <
+                                                                      String,
+                                                                      dynamic>{
+                                                                    'statusAdd':
+                                                                        3
+                                                                  };
                                                                   _db
                                                                       .child(
-                                                                          'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
-                                                                      .remove();
+                                                                          'friends/${auth.currentUser!.uid}/${widget.ID}')
+                                                                      .update(
+                                                                          addFriend)
+                                                                      .then((_) =>
+                                                                          print(
+                                                                              'friend has been Acp!'))
+                                                                      .catchError(
+                                                                          (error) =>
+                                                                              print('You got an error $error'));
                                                                   final snapshot1 =
                                                                       await _db
                                                                           .child(
@@ -357,18 +369,30 @@ class _InfoFriendState extends State<InfoFriend> {
 
                                                                   if (snapshot1
                                                                       .exists) {
+                                                                    final addFriend = <
+                                                                        String,
+                                                                        dynamic>{
+                                                                      'statusAdd':
+                                                                          3
+                                                                    };
                                                                     _db
                                                                         .child(
                                                                             'friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
-                                                                        .remove();
+                                                                        .update(
+                                                                            addFriend)
+                                                                        .then((_) =>
+                                                                            print(
+                                                                                'friend has been acp!'))
+                                                                        .catchError((error) =>
+                                                                            print('You got an error $error'));
                                                                   }
-                                                                  // ignore: use_build_context_synchronously
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder: (context) =>
-                                                                              const FrameEx(Ex: 'Sent request is cancel')));
                                                                 }
+                                                                setState(() {
+                                                                  isFriend =
+                                                                      false;
+                                                                  isAdd = true;
+                                                                  isUnFr = true;
+                                                                });
                                                               }
                                                             },
                                                             child: SizedBox(
@@ -422,9 +446,17 @@ class _InfoFriendState extends State<InfoFriend> {
                                                                           .child(
                                                                               'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
                                                                           .get();
-
+                                                                      final status = await _db
+                                                                          .child(
+                                                                              'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}/statusAdd')
+                                                                          .get();
+                                                                      print(status
+                                                                          .value
+                                                                          .toString());
                                                                       if (!snapshot
-                                                                          .exists) {
+                                                                              .exists ||
+                                                                          int.parse(status.value.toString()) >
+                                                                              2) {
                                                                         final addFriend = <
                                                                             String,
                                                                             dynamic>{
@@ -447,85 +479,67 @@ class _InfoFriendState extends State<InfoFriend> {
                                                                             .then((_) =>
                                                                                 print('friend has been written!'))
                                                                             .catchError((error) => print('You got an error $error'));
-                                                                        final snapshot1 = await _db
-                                                                            .child('friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
-                                                                            .get();
 
-                                                                        if (!snapshot1
-                                                                            .exists) {
-                                                                          final addFriend = <
-                                                                              String,
-                                                                              dynamic>{
-                                                                            'frameRank': frameRank.text != ''
-                                                                                ? frameRank.text
-                                                                                : 'null',
-                                                                            'image': img.text != ''
-                                                                                ? img.text
-                                                                                : 'null',
-                                                                            'userName': userName.text != ''
-                                                                                ? userName.text
-                                                                                : 'null',
-                                                                            'timeAdd':
-                                                                                '${DateTime.now()}',
-                                                                            'statusAdd':
-                                                                                0
-                                                                          };
-                                                                          _db
-                                                                              .child('friends/${widget.ID}/${auth.currentUser!.uid}')
-                                                                              .set(addFriend)
-                                                                              .then((_) => print('friend has been written!'))
-                                                                              .catchError((error) => print('You got an error $error'));
-                                                                        }
+                                                                        final addPlayerTwo = <
+                                                                            String,
+                                                                            dynamic>{
+                                                                          'frameRank': frameRank.text != ''
+                                                                              ? frameRank.text
+                                                                              : 'null',
+                                                                          'image': img.text != ''
+                                                                              ? img.text
+                                                                              : 'null',
+                                                                          'userName': userName.text != ''
+                                                                              ? userName.text
+                                                                              : 'null',
+                                                                          'timeAdd':
+                                                                              '${DateTime.now()}',
+                                                                          'statusAdd':
+                                                                              0
+                                                                        };
+                                                                        _db
+                                                                            .child(
+                                                                                'friends/${widget.ID}/${auth.currentUser!.uid}')
+                                                                            .set(
+                                                                                addPlayerTwo)
+                                                                            .then((_) =>
+                                                                                print('friend has been written!'))
+                                                                            .catchError((error) => print('You got an error $error'));
+
                                                                         setState(
                                                                             () {
                                                                           isAdd =
                                                                               false;
                                                                         });
                                                                         // ignore: use_build_context_synchronously
-                                                                        Navigator.push(
-                                                                            context,
-                                                                            MaterialPageRoute(builder: (context) => const FrameEx(Ex: 'Sent request')));
+
                                                                       }
                                                                     }
                                                                   }
-                                                                : () async {
-                                                                    if (_db
-                                                                            .child('members')
-                                                                            .child(auth.currentUser!.uid)
-                                                                            .key !=
-                                                                        null) {
-                                                                      final snapshot = await _db
-                                                                          .child(
-                                                                              'friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
-                                                                          .get();
+                                                                : isUnFr
+                                                                    ? null
+                                                                    : () async {
+                                                                        if (_db.child('members').child(auth.currentUser!.uid).key !=
+                                                                            null) {
+                                                                          final snapshot = await _db
+                                                                              .child('friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
+                                                                              .get();
 
-                                                                      if (snapshot
-                                                                          .exists) {
-                                                                        _db
-                                                                            .child('friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}')
-                                                                            .remove();
-                                                                        final snapshot1 = await _db
-                                                                            .child('friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
-                                                                            .get();
+                                                                          if (snapshot
+                                                                              .exists) {
+                                                                            _db.child('friends/${FirebaseAuth.instance.currentUser!.uid}/${widget.ID}').remove();
+                                                                            final snapshot1 =
+                                                                                await _db.child('friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}').get();
 
-                                                                        if (snapshot1
-                                                                            .exists) {
-                                                                          _db
-                                                                              .child('friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}')
-                                                                              .remove();
+                                                                            if (snapshot1.exists) {
+                                                                              _db.child('friends/${widget.ID}/${FirebaseAuth.instance.currentUser!.uid}').remove();
+                                                                            }
+                                                                            setState(() {
+                                                                              isAdd = true;
+                                                                            });
+                                                                          }
                                                                         }
-                                                                        setState(
-                                                                            () {
-                                                                          isAdd =
-                                                                              true;
-                                                                        });
-                                                                        // ignore: use_build_context_synchronously
-                                                                        Navigator.push(
-                                                                            context,
-                                                                            MaterialPageRoute(builder: (context) => const FrameEx(Ex: 'Sent request is cancel')));
-                                                                      }
-                                                                    }
-                                                                  },
+                                                                      },
                                                             child: SizedBox(
                                                               width: MediaQuery.of(
                                                                           context)
@@ -539,7 +553,9 @@ class _InfoFriendState extends State<InfoFriend> {
                                                                   5,
                                                               child: Image.asset(isAdd
                                                                   ? 'assets/images/iconAddfriend.png'
-                                                                  : 'assets/images/iconMinus.png'),
+                                                                  : isUnFr
+                                                                      ? 'assets/images/iconsHourglass.png'
+                                                                      : 'assets/images/iconMinus.png'),
                                                             ),
                                                           ),
                                                         ),
@@ -552,12 +568,14 @@ class _InfoFriendState extends State<InfoFriend> {
                                                             child: Text(
                                                               isAdd
                                                                   ? 'Add'
-                                                                  : 'Cancel',
+                                                                  : isUnFr
+                                                                      ? 'Wating'
+                                                                      : 'Cancel',
                                                               style:
                                                                   const TextStyle(
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 25,
+                                                                fontSize: 22,
                                                                 fontFamily:
                                                                     'Horizon',
                                                               ),

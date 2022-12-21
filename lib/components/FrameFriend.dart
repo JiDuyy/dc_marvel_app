@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,8 +28,8 @@ class _FrameFriendState extends State<FrameFriend> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
   late StreamSubscription _useLevel;
-  String chapter = '', urlRank = '';
   var hScoreC;
+  String chapter = '', urlRank = '';
 
   Future<String> loadUser() async {
     _useLevel =
@@ -46,7 +45,6 @@ class _FrameFriendState extends State<FrameFriend> {
         });
       }
     });
-
     return chapter;
   }
 

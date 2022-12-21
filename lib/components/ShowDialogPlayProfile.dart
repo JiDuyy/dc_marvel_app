@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors
-import 'package:dc_marvel_app/components/FrameEx.dart';
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 import 'package:dc_marvel_app/view/avatar.dart';
 import 'package:dc_marvel_app/view/history.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_database/ui/firebase_list.dart';
 import 'package:flutter/material.dart';
+import 'FrameEx.dart';
 import 'InfoProfile.dart';
 
 class ShowDiaLogProfile extends StatefulWidget {
@@ -193,18 +193,51 @@ class _ShowDiaLogProfileState extends State<ShowDiaLogProfile> {
                                             Align(
                                               alignment: Alignment.centerRight,
                                               child: IconButton(
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   setState(() {
                                                     _isvisible == false
                                                         ? _isvisible = true
                                                         : _isvisible = false;
                                                   });
                                                   if (_isvisible == false) {
-                                                    _database
-                                                        .child(
-                                                            'members/${auth.currentUser!.uid}/userName')
-                                                        .set(txtname.text);
-                                                    txtname.clear();
+                                                    final x = await _database
+                                                        .child('members')
+                                                        .get();
+                                                    bool isEmpty = true;
+                                                    for (int i = 0;
+                                                        i < x.children.length;
+                                                        i++) {
+                                                      if (x.children
+                                                              .elementAt(i)
+                                                              .child('userName')
+                                                              .value
+                                                              .toString() ==
+                                                          txtname.text) {
+                                                        isEmpty = false;
+                                                      }
+                                                    }
+
+                                                    if (isEmpty) {
+                                                      _database
+                                                          .child(
+                                                              'members/${auth.currentUser!.uid}/userName')
+                                                          .set(txtname.text);
+                                                      txtname.clear();
+                                                    } else {
+                                                      txtname.clear();
+                                                      Navigator.of(context)
+                                                          .push(
+                                                        PageRouteBuilder(
+                                                          opaque: false,
+                                                          pageBuilder: (BuildContext
+                                                                      context,
+                                                                  _,
+                                                                  __) =>
+                                                              FrameEx(
+                                                                  Ex: "Username already exists"),
+                                                        ),
+                                                      );
+                                                    }
                                                   }
                                                 },
                                                 icon: Icon(

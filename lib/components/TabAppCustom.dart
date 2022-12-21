@@ -57,7 +57,7 @@ class _TabAppBarCustomState extends State<TabAppBarCustom> {
                           alignment: Alignment.centerLeft,
                           child: Container(
                             width: 50 *
-                                (double.parse(data['energy'].toString()) / 20),
+                                (double.parse(data['energy'].toString()) / 18),
                             color: widget.color,
                           ),
                         ),

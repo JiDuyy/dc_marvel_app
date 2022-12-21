@@ -103,6 +103,8 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
         });
       } else {
         timeDown = 15;
+        final lengQuestion = await _db.child('questions').get();
+        await _db.child('questions/$_nextQuestion/key').get();
         final snapshotQuestion =
             await _db.child('questions/$_nextQuestion/key').get();
         final snapshot = await _db
@@ -123,7 +125,7 @@ class _PlayBattleGameState extends State<PlayBattleGame> {
                 .set(ScoreTwo);
 
         _activeAnswer = 0;
-        _nextQuestion = Random().nextInt(99) + 1;
+        _nextQuestion = Random().nextInt(lengQuestion.children.length - 1) + 1;
         ++EndNextQuestion;
         if (EndNextQuestion == 11) {
           timer.cancel();

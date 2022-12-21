@@ -56,7 +56,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
             energy += 1;
             _db.child('members/${auth.currentUser!.uid}/energy').set(energy);
             // if (energy == 19) timer.cancel();
-          } 
+          }
           // else {
           //   timer.cancel();
           // }
@@ -100,7 +100,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
-                                width: 30,
+                                width: 40,
                                 color: Colors.green,
                               ),
                             ),
@@ -149,7 +149,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
                   ],
                 );
               }
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }),
           ),
         ),
@@ -160,7 +160,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   void deactivate() {
     get.cancel();
-    
+    _timer?.cancel();
     super.deactivate();
   }
 }

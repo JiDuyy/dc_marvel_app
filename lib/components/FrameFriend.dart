@@ -30,7 +30,7 @@ class _FrameFriendState extends State<FrameFriend> {
   late StreamSubscription _useLevel;
   var hScoreC;
   String chapter = '', urlRank = '';
-
+  String star = '';
   Future<String> loadUser() async {
     _useLevel =
         _db.child('members/${widget.idUser}').onValue.listen((event) async {
@@ -39,6 +39,7 @@ class _FrameFriendState extends State<FrameFriend> {
           event.snapshot.child('highScoreChapter').value as List<dynamic>;
       if (mounted) {
         setState(() {
+          star = data['starRank'].toString();
           chapter = data['chapter'].toString();
           urlRank = data['rank'].toString();
           hScoreC = data2[int.parse(chapter)];
@@ -91,6 +92,7 @@ class _FrameFriendState extends State<FrameFriend> {
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
                                     InfoFriend(
+                                  starrank: star,
                                   url: widget.pathAvatar,
                                   urlRank: urlRank,
                                   userName: widget.userName,

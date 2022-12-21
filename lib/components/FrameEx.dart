@@ -29,7 +29,7 @@ class _FrameExState extends State<FrameEx> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.7),
+      backgroundColor: Colors.black.withOpacity(0.5),
       body: Center(
         child: InkWell(
           onTap: () {

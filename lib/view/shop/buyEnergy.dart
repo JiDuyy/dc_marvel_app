@@ -95,11 +95,13 @@ class _BuyEnergyState extends State<BuyEnergy> {
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
                       }else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                                Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "Diamond not enough"),
+                            ),
+                          );
                               }
                     },
                     child: const BorderShop(
@@ -124,11 +126,13 @@ class _BuyEnergyState extends State<BuyEnergy> {
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
                       }else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                               Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "Diamond not enough"),
+                            ),
+                          );
                               }
                     },
                     child: const BorderShop(
@@ -161,11 +165,13 @@ class _BuyEnergyState extends State<BuyEnergy> {
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
                       }else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                                Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "Diamond not enough"),
+                            ),
+                          );
                               }
                     },
                     child:const BorderShop(
@@ -190,11 +196,13 @@ class _BuyEnergyState extends State<BuyEnergy> {
                             .set(energy);
                       }
                       else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FrameEx(
-                                            Ex: 'Diamonds are not enough')));
+                            Navigator.of(context).push(
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (BuildContext context, _, __) =>
+                                  FrameEx(Ex: "Diamond not enough"),
+                            ),
+                          );
                               }
                     },
                     child: const BorderShop(

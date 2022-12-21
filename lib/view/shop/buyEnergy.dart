@@ -94,17 +94,18 @@ class _BuyEnergyState extends State<BuyEnergy> {
                         _db
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
-                      }else {
-                                Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
-                              }
+                      } else {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                FrameEx(Ex: "Diamond not enough"),
+                          ),
+                        );
+                      }
                     },
                     child: const BorderShop(
+                      content: '',
                       quantity: '+5 Energy',
                       path: 'assets/images/IconSet.png',
                       price: '50',
@@ -125,17 +126,18 @@ class _BuyEnergyState extends State<BuyEnergy> {
                         _db
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
-                      }else {
-                               Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
-                              }
+                      } else {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                FrameEx(Ex: "Diamond not enough"),
+                          ),
+                        );
+                      }
                     },
                     child: const BorderShop(
+                      content: '',
                       quantity: '+10 Energy',
                       path: 'assets/images/IconEnergyOne.png',
                       price: '100',
@@ -151,7 +153,7 @@ class _BuyEnergyState extends State<BuyEnergy> {
             flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
+              children: [
                 Expanded(
                   child: InkWell(
                     onTap: () {
@@ -164,17 +166,18 @@ class _BuyEnergyState extends State<BuyEnergy> {
                         _db
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
-                      }else {
-                                Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
-                              }
+                      } else {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                FrameEx(Ex: "Diamond not enough"),
+                          ),
+                        );
+                      }
                     },
-                    child:const BorderShop(
+                    child: const BorderShop(
+                        content: '',
                         quantity: '+15 Energy',
                         path: 'assets/images/IconEnergyTwo.png',
                         price: '150',
@@ -194,18 +197,18 @@ class _BuyEnergyState extends State<BuyEnergy> {
                         _db
                             .child('members/${auth.currentUser!.uid}/energy')
                             .set(energy);
+                      } else {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false,
+                            pageBuilder: (BuildContext context, _, __) =>
+                                FrameEx(Ex: "Diamond not enough"),
+                          ),
+                        );
                       }
-                      else {
-                            Navigator.of(context).push(
-                            PageRouteBuilder(
-                              opaque: false,
-                              pageBuilder: (BuildContext context, _, __) =>
-                                  FrameEx(Ex: "Diamond not enough"),
-                            ),
-                          );
-                              }
                     },
                     child: const BorderShop(
+                        content: '',
                         quantity: '+20 Energys',
                         path: 'assets/images/IconEnergyThree.png',
                         price: '200',

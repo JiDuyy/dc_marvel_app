@@ -497,7 +497,7 @@ class _PlayingGameState extends State<PlayingGame> {
                             onTap: countHelp >= 4
                                 ? null
                                 : () async {
-                                    if (_current <= 440 && lsHelp[3] > 0) {
+                                    if (_current <= 120 && lsHelp[3] > 0) {
                                       countHelp++;
                                       setState(() {
                                         lsHelp[3] -= 1;

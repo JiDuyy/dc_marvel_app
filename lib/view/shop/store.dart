@@ -141,10 +141,11 @@ class _StoreState extends State<Store> {
                             }),
                             child: InkWell(
                               child: BorderShop(
-                                  quantity: 'Đang có:${data['thor']}',
+                                  content: '+5s when haft time ',
+                                  quantity: 'Owned:${data['thor']}',
                                   path: 'assets/images/icons_thor.png',
                                   price: '50',
-                                  text: 'Búa Thor',
+                                  text: 'Hammer Thor',
                                   pathPrice: 'assets/images/IconDiamond.png'),
                             ),
                           ),
@@ -175,10 +176,11 @@ class _StoreState extends State<Store> {
                               }
                             }),
                             child: BorderShop(
-                                quantity: 'Đang có:${data['spider']}',
+                                content: '50/50',
+                                quantity: 'Owned:${data['spider']}',
                                 path: 'assets/images/icon_nhen.png',
                                 price: '100',
-                                text: 'Nhện bắn tơ',
+                                text: 'Spider',
                                 pathPrice: 'assets/images/IconDiamond.png'),
                           ),
                         ),
@@ -216,10 +218,11 @@ class _StoreState extends State<Store> {
                               }
                             }),
                             child: BorderShop(
-                                quantity: 'Đang có:${data['bat']}',
+                                content: 'Next question',
+                                quantity: 'Owned:${data['bat']}',
                                 path: 'assets/images/icons_doi.png',
                                 price: '150',
-                                text: 'Dơi bóng đêm',
+                                text: 'Bat',
                                 pathPrice: 'assets/images/IconDiamond.png'),
                           ),
                         ),
@@ -249,10 +252,11 @@ class _StoreState extends State<Store> {
                               }
                             }),
                             child: BorderShop(
-                                quantity: 'Đang có:${data['shield']}',
+                                content: 'delay 10s',
+                                quantity: 'Owned:${data['shield']}',
                                 path: 'assets/images/icons_khien.png',
                                 price: '100',
-                                text: 'Lá chắn',
+                                text: 'Shield',
                                 pathPrice: 'assets/images/IconDiamond.png'),
                           ),
                         ),

@@ -11,12 +11,14 @@ class BorderShop extends StatefulWidget {
       required this.path,
       required this.price,
       required this.text,
+      required this.content,
       required this.pathPrice});
   final String quantity;
   final String path;
   final String price;
   final String text;
   final String pathPrice;
+  final String content;
   @override
   State<BorderShop> createState() => _BorderShopState();
 }
@@ -56,7 +58,14 @@ class _BorderShopState extends State<BorderShop> {
               ),
             ),
             Expanded(
-              flex: 8,
+              flex: 2,
+              child: Text(
+                widget.text,
+                style: const TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+            Expanded(
+              flex: 6,
               child: Image.asset(
                 widget.path,
               ),
@@ -64,8 +73,11 @@ class _BorderShopState extends State<BorderShop> {
             Expanded(
               flex: 2,
               child: Text(
-                widget.text,
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+                widget.content,
+                style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
               ),
             ),
             Expanded(

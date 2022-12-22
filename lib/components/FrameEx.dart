@@ -14,14 +14,12 @@ class FrameEx extends StatefulWidget {
 }
 
 class _FrameExState extends State<FrameEx> {
-  final _db = FirebaseDatabase.instance.ref().child('members');
-  final _auth = FirebaseAuth.instance;
   late Timer time;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    time = Timer(Duration(seconds: 5), () {
+    time = Timer(const Duration(seconds: 5), () {
       Navigator.pop(context);
     });
   }

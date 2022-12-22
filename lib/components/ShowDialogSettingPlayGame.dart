@@ -16,7 +16,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
   late StreamSubscription _getStatus;
-  bool isON=false;
+  bool isON = false;
 
   @override
   void initState() {
@@ -31,9 +31,11 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
         .onValue
         .listen((event) async {
       final data = event.snapshot.value as dynamic;
-      setState(() {
-        isON = data['statusMusic'];
-      });
+      if (mounted) {
+        setState(() {
+          isON = data['statusMusic'];
+        });
+      }
     });
     return isON;
   }

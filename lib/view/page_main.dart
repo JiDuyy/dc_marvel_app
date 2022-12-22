@@ -24,6 +24,8 @@ class PageMain extends StatefulWidget {
 
 class _PageMainState extends State<PageMain> {
   TextEditingController statusInvite = TextEditingController();
+  final playMusic = AudioPlayer();
+  bool? statusMusic;
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseDatabase.instance.ref();
   PageController pageController = PageController(initialPage: 2);
@@ -43,7 +45,7 @@ class _PageMainState extends State<PageMain> {
   void initState() {
     super.initState();
     _getPlayerOne();
-    _getMusic();
+    // playMusic.play(AssetSource('musics/nhacnen2.mp3'));
   }
 
   void _getPlayerOne() {
@@ -52,13 +54,11 @@ class _PageMainState extends State<PageMain> {
       final data = event.snapshot.value as dynamic;
       setState(() {
         statusInvite.text = data['statusInvite'].toString();
+        data['statusMusic']
+            ? playMusic.play(AssetSource('musics/nhacnen2.mp3'))
+            : playMusic.stop();
       });
     });
-  }
-
-  final player = AudioPlayer();
-  void _getMusic() {
-    player.play(AssetSource('musics/nhacnen2.mp3'));
   }
 
   @override

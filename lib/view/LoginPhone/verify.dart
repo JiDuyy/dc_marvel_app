@@ -144,6 +144,7 @@ class _VerifyState extends State<Verify> {
                             'spider': 0,
                             'thor': 0,
                           },
+                          'statusMusic': true,
                           'statusInvite': false,
                           'time': DateTime.now().millisecondsSinceEpoch,
                         };

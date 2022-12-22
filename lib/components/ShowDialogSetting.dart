@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -14,36 +16,38 @@ class ShowDialogSetting extends StatefulWidget {
 }
 
 class _ShowDialogSettingState extends State<ShowDialogSetting> {
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
   final _controller = ValueNotifier<bool>(true);
   final _controllerTwo = ValueNotifier<bool>(true);
-  AudioPlayer isplay = AudioPlayer();
-  AudioCache audioCache = AudioCache();
-  PlayerState playerState = PlayerState.paused;
+  bool _checked = false;
+  late StreamSubscription _getMusicStatus;
+
   @override
   void initState() {
     super.initState();
-    isplay.onPlayerStateChanged.listen((PlayerState s) {});
+    _getStatusMusic();
+    _controller.addListener(() {
+      setState(() {
+        if (_controller.value) {
+          _checked = true;
+          _db.child('members/${_auth.currentUser!.uid}/statusMusic').set(true);
+        } else {
+          _checked = false;
+          _db.child('members/${_auth.currentUser!.uid}/statusMusic').set(false);
+        }
+      });
+    });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    isplay.release();
-    isplay.dispose();
-  }
-
-  playMusic() async {
-    await isplay.play(AssetSource('musics/nhacnen2.mp3'));
-  }
-
-  pauseMusic() async {
-    await isplay.pause();
-  }
-
-  void play() {
-    if (_controller == true) {
-      playMusic();
-    }
+  void _getStatusMusic() {
+    _getMusicStatus =
+        _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        _controller.value = data['statusMusic'];
+      });
+    });
   }
 
   @override
@@ -59,7 +63,7 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
           const Align(
             alignment: Alignment.center,
             child: Text(
-              'CÀI ĐẶT',
+              'SETTING',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 28,
@@ -208,5 +212,12 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
         ],
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _getMusicStatus.cancel();
+
+    super.deactivate();
   }
 }

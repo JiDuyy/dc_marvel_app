@@ -5,8 +5,6 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
-import '../components/FrameRank.dart';
-
 class Friend extends StatefulWidget {
   const Friend({super.key});
 

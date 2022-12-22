@@ -84,6 +84,22 @@ class ItemChappter extends StatelessWidget {
             ),
           ),
           Container(
+            alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.width / 2.3,
+            ),
+            child: Text(
+              '$hightScore',
+              style: const TextStyle(
+                fontFamily: 'horizon',
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 2.5,
+              ),
+            ),
+          ),
+          Container(
             margin: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.height / 30),
             width: MediaQuery.of(context).size.width,

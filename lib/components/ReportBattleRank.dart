@@ -278,15 +278,21 @@ class _ReportBattleRankState extends State<ReportBattleRank> {
                                       'members/${auth.currentUser!.uid}/starRank')
                                   .set(starRank + 1);
                             } else {
-                              starRank != 0
-                                  ? _database
-                                      .child(
-                                          'members/${auth.currentUser!.uid}/starRank')
-                                      .set(starRank - 1)
-                                  : _database
-                                      .child(
-                                          'members/${auth.currentUser!.uid}/rank')
-                                      .set(setRank - 1);
+                              if (starRank != 0) {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/starRank')
+                                    .set(starRank - 1);
+                              } else {
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/rank')
+                                    .set(setRank - 1);
+                                _database
+                                    .child(
+                                        'members/${auth.currentUser!.uid}/frameRank')
+                                    .set(3);
+                              }
                             }
                           }
                         },

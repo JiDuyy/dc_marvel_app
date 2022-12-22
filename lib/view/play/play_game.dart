@@ -127,6 +127,7 @@ class _PlayGameState extends State<PlayGame> {
                                 ),
                               )),
                           child: const ChapterImage(
+                            hightScore: '',
                             path: 'assets/images/Chapter1.png',
                           ),
                         )
@@ -140,6 +141,7 @@ class _PlayGameState extends State<PlayGame> {
                                 ),
                               )),
                           child: ChapterImage(
+                            hightScore: '',
                             path: 'assets/images/Chapter$chapter.png',
                           ),
                         ),

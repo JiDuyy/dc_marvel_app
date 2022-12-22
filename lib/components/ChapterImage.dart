@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import '../view/play/playing_now.dart';
 
 class ChapterImage extends StatefulWidget {
-  const ChapterImage({
-    Key? key,
-    required this.path,
-  }) : super(key: key);
+  const ChapterImage({Key? key, required this.path, required this.hightScore})
+      : super(key: key);
   final String path;
+  final String hightScore;
 
   @override
   State<ChapterImage> createState() => _ChapterImageState();
@@ -25,6 +24,19 @@ class _ChapterImageState extends State<ChapterImage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(widget.path),
+        ),
+      ),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(
+          widget.hightScore != '' ? 'Highscore: ${widget.hightScore}' : '',
+          style: const TextStyle(
+            fontFamily: 'horizon',
+            color: Colors.white,
+            fontSize: 28,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 2.5,
+          ),
         ),
       ),
     );
@@ -82,23 +94,28 @@ class ItemChappter extends StatelessWidget {
                 image: AssetImage(path),
               ),
             ),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.width / 2.3,
-            ),
-            child: Text(
-              '$hightScore',
-              style: const TextStyle(
-                fontFamily: 'horizon',
-                color: Colors.white,
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 2.5,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                chapter >= numberChappter ? 'Highscore: $hightScore' : '',
+                style: const TextStyle(
+                  fontFamily: 'horizon',
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 2.5,
+                ),
               ),
             ),
           ),
+          chapter >= numberChappter
+              ? Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.width / 2.3,
+                  ),
+                )
+              : Container(),
           Container(
             margin: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.height / 30),

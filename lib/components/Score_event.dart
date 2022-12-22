@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dc_marvel_app/components/widget_answer.dart';
 import 'package:dc_marvel_app/view/play/play_game.dart';
 import 'package:dc_marvel_app/view/play/playing_now.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +25,7 @@ class Score_event extends StatefulWidget {
       // required this.chapter,
       required this.energy,
       required this.time,
+      required this.num,
       required this.quantiHammer,
       required this.quantiSpider,
       required this.quantiBat,
@@ -38,6 +40,7 @@ class Score_event extends StatefulWidget {
   int time;
   int quantiSpider;
   int quantiBat;
+  int num;
   int quantiHammer;
   int quantiShield;
   // int chapter;
@@ -52,7 +55,7 @@ class _Score_eventState extends State<Score_event> {
   final _db = FirebaseDatabase.instance.ref();
   late StreamSubscription _useLevel;
   int chapterCurrent = 1;
-
+  var lsHelp = [];
   @override
   void initState() {
     // TODO: implement initState\
@@ -66,10 +69,15 @@ class _Score_eventState extends State<Score_event> {
     _useLevel =
         _db.child('members/${auth.currentUser!.uid}').onValue.listen((event) {
       final data = event.snapshot.value as dynamic;
+      final data2 = event.snapshot.child('help').children;
 
       if (mounted) {
         setState(() {
           chapterCurrent = data['chapter'];
+
+          for (var element in data2) {
+            lsHelp.add(int.parse(element.value.toString()));
+          }
         });
       }
     });
@@ -147,17 +155,6 @@ class _Score_eventState extends State<Score_event> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Expanded(
-                        //     flex: 4,
-                        //     child: score(
-                        //       nameScore: 'Hight Score',
-                        //       point: widget.hightscore < widget.Score
-                        //           ? '${widget.Score.toString()} new'
-                        //           : widget.hightscore.toString(),
-                        //       fontsiPoint: 15,
-                        //       fontsi: 15,
-                        //       isWin: widget.isWin,
-                        //     )),
                         score(
                           nameScore: 'Score',
                           point: widget.Score.toString(),
@@ -214,6 +211,9 @@ class _Score_eventState extends State<Score_event> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Expanded(
                   flex: 2,
                   child: WidgetAnimator(
@@ -223,45 +223,82 @@ class _Score_eventState extends State<Score_event> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${widget.total.toString()}/10 ',
+                          widget.isWin
+                              ? '${widget.total.toString()}/10  +'
+                              : '${widget.total.toString()}/10  ',
                           style: const TextStyle(
                             color: Color.fromARGB(255, 246, 250, 45),
                             fontSize: 30,
                             fontFamily: 'Horizon',
                           ),
                         ),
-                        Text(
-                          '+${widget.total.toString()}0',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontFamily: 'Horizon',
-                          ),
-                        ),
-                        Image(
-                          width: MediaQuery.of(context).size.width / 11,
-                          image:
-                              const AssetImage('assets/images/IconDiamond.png'),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        // Container(
-                        //   alignment: Alignment.bottomRight,
-                        //   margin: const EdgeInsets.only(bottom: 7),
-                        //   child: Text(
-                        //     widget.time / 60 < 1
-                        //         ? '${widget.time}s'
-                        //         : widget.time % 60 > 10
-                        //             ? '${widget.time ~/ 60}:${widget.time % 60}'
-                        //             : '${widget.time ~/ 60}:0${widget.time % 60}',
-                        //     style: const TextStyle(
-                        //       color: Colors.white,
-                        //       fontSize: 20,
-                        //       fontFamily: 'Horizon',
-                        //     ),
-                        //   ),
-                        // ),
+                        widget.num == 110 && widget.isWin
+                            ? SizedBox(
+                                width: MediaQuery.of(context).size.width / 4.5,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '${widget.total.toString()}0',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontFamily: 'Horizon',
+                                      ),
+                                    ),
+                                    Image(
+                                      width: MediaQuery.of(context).size.width /
+                                          11,
+                                      image: const AssetImage(
+                                          'assets/images/IconDiamond.png'),
+                                    )
+                                  ],
+                                ),
+                              )
+                            : widget.num == 120 && widget.isWin
+                                ? SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.2,
+                                    child: Row(
+                                      children: [
+                                        iconHelper(
+                                          url: 'assets/images/icon_nhen.png',
+                                          quantity: 5,
+                                        ),
+                                        iconHelper(
+                                          url: 'assets/images/icons_khien.png',
+                                          quantity: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : widget.num == 130 && widget.isWin
+                                    ? SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                3.2,
+                                        child: Row(
+                                          children: [
+                                            iconHelper(
+                                              url:
+                                                  'assets/images/icons_doi.png',
+                                              quantity: 5,
+                                            ),
+                                            iconHelper(
+                                              url:
+                                                  'assets/images/icons_thor.png',
+                                              quantity: 5,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                100,
+                                        height:
+                                            MediaQuery.of(context).size.width /
+                                                100,
+                                      )
                       ],
                     ),
                   ),
@@ -302,76 +339,154 @@ class _Score_eventState extends State<Score_event> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: TextButton(
-                                onPressed: () {
-                                  widget.exp += widget.Score ~/ 10;
+                                onPressed: widget.num == 110
+                                    ? () {
+                                        widget.exp += widget.Score ~/ 10;
 
-                                  if (widget.isWin) {
-                                    widget.energy += 10;
-                                    if (widget.Lever * 100 < widget.exp) {
-                                      widget.exp -= widget.Lever * 100;
-                                      widget.Lever += 1;
-                                      (100 - widget.Lever * 5) > 10
-                                          ? widget.diamond +=
-                                              (100 - widget.Lever * 5)
-                                          : widget.diamond + 10;
-                                    }
-                                  }
+                                        if (widget.isWin) {
+                                          widget.energy += 10;
+                                          if (widget.Lever * 100 < widget.exp) {
+                                            widget.exp -= widget.Lever * 100;
+                                            widget.Lever += 1;
+                                            (100 - widget.Lever * 5) > 10
+                                                ? widget.diamond +=
+                                                    (100 - widget.Lever * 5)
+                                                : widget.diamond + 10;
+                                          }
+                                        }
 
-                                  if (_db
-                                          .child('members')
-                                          .child(auth.currentUser!.uid)
-                                          .key !=
-                                      null) {
-                                    // if (widget.isWin) {
-                                    //   final energy = <String, dynamic>{
-                                    //     '${widget.energy + 10}': 0
-                                    //   };
-                                    //   _db
-                                    //       .child(
-                                    //           'members/${auth.currentUser!.uid}/energy')
-                                    //       .update(energy);
-                                    // }
+                                        if (_db
+                                                .child('members')
+                                                .child(auth.currentUser!.uid)
+                                                .key !=
+                                            null) {
+                                          final Score = <String, dynamic>{
+                                            'exp': widget.exp,
+                                            'level': widget.Lever,
+                                            'diamond': widget.isWin
+                                                ? widget.diamond + 500
+                                                : 0,
+                                            'energy': widget.energy,
+                                          };
 
-                                    // if (widget.hightscore < widget.Score) {
-                                    //   final highScChapter = <String, dynamic>{
-                                    //     '${widget.chapter}': widget.Score
-                                    //   };
-                                    //   _db
-                                    //       .child(
-                                    //           'members/${auth.currentUser!.uid}/highScoreChapter')
-                                    //       .update(highScChapter)
-                                    //       .then((_) => print(
-                                    //           'update highScore successful'))
-                                    //       .catchError((error) =>
-                                    //           print('You got an error $error'));
-                                    // }
+                                          _db
+                                              .child(
+                                                  'members/${auth.currentUser!.uid}')
+                                              .update(Score)
+                                              .then((_) =>
+                                                  print('update successful'))
+                                              .catchError((error) => print(
+                                                  'You got an error $error'));
+                                        }
 
-                                    final Score = <String, dynamic>{
-                                      'exp': widget.exp,
-                                      'level': widget.Lever,
-                                      'diamond':
-                                          widget.diamond + widget.total * 10,
-                                      'energy': widget.energy,
-                                      // 'chapter': widget.isWin &&
-                                      //         chapterCurrent ==
-                                      //             widget.chapter &&
-                                      //         widget.chapter < 10
-                                      //     ? ++widget.chapter
-                                      //     : widget.chapter,
-                                    };
+                                        Navigator.popUntil(context,
+                                            ModalRoute.withName('home'));
+                                      }
+                                    : widget.num == 120
+                                        ? () {
+                                            widget.exp += widget.Score ~/ 10;
 
-                                    _db
-                                        .child(
-                                            'members/${auth.currentUser!.uid}')
-                                        .update(Score)
-                                        .then((_) => print('update successful'))
-                                        .catchError((error) =>
-                                            print('You got an error $error'));
-                                  }
+                                            if (widget.isWin) {
+                                              if (widget.Lever * 100 <
+                                                  widget.exp) {
+                                                widget.exp -=
+                                                    widget.Lever * 100;
+                                                widget.Lever += 1;
+                                              }
+                                            }
 
-                                  Navigator.popUntil(
-                                      context, ModalRoute.withName('home'));
-                                },
+                                            if (_db
+                                                    .child('members')
+                                                    .child(
+                                                        auth.currentUser!.uid)
+                                                    .key !=
+                                                null) {
+                                              final Score = <String, dynamic>{
+                                                'exp': widget.exp,
+                                                'level': widget.Lever,
+                                              };
+
+                                              _db
+                                                  .child(
+                                                      'members/${auth.currentUser!.uid}')
+                                                  .update(Score)
+                                                  .then((_) => print(
+                                                      'update successful'))
+                                                  .catchError((error) => print(
+                                                      'You got an error $error'));
+
+                                              if (widget.isWin) {
+                                                final Score = <String, dynamic>{
+                                                  'spider': lsHelp[2] + 5,
+                                                  'shield': lsHelp[1] + 5
+                                                };
+
+                                                _db
+                                                    .child(
+                                                        'members/${auth.currentUser!.uid}/help')
+                                                    .update(Score)
+                                                    .then((_) => print(
+                                                        'update successful'))
+                                                    .catchError((error) => print(
+                                                        'You got an error $error'));
+                                              }
+                                            }
+
+                                            Navigator.popUntil(context,
+                                                ModalRoute.withName('home'));
+                                          }
+                                        : () {
+                                            widget.exp += widget.Score ~/ 10;
+
+                                            if (widget.isWin) {
+                                              if (widget.Lever * 100 <
+                                                  widget.exp) {
+                                                widget.exp -=
+                                                    widget.Lever * 100;
+                                                widget.Lever += 1;
+                                              }
+                                            }
+
+                                            if (_db
+                                                    .child('members')
+                                                    .child(
+                                                        auth.currentUser!.uid)
+                                                    .key !=
+                                                null) {
+                                              final Score = <String, dynamic>{
+                                                'exp': widget.exp,
+                                                'level': widget.Lever,
+                                              };
+
+                                              _db
+                                                  .child(
+                                                      'members/${auth.currentUser!.uid}')
+                                                  .update(Score)
+                                                  .then((_) => print(
+                                                      'update successful'))
+                                                  .catchError((error) => print(
+                                                      'You got an error $error'));
+
+                                              if (widget.isWin) {
+                                                final Score = <String, dynamic>{
+                                                  'bat': lsHelp[0] + 5,
+                                                  'thor': lsHelp[3] + 5
+                                                };
+
+                                                _db
+                                                    .child(
+                                                        'members/${auth.currentUser!.uid}/help')
+                                                    .update(Score)
+                                                    .then((_) => print(
+                                                        'update successful'))
+                                                    .catchError((error) => print(
+                                                        'You got an error $error'));
+                                              }
+                                            }
+
+                                            Navigator.popUntil(context,
+                                                ModalRoute.withName('home'));
+                                          },
                                 child: Container(
                                   margin:
                                       const EdgeInsets.only(top: 5, left: 3),
@@ -416,5 +531,11 @@ class _Score_eventState extends State<Score_event> {
         ]),
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _useLevel.cancel();
+    super.deactivate();
   }
 }

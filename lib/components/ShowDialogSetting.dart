@@ -217,6 +217,7 @@ class _ShowDialogSettingState extends State<ShowDialogSetting> {
   @override
   void deactivate() {
     _getMusicStatus.cancel();
+
     super.deactivate();
   }
 }

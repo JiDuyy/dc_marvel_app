@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
@@ -12,9 +15,38 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  bool status = false;
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+ 
+
   final _controller = ValueNotifier<bool>(true);
   final _controllerTwo = ValueNotifier<bool>(true);
   final player = AudioPlayer();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller.addListener(() {
+      setState(() {
+        if (_controller.value) {
+          _db.child('members/${_auth.currentUser!.uid}/statusMusic').set(true);
+          print(true);
+        } else {
+          _db.child('members/${_auth.currentUser!.uid}/statusMusic').set(false);
+          print(false);
+        }
+      });
+    });
+  }
+
+  // void _getStatus() {
+  //   _getStatus =
+  //       _db.child('members/${_auth.currentUser!.uid}').onValue.listen((event) {
+  //     final data = event.snapshot.value as dynamic;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,38 +82,35 @@ class _SettingState extends State<Setting> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                WidgetAnimator(
-                  incomingEffect:
-                      WidgetTransitionEffects.incomingSlideInFromLeft(),
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 20, right: 20, top: 25, bottom: 25),
-                    height: 60,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/ButonSetting.png'),
-                        // fit: BoxFit.cover,
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 20, right: 20, top: 25, bottom: 25),
+                  height: 60,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/ButonSetting.png'),
+                      // fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Image.asset(
+                        'assets/images/IconMusic.png',
+                        height: 50,
                       ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          'assets/images/IconMusic.png',
-                          height: 50,
+                      AdvancedSwitch(
+                        activeColor: Colors.blue,
+                        inactiveColor: Colors.orange,
+                        width: 80,
+                        height: 40,
+                        controller: _controller,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
                         ),
-                        AdvancedSwitch(
-                          activeColor: Colors.blue,
-                          inactiveColor: Colors.orange,
-                          width: 80,
-                          height: 40,
-                          controller: _controller,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(8),
-                          ),
-                        ),
-                      ],
-                    ),
+                        
+                      ),
+                    ],
                   ),
                 ),
                 WidgetAnimator(

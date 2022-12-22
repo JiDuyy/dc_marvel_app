@@ -13,13 +13,14 @@ class FrameEven extends StatefulWidget {
     required this.pathItemOne,
     required this.pathItemTwo,
     required this.pathFrame,
-    
+    required this.num,
   }) : super(key: key);
 
   final String pathFrame;
   final String pathItemOne;
   final String pathItemTwo;
-  
+  final int num;
+
   @override
   State<FrameEven> createState() => _FrameEvenState();
 }
@@ -136,19 +137,20 @@ class _FrameEvenState extends State<FrameEven> {
                         .catchError(
                             (error) => print('You got an error $error'));
                   }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PlayingEven(
-                          level: level,
-                          diamond: diamond,
-                          exp: exp,
-                          hightScore: hightScore,
-                          energy: energy,
-                          //chapter: 11,
-                        ),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlayingEven(
+                        num: widget.num,
+                        level: level,
+                        diamond: diamond,
+                        exp: exp,
+                        hightScore: hightScore,
+                        energy: energy,
+                        //chapter: 11,
                       ),
-                    );
+                    ),
+                  );
                 } else {
                   Navigator.push(
                       context,

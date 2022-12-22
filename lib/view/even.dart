@@ -29,8 +29,8 @@ class _EvenState extends State<Even> {
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromBottom(
                 delay: const Duration(milliseconds: 0),
               ),
-              child:const FrameEven(
-                
+              child: const FrameEven(
+                num: 100,
                 pathFrame: "assets/images/FrameEvenTwo.png",
                 pathItemOne: 'assets/images/IconDiamond.png',
                 pathItemTwo: 'assets/images/IconSet.png',
@@ -41,7 +41,7 @@ class _EvenState extends State<Even> {
                 delay: const Duration(milliseconds: 200),
               ),
               child: const FrameEven(
-                
+                num: 110,
                 pathFrame: "assets/images/FrameEven.png",
                 pathItemOne: 'assets/images/icon_nhen.png',
                 pathItemTwo: 'assets/images/icons_khien.png',
@@ -51,8 +51,8 @@ class _EvenState extends State<Even> {
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromBottom(
                 delay: const Duration(milliseconds: 400),
               ),
-              child:const  FrameEven(
-                
+              child: const FrameEven(
+                num: 120,
                 pathFrame: "assets/images/FrameEvenThree.png",
                 pathItemOne: 'assets/images/icons_doi.png',
                 pathItemTwo: 'assets/images/icons_thor.png',

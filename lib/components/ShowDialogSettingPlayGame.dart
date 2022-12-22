@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:widget_and_text_animator/widget_and_text_animator.dart';
+import 'dart:async';
 
-import '../view/page_main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 
 class ShowDialogSettingPlayGame extends StatefulWidget {
   const ShowDialogSettingPlayGame({super.key});
@@ -12,6 +13,31 @@ class ShowDialogSettingPlayGame extends StatefulWidget {
 }
 
 class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
+  final _auth = FirebaseAuth.instance;
+  final _db = FirebaseDatabase.instance.ref();
+  late StreamSubscription _getStatus;
+  bool isON=false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getStatusMusic();
+  }
+
+  Future<bool> _getStatusMusic() async {
+    _getStatus = _db
+        .child('members/${_auth.currentUser!.uid}')
+        .onValue
+        .listen((event) async {
+      final data = event.snapshot.value as dynamic;
+      setState(() {
+        isON = data['statusMusic'];
+      });
+    });
+    return isON;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +51,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
           const Align(
             alignment: Alignment.topCenter,
             child: Text(
-              'CÀI ĐẶT',
+              'Setting',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 28,
@@ -42,21 +68,46 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/ButonSetting.png'),
-                          fit: BoxFit.fill
-                          // fit: BoxFit.cover,
-                          ),
-                    ),
-                    child: Image.asset(
-                      'assets/images/IconMusic.png',
-                      height: 30,
-                    ),
-                  ),
+                  FutureBuilder(
+                      future: _getStatusMusic(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return InkWell(
+                            onTap: (() {
+                              final status = <String, dynamic>{
+                                'statusMusic': !isON!
+                              };
+
+                              _db
+                                  .child('members/${_auth.currentUser!.uid}')
+                                  .update(status);
+                            }),
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              padding:
+                                  const EdgeInsets.fromLTRB(60, 10, 60, 10),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: isON!
+                                        ? const AssetImage(
+                                            'assets/images/ButonSetting.png')
+                                        : const AssetImage(
+                                            'assets/images/ButonSettingRed.png'),
+                                    fit: BoxFit.fill
+                                    // fit: BoxFit.cover,
+                                    ),
+                              ),
+                              child: Image.asset(
+                                'assets/images/IconMusic.png',
+                                height: 30,
+                              ),
+                            ),
+                          );
+                        }
+                      }),
                   Container(
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
@@ -124,5 +175,11 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
         ],
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    _getStatus.cancel();
+    super.deactivate();
   }
 }

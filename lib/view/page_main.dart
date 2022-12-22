@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dc_marvel_app/components/AppBarCustom.dart';
 import 'package:dc_marvel_app/view/even.dart';
 import 'package:dc_marvel_app/view/friend.dart';
@@ -42,6 +43,7 @@ class _PageMainState extends State<PageMain> {
   void initState() {
     super.initState();
     _getPlayerOne();
+    _getMusic();
   }
 
   void _getPlayerOne() {
@@ -52,6 +54,11 @@ class _PageMainState extends State<PageMain> {
         statusInvite.text = data['statusInvite'].toString();
       });
     });
+  }
+
+  final player = AudioPlayer();
+  void _getMusic() {
+    player.play(AssetSource('musics/nhacnen2.mp3'));
   }
 
   @override

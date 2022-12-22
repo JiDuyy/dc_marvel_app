@@ -78,7 +78,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                           return InkWell(
                             onTap: (() {
                               final status = <String, dynamic>{
-                                'statusMusic': !isON!
+                                'statusMusic': !isON
                               };
 
                               _db
@@ -91,7 +91,7 @@ class _ShowDialogSettingPlayGameState extends State<ShowDialogSettingPlayGame> {
                                   const EdgeInsets.fromLTRB(60, 10, 60, 10),
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: isON!
+                                    image: isON
                                         ? const AssetImage(
                                             'assets/images/ButonSetting.png')
                                         : const AssetImage(

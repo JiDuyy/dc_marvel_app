@@ -112,7 +112,10 @@ class _RankState extends State<Rank> {
                                 opaque: false,
                                 pageBuilder: (BuildContext context, _, __) =>
                                     InfoFriend(
-                                      starrank: snapshot.child('starRank').value.toString(),
+                                  starrank: snapshot
+                                      .child('starRank')
+                                      .value
+                                      .toString(),
                                   url: snapshot.child('image').value.toString(),
                                   urlRank:
                                       snapshot.child('rank').value.toString(),

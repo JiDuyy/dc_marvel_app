@@ -91,30 +91,14 @@ class _ShowChapterAllState extends State<ShowChapterAll> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onDoubleTap: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            opaque: false,
-                            pageBuilder: (BuildContext context, _, __) =>
-                                PlayingGame(
-                                    level: int.parse(level.text),
-                                    exp: int.parse(exp.text),
-                                    hightScore: int.parse(chapter.text) == 1
-                                        ? int.parse(hightScore.text)
-                                        : hSchapter[1],
-                                    chapter: 1,
-                                    diamond: int.parse(diamond.text)),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height / 7),
-                        child: const ChapterImage(
-                          path: 'assets/images/Chapter1.png',
-                        ),
-                      ),
+                    ItemChappter(
+                      chapter: chapter.text != '' ? int.parse(chapter.text) : 1,
+                      level: level.text != '' ? int.parse(chapter.text) : 1,
+                      exp: exp.text != '' ? int.parse(exp.text) : 1,
+                      hightScore: hightScore.text != '' ? hSchapter[1] : 1,
+                      diamond: diamond.text != '' ? int.parse(diamond.text) : 1,
+                      numberChappter: 1,
+                      path: 'assets/images/Chapter1.png',
                     ),
                     ItemChappter(
                       chapter: chapter.text != '' ? int.parse(chapter.text) : 1,

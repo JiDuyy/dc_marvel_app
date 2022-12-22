@@ -19,6 +19,7 @@ class PlayingEven extends StatefulWidget {
     required this.exp,
     required this.hightScore,
     required this.energy,
+    required this.num,
     //required this.chapter
   });
   int level;
@@ -26,6 +27,7 @@ class PlayingEven extends StatefulWidget {
   int exp;
   int hightScore;
   int energy;
+  int num;
   //int chapter;
   @override
   State<PlayingEven> createState() => _PlayingEvenState();
@@ -39,25 +41,25 @@ class _PlayingEvenState extends State<PlayingEven> {
   TextEditingController chaptertitle = TextEditingController();
   bool trueSelect = false, pause = false;
   Set<int> setOfInts = {}, setHelp = {};
-  int num = 100,
-      selectOption = 0,
+  int selectOption = 0,
       _current = 60,
       _timerStart = 60,
       total = 0,
       point = 0,
       count = 0,
-      countHelp = 0;
+      countHelp = 0,
+      isNum = 0;
 
   @override
   // ignore: must_call_super
   void initState() {
     if (selectOption != 0) {
       Timer(Duration(milliseconds: 500), () async {
-        if (num < 110) num++;
+        if (widget.num < isNum + 10) widget.num++;
         if (trueSelect) ++total;
         count++;
         selectOption = 1;
-        if (num == 110 && count == 10) _pushScore();
+        if (widget.num == isNum + 10 && count == 10) _pushScore();
       });
       if (setHelp.isNotEmpty) setHelp.clear();
     } else {
@@ -66,7 +68,8 @@ class _PlayingEvenState extends State<PlayingEven> {
         for (int i = 0; setOfInts.length < 4; i++) {
           setOfInts.add(Random().nextInt(4) + 1);
         }
-        num = 101;
+        isNum = widget.num;
+        widget.num++;
         _startTimer();
         _Chapter();
         _getHelper();
@@ -74,11 +77,11 @@ class _PlayingEvenState extends State<PlayingEven> {
     }
   }
 
-  //Get chapter in firebase 
+  //Get chapter in firebase
   // ignore: non_constant_identifier_names
   void _Chapter() {
     _subscription = _database
-        .child('questions/$num/chapter')
+        .child('questions/${widget.num}/chapter')
         .onValue
         .listen((DatabaseEvent event) {
       final data = event.snapshot.value as dynamic;
@@ -152,13 +155,14 @@ class _PlayingEvenState extends State<PlayingEven> {
         });
       }
     });
-    if (num == 110) _subTimer.cancel();
+    if (widget.num == isNum + 10) _subTimer.cancel();
     _subTimer.onDone(() {
       // ignore: avoid_print
       print("Done");
       _subTimer.cancel();
     });
   }
+
   void _pushScore() {
     if (_current <= 20) {
       point = total * 50;
@@ -170,14 +174,14 @@ class _PlayingEvenState extends State<PlayingEven> {
     Navigator.of(context).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => Score_event(
-            isWin: total >= 7,
+            isWin: total >= 10,
             Lever: widget.level,
             exp: widget.exp,
+            num: widget.num,
             Score: point,
             diamond: widget.diamond,
             total: total,
             energy: widget.energy,
-            //  chapter: widget.chapter,
             hightscore: widget.hightScore,
             time: 60 - _current,
             quantiHammer: lsHelp[3],
@@ -185,6 +189,7 @@ class _PlayingEvenState extends State<PlayingEven> {
             quantiBat: lsHelp[0],
             quantiShield: lsHelp[2])));
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -200,7 +205,7 @@ class _PlayingEvenState extends State<PlayingEven> {
           ),
         ),
         child: StreamBuilder(
-          stream: _database.child('questions/$num').onValue,
+          stream: _database.child('questions/${widget.num}').onValue,
           builder: ((context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               final data = Map<String, dynamic>.from(
@@ -563,12 +568,13 @@ class _PlayingEvenState extends State<PlayingEven> {
                                         );
                                         Timer(Duration(milliseconds: 500),
                                             () async {
-                                          if (num < 110) ++num;
+                                          if (widget.num < 110) ++widget.num;
 
                                           ++total;
                                           count++;
 
-                                          if (num == 110 && count == 10) {
+                                          if (widget.num == 110 &&
+                                              count == 10) {
                                             _pushScore();
                                           }
                                         });
